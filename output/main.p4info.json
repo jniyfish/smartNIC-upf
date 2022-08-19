@@ -1,0 +1,190 @@
+{
+ "tables": [
+  {
+   "preamble": {
+    "id": 33573765,
+    "name": "src_intf_table",
+    "alias": "src_intf_table"
+   },
+   "matchFields": [
+    {
+     "id": 1,
+     "name": "standard_metadata.ingress_port",
+     "bitwidth": 16,
+     "matchType": "EXACT"
+    }
+   ],
+   "actionRefs": [
+    {
+     "id": 16819508
+    },
+    {
+     "id": 16800567,
+     "annotations": [
+      "@defaultonly()"
+     ]
+    }
+   ],
+   "constDefaultActionId": 16800567,
+   "size": "32"
+  },
+  {
+   "preamble": {
+    "id": 33565433,
+    "name": "pdr_ingress",
+    "alias": "pdr_ingress"
+   },
+   "matchFields": [
+    {
+     "id": 1,
+     "name": "hdr.ipv4.src_addr",
+     "bitwidth": 32,
+     "matchType": "TERNARY"
+    },
+    {
+     "id": 2,
+     "name": "hdr.ipv4.dst_addr",
+     "bitwidth": 32,
+     "matchType": "TERNARY"
+    },
+    {
+     "id": 3,
+     "name": "hdr.inner_ipv4.src_addr",
+     "bitwidth": 32,
+     "matchType": "TERNARY"
+    },
+    {
+     "id": 4,
+     "name": "hdr.gtpu.teid",
+     "bitwidth": 32,
+     "matchType": "TERNARY"
+    },
+    {
+     "id": 5,
+     "name": "meta.intf",
+     "bitwidth": 4,
+     "matchType": "EXACT"
+    }
+   ],
+   "actionRefs": [
+    {
+     "id": 16822869
+    },
+    {
+     "id": 16800567,
+     "annotations": [
+      "@defaultonly()"
+     ]
+    }
+   ],
+   "constDefaultActionId": 16800567,
+   "size": "24500"
+  },
+  {
+   "preamble": {
+    "id": 33569260,
+    "name": "far_ingress",
+    "alias": "far_ingress"
+   },
+   "matchFields": [
+    {
+     "id": 1,
+     "name": "meta.far_id",
+     "bitwidth": 32,
+     "matchType": "EXACT"
+    }
+   ],
+   "actionRefs": [
+    {
+     "id": 16818617
+    },
+    {
+     "id": 16793508
+    },
+    {
+     "id": 16800567,
+     "annotations": [
+      "@defaultonly()"
+     ]
+    }
+   ],
+   "constDefaultActionId": 16800567,
+   "size": "16384"
+  }
+ ],
+ "actions": [
+  {
+   "preamble": {
+    "id": 16800567,
+    "name": "NoAction",
+    "alias": "NoAction"
+   }
+  },
+  {
+   "preamble": {
+    "id": 16817907,
+    "name": "gtp_decap",
+    "alias": "gtp_decap"
+   }
+  },
+  {
+   "preamble": {
+    "id": 16819508,
+    "name": "set_src_intf",
+    "alias": "set_src_intf"
+   },
+   "params": [
+    {
+     "id": 1,
+     "name": "src_intf",
+     "bitwidth": 4
+    }
+   ]
+  },
+  {
+   "preamble": {
+    "id": 16822869,
+    "name": "set_rules",
+    "alias": "set_rules"
+   },
+   "params": [
+    {
+     "id": 1,
+     "name": "far_id",
+     "bitwidth": 32
+    },
+    {
+     "id": 2,
+     "name": "must_decap",
+     "bitwidth": 1
+    }
+   ]
+  },
+  {
+   "preamble": {
+    "id": 16818617,
+    "name": "set_egress_port_and_encap",
+    "alias": "set_egress_port_and_encap"
+   },
+   "params": [
+    {
+     "id": 1,
+     "name": "port",
+     "bitwidth": 16
+    },
+    {
+     "id": 2,
+     "name": "do_encap",
+     "bitwidth": 1
+    }
+   ]
+  },
+  {
+   "preamble": {
+    "id": 16793508,
+    "name": "drop",
+    "alias": "drop"
+   }
+  }
+ ]
+}

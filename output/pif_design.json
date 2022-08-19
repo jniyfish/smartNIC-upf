@@ -1,0 +1,803 @@
+{
+    "generic": {
+        "tables_info": {
+            "ingress::far_ingress": {
+                "max_entries": 16385, 
+                "allowed_actions": [
+                    "ingress::set_egress_port_and_encap", 
+                    "ingress::drop"
+                ], 
+                "name": "ingress::far_ingress"
+            }, 
+            "ingress::pdr_ingress": {
+                "max_entries": 24501, 
+                "allowed_actions": [
+                    "ingress::set_rules"
+                ], 
+                "name": "ingress::pdr_ingress"
+            }, 
+            "ingress::src_intf_table": {
+                "max_entries": 33, 
+                "allowed_actions": [
+                    "ingress::set_src_intf"
+                ], 
+                "name": "ingress::src_intf_table"
+            }
+        }, 
+        "action_info": {
+            "ingress::gtp_decap": {
+                "name": "ingress::gtp_decap", 
+                "action_data": {
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }
+            }, 
+            "ingress::set_src_intf": {
+                "name": "ingress::set_src_intf", 
+                "action_data": {
+                    "src_intf": {
+                        "size": 4
+                    }, 
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }
+            }, 
+            "ingress::set_rules": {
+                "name": "ingress::set_rules", 
+                "action_data": {
+                    "far_id": {
+                        "size": 32
+                    }, 
+                    "must_decap": {
+                        "size": 1
+                    }, 
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }
+            }, 
+            "ingress::set_egress_port_and_encap": {
+                "name": "ingress::set_egress_port_and_encap", 
+                "action_data": {
+                    "port": {
+                        "size": 16
+                    }, 
+                    "do_encap": {
+                        "size": 1
+                    }, 
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }
+            }, 
+            "ingress::drop": {
+                "name": "ingress::drop", 
+                "action_data": {
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }
+            }
+        }
+    }, 
+    "vendor": {
+        "register_info": {}, 
+        "backend_source_info": {
+            "date": "2022/08/19 07:48:17", 
+            "source_files": "output/main.yml"
+        }, 
+        "counters_info": {}, 
+        "meter_info": {}, 
+        "frontend_source_info": {
+            "date": "2022/08/19 07:48:17", 
+            "source_files": [
+                "main.p4", 
+                "", 
+                "/opt/netronome/p4/include/16/p4include/core.p4"
+            ]
+        }, 
+        "tables_info": {
+            "ingress::far_ingress": {
+                "name": "ingress::far_ingress", 
+                "constant_default": false, 
+                "matches": [
+                    {
+                        "field": "scalars.metadata_t@far_id", 
+                        "type": "exact", 
+                        "class": "field", 
+                        "lm_layout": [
+                            {
+                                "width": 32, 
+                                "fldbitoff": 0, 
+                                "name": "metadata_t__far_id", 
+                                "lmbitoff": 1056
+                            }
+                        ]
+                    }
+                ], 
+                "allowed_actions": [
+                    "ingress::set_egress_port_and_encap", 
+                    "ingress::drop"
+                ], 
+                "id": 0, 
+                "max_entries": 16385, 
+                "data_shift": 4, 
+                "rtsym": "_pif_actiondata_table_0_ingress__far_ingress", 
+                "data_size": 16
+            }, 
+            "ingress::pdr_ingress": {
+                "name": "ingress::pdr_ingress", 
+                "constant_default": false, 
+                "matches": [
+                    {
+                        "field": "ipv4.src_addr", 
+                        "type": "ternary", 
+                        "class": "field", 
+                        "header_valid": {
+                            "header": "ipv4", 
+                            "type": "header_valid", 
+                            "class": "header_valid", 
+                            "lm_layout": [
+                                {
+                                    "width": 1, 
+                                    "name": "ipv4_valid", 
+                                    "value": 1, 
+                                    "lmbitoff": 27
+                                }
+                            ]
+                        }, 
+                        "lm_layout": [
+                            {
+                                "width": 32, 
+                                "fldbitoff": 0, 
+                                "name": "src_addr", 
+                                "lmbitoff": 256
+                            }
+                        ]
+                    }, 
+                    {
+                        "field": "ipv4.dst_addr", 
+                        "type": "ternary", 
+                        "class": "field", 
+                        "header_valid": {
+                            "header": "ipv4", 
+                            "type": "header_valid", 
+                            "class": "header_valid", 
+                            "lm_layout": [
+                                {
+                                    "width": 1, 
+                                    "name": "ipv4_valid", 
+                                    "value": 1, 
+                                    "lmbitoff": 27
+                                }
+                            ]
+                        }, 
+                        "lm_layout": [
+                            {
+                                "width": 32, 
+                                "fldbitoff": 0, 
+                                "name": "dst_addr", 
+                                "lmbitoff": 288
+                            }
+                        ]
+                    }, 
+                    {
+                        "field": "inner_ipv4.src_addr", 
+                        "type": "ternary", 
+                        "class": "field", 
+                        "header_valid": {
+                            "header": "inner_ipv4", 
+                            "type": "header_valid", 
+                            "class": "header_valid", 
+                            "lm_layout": [
+                                {
+                                    "width": 1, 
+                                    "name": "inner_ipv4_valid", 
+                                    "value": 1, 
+                                    "lmbitoff": 12
+                                }
+                            ]
+                        }, 
+                        "lm_layout": [
+                            {
+                                "width": 32, 
+                                "fldbitoff": 0, 
+                                "name": "src_addr", 
+                                "lmbitoff": 608
+                            }
+                        ]
+                    }, 
+                    {
+                        "field": "gtpu.teid", 
+                        "type": "ternary", 
+                        "class": "field", 
+                        "header_valid": {
+                            "header": "gtpu", 
+                            "type": "header_valid", 
+                            "class": "header_valid", 
+                            "lm_layout": [
+                                {
+                                    "width": 1, 
+                                    "name": "gtpu_valid", 
+                                    "value": 1, 
+                                    "lmbitoff": 21
+                                }
+                            ]
+                        }, 
+                        "lm_layout": [
+                            {
+                                "width": 32, 
+                                "fldbitoff": 0, 
+                                "name": "teid", 
+                                "lmbitoff": 416
+                            }
+                        ]
+                    }, 
+                    {
+                        "field": "scalars.metadata_t@intf", 
+                        "type": "exact", 
+                        "class": "field", 
+                        "lm_layout": [
+                            {
+                                "width": 4, 
+                                "fldbitoff": 0, 
+                                "name": "metadata_t__intf", 
+                                "lmbitoff": 1174
+                            }
+                        ]
+                    }
+                ], 
+                "allowed_actions": [
+                    "ingress::set_rules"
+                ], 
+                "id": 1, 
+                "max_entries": 24501, 
+                "data_shift": 5, 
+                "rtsym": "_pif_actiondata_table_1_ingress__pdr_ingress", 
+                "data_size": 32
+            }, 
+            "ingress::src_intf_table": {
+                "name": "ingress::src_intf_table", 
+                "constant_default": false, 
+                "matches": [
+                    {
+                        "field": "standard_metadata.ingress_port", 
+                        "type": "exact", 
+                        "class": "field", 
+                        "lm_layout": [
+                            {
+                                "width": 16, 
+                                "fldbitoff": 0, 
+                                "name": "ingress_port", 
+                                "lmbitoff": 1008
+                            }
+                        ]
+                    }
+                ], 
+                "allowed_actions": [
+                    "ingress::set_src_intf"
+                ], 
+                "id": 2, 
+                "max_entries": 33, 
+                "data_shift": 4, 
+                "rtsym": "_pif_actiondata_table_2_ingress__src_intf_table", 
+                "data_size": 16
+            }
+        }, 
+        "action_info": {
+            "ingress::gtp_decap": {
+                "timeoutno_field": "", 
+                "name": "ingress::gtp_decap", 
+                "action_data": {
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }, 
+                "ruleno_field": "__pif_rule_no", 
+                "action_data_packed": [
+                    {
+                        "actiondata": "__pif_rule_no", 
+                        "name": "__pif_rule_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "__pif_table_no", 
+                        "name": "__pif_table_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }
+                ], 
+                "noeffect": false, 
+                "id": 0, 
+                "tableno_field": "__pif_table_no"
+            }, 
+            "ingress::set_src_intf": {
+                "timeoutno_field": "", 
+                "name": "ingress::set_src_intf", 
+                "action_data": {
+                    "src_intf": {
+                        "size": 4
+                    }, 
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }, 
+                "ruleno_field": "__pif_rule_no", 
+                "action_data_packed": [
+                    {
+                        "actiondata": "__pif_rule_no", 
+                        "name": "__pif_rule_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "__pif_table_no", 
+                        "name": "__pif_table_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "src_intf", 
+                        "name": "src_intf", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 1, 
+                        "pad_type": "uint8_t", 
+                        "split": false, 
+                        "size": 4
+                    }, 
+                    {
+                        "pad_cnt": 3, 
+                        "pad_type": "uint8_t", 
+                        "actiondata": null, 
+                        "name": "__pif_padding", 
+                        "split": false, 
+                        "doc": "padding", 
+                        "pad_szbytes": 1, 
+                        "size": 8
+                    }
+                ], 
+                "noeffect": false, 
+                "id": 1, 
+                "tableno_field": "__pif_table_no"
+            }, 
+            "ingress::set_rules": {
+                "timeoutno_field": "", 
+                "name": "ingress::set_rules", 
+                "action_data": {
+                    "far_id": {
+                        "size": 32
+                    }, 
+                    "must_decap": {
+                        "size": 1
+                    }, 
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }, 
+                "ruleno_field": "__pif_rule_no", 
+                "action_data_packed": [
+                    {
+                        "actiondata": "far_id", 
+                        "name": "far_id", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "__pif_rule_no", 
+                        "name": "__pif_rule_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "__pif_table_no", 
+                        "name": "__pif_table_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "must_decap", 
+                        "name": "must_decap", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 1, 
+                        "pad_type": "uint8_t", 
+                        "split": false, 
+                        "size": 1
+                    }, 
+                    {
+                        "pad_cnt": 3, 
+                        "pad_type": "uint8_t", 
+                        "actiondata": null, 
+                        "name": "__pif_padding", 
+                        "split": false, 
+                        "doc": "padding", 
+                        "pad_szbytes": 1, 
+                        "size": 8
+                    }
+                ], 
+                "noeffect": false, 
+                "id": 4, 
+                "tableno_field": "__pif_table_no"
+            }, 
+            "ingress::set_egress_port_and_encap": {
+                "timeoutno_field": "", 
+                "name": "ingress::set_egress_port_and_encap", 
+                "action_data": {
+                    "port": {
+                        "size": 16
+                    }, 
+                    "do_encap": {
+                        "size": 1
+                    }, 
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }, 
+                "ruleno_field": "__pif_rule_no", 
+                "action_data_packed": [
+                    {
+                        "actiondata": "__pif_rule_no", 
+                        "name": "__pif_rule_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "__pif_table_no", 
+                        "name": "__pif_table_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "port", 
+                        "name": "port", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 2, 
+                        "pad_type": "uint16_t", 
+                        "split": false, 
+                        "size": 16
+                    }, 
+                    {
+                        "actiondata": "do_encap", 
+                        "name": "do_encap", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 1, 
+                        "pad_type": "uint8_t", 
+                        "split": false, 
+                        "size": 1
+                    }, 
+                    {
+                        "pad_cnt": 1, 
+                        "pad_type": "uint8_t", 
+                        "actiondata": null, 
+                        "name": "__pif_padding", 
+                        "split": false, 
+                        "doc": "padding", 
+                        "pad_szbytes": 1, 
+                        "size": 8
+                    }
+                ], 
+                "noeffect": false, 
+                "id": 3, 
+                "tableno_field": "__pif_table_no"
+            }, 
+            "ingress::drop": {
+                "timeoutno_field": "", 
+                "name": "ingress::drop", 
+                "action_data": {
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }, 
+                "ruleno_field": "__pif_rule_no", 
+                "action_data_packed": [
+                    {
+                        "actiondata": "__pif_rule_no", 
+                        "name": "__pif_rule_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "__pif_table_no", 
+                        "name": "__pif_table_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }
+                ], 
+                "noeffect": false, 
+                "id": 2, 
+                "tableno_field": "__pif_table_no"
+            }
+        }, 
+        "multicast": {
+            "table_rtsym": "_pif_mcast_table", 
+            "group_count": 16, 
+            "group_size": 16
+        }, 
+        "custom_errors": {
+            "NoError": 1, 
+            "PacketTooShort": 2, 
+            "NoMatch": 3, 
+            "StackOutOfBounds": 4, 
+            "HeaderTooShort": 5, 
+            "ParserTimeout": 6
+        }, 
+        "build_uuid": [
+            2541216041, 
+            2418006212, 
+            529732077, 
+            1238180083
+        ], 
+        "digests_info": {}, 
+        "parser_value_set_info": {}
+    }, 
+    "p4info": {
+        "tables": [
+            {
+                "actionRefs": [
+                    {
+                        "id": 16819508
+                    }, 
+                    {
+                        "id": 16800567, 
+                        "annotations": [
+                            "@defaultonly()"
+                        ]
+                    }
+                ], 
+                "matchFields": [
+                    {
+                        "matchType": "EXACT", 
+                        "bitwidth": 16, 
+                        "id": 1, 
+                        "name": "standard_metadata.ingress_port"
+                    }
+                ], 
+                "preamble": {
+                    "alias": "src_intf_table", 
+                    "id": 33573765, 
+                    "name": "src_intf_table"
+                }, 
+                "constDefaultActionId": 16800567, 
+                "size": "32"
+            }, 
+            {
+                "actionRefs": [
+                    {
+                        "id": 16822869
+                    }, 
+                    {
+                        "id": 16800567, 
+                        "annotations": [
+                            "@defaultonly()"
+                        ]
+                    }
+                ], 
+                "matchFields": [
+                    {
+                        "matchType": "TERNARY", 
+                        "bitwidth": 32, 
+                        "id": 1, 
+                        "name": "hdr.ipv4.src_addr"
+                    }, 
+                    {
+                        "matchType": "TERNARY", 
+                        "bitwidth": 32, 
+                        "id": 2, 
+                        "name": "hdr.ipv4.dst_addr"
+                    }, 
+                    {
+                        "matchType": "TERNARY", 
+                        "bitwidth": 32, 
+                        "id": 3, 
+                        "name": "hdr.inner_ipv4.src_addr"
+                    }, 
+                    {
+                        "matchType": "TERNARY", 
+                        "bitwidth": 32, 
+                        "id": 4, 
+                        "name": "hdr.gtpu.teid"
+                    }, 
+                    {
+                        "matchType": "EXACT", 
+                        "bitwidth": 4, 
+                        "id": 5, 
+                        "name": "meta.intf"
+                    }
+                ], 
+                "preamble": {
+                    "alias": "pdr_ingress", 
+                    "id": 33565433, 
+                    "name": "pdr_ingress"
+                }, 
+                "constDefaultActionId": 16800567, 
+                "size": "24500"
+            }, 
+            {
+                "actionRefs": [
+                    {
+                        "id": 16818617
+                    }, 
+                    {
+                        "id": 16793508
+                    }, 
+                    {
+                        "id": 16800567, 
+                        "annotations": [
+                            "@defaultonly()"
+                        ]
+                    }
+                ], 
+                "matchFields": [
+                    {
+                        "matchType": "EXACT", 
+                        "bitwidth": 32, 
+                        "id": 1, 
+                        "name": "meta.far_id"
+                    }
+                ], 
+                "preamble": {
+                    "alias": "far_ingress", 
+                    "id": 33569260, 
+                    "name": "far_ingress"
+                }, 
+                "constDefaultActionId": 16800567, 
+                "size": "16384"
+            }
+        ], 
+        "actions": [
+            {
+                "preamble": {
+                    "alias": "NoAction", 
+                    "id": 16800567, 
+                    "name": "NoAction"
+                }
+            }, 
+            {
+                "preamble": {
+                    "alias": "gtp_decap", 
+                    "id": 16817907, 
+                    "name": "gtp_decap"
+                }
+            }, 
+            {
+                "params": [
+                    {
+                        "bitwidth": 4, 
+                        "id": 1, 
+                        "name": "src_intf"
+                    }
+                ], 
+                "preamble": {
+                    "alias": "set_src_intf", 
+                    "id": 16819508, 
+                    "name": "set_src_intf"
+                }
+            }, 
+            {
+                "params": [
+                    {
+                        "bitwidth": 32, 
+                        "id": 1, 
+                        "name": "far_id"
+                    }, 
+                    {
+                        "bitwidth": 1, 
+                        "id": 2, 
+                        "name": "must_decap"
+                    }
+                ], 
+                "preamble": {
+                    "alias": "set_rules", 
+                    "id": 16822869, 
+                    "name": "set_rules"
+                }
+            }, 
+            {
+                "params": [
+                    {
+                        "bitwidth": 16, 
+                        "id": 1, 
+                        "name": "port"
+                    }, 
+                    {
+                        "bitwidth": 1, 
+                        "id": 2, 
+                        "name": "do_encap"
+                    }
+                ], 
+                "preamble": {
+                    "alias": "set_egress_port_and_encap", 
+                    "id": 16818617, 
+                    "name": "set_egress_port_and_encap"
+                }
+            }, 
+            {
+                "preamble": {
+                    "alias": "drop", 
+                    "id": 16793508, 
+                    "name": "drop"
+                }
+            }
+        ]
+    }
+}

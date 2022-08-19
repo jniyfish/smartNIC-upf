@@ -1,0 +1,378 @@
+{
+    "tables": {
+        "ingress::vg_tbl": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "nat_port": {
+                                "value": "54321"
+                            }, 
+                            "gw_mac": {
+                                "value": "38:4f:49:ae:8b:a0"
+                            }, 
+                            "host_ip": {
+                                "value": "140.113.131.155"
+                            }, 
+                            "host_mac": {
+                                "value": "00:15:4d:13:59:9d"
+                            }, 
+                            "espec": {
+                                "value": "p1"
+                            }
+                        }, 
+                        "type": "ingress::do_fwd_nat_hit"
+                    }, 
+                    "name": "one", 
+                    "match": {
+                        "gretap.presentKey": {
+                            "value": "1"
+                        }, 
+                        "gretap.grekey": {
+                            "value": "5.5.5.5"
+                        }, 
+                        "debugIPv4.protocol": {
+                            "value": "17"
+                        }, 
+                        "debugIPv4.dstAddr": {
+                            "value": "172.217.160.78"
+                        }, 
+                        "scalars.metadata_t@l4DstPort": {
+                            "value": "80"
+                        }, 
+                        "scalars.metadata_t@l4SrcPort": {
+                            "value": "1234"
+                        }, 
+                        "debugIPv4.srcAddr": {
+                            "value": "192.168.0.184"
+                        }
+                    }
+                }, 
+                {
+                    "action": {
+                        "data": {
+                            "nat_port": {
+                                "value": "54878"
+                            }, 
+                            "gw_mac": {
+                                "value": "38:4f:49:ae:8b:a0"
+                            }, 
+                            "host_ip": {
+                                "value": "140.113.131.155"
+                            }, 
+                            "host_mac": {
+                                "value": "00:15:4d:13:59:9d"
+                            }, 
+                            "espec": {
+                                "value": "p1"
+                            }
+                        }, 
+                        "type": "ingress::do_fwd_nat_hit"
+                    }, 
+                    "name": "three", 
+                    "match": {
+                        "gretap.presentKey": {
+                            "value": "1"
+                        }, 
+                        "gretap.grekey": {
+                            "value": "5.5.5.5"
+                        }, 
+                        "debugIPv4.protocol": {
+                            "value": "6"
+                        }, 
+                        "debugIPv4.dstAddr": {
+                            "value": "172.217.160.78"
+                        }, 
+                        "scalars.metadata_t@l4DstPort": {
+                            "value": "80"
+                        }, 
+                        "scalars.metadata_t@l4SrcPort": {
+                            "value": "4321"
+                        }, 
+                        "debugIPv4.srcAddr": {
+                            "value": "192.168.0.111"
+                        }
+                    }
+                }
+            ], 
+            "default_rule": {
+                "action": {
+                    "data": {
+                        "espec": {
+                            "value": "v0.0"
+                        }
+                    }, 
+                    "type": "ingress::do_fwd_nat_miss"
+                }, 
+                "name": "c"
+            }
+        }, 
+        "ingress::nat_session_tbl": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "grekey": {
+                                "value": "5.5.5.5"
+                            }, 
+                            "udpDstPort": {
+                                "value": "22222"
+                            }, 
+                            "vg_mac": {
+                                "value": "00:00:00:00:00:aa"
+                            }, 
+                            "ipDstAddr": {
+                                "value": "140.113.131.156"
+                            }, 
+                            "ethSrcAddr": {
+                                "value": "00:15:4d:13:59:9d"
+                            }, 
+                            "udpSrcPort": {
+                                "value": "50000"
+                            }, 
+                            "ue_port": {
+                                "value": "1234"
+                            }, 
+                            "ue_mac": {
+                                "value": "ca:cf:5e:73:38:1b"
+                            }, 
+                            "ipSrcAddr": {
+                                "value": "140.113.131.155"
+                            }, 
+                            "ethDstAddr": {
+                                "value": "38:4f:49:ae:8b:a0"
+                            }, 
+                            "ue_ip": {
+                                "value": "192.168.0.184"
+                            }, 
+                            "espec": {
+                                "value": "p1"
+                            }
+                        }, 
+                        "type": "ingress::do_reverse_nat"
+                    }, 
+                    "name": "two", 
+                    "match": {
+                        "ipv4.srcAddr": {
+                            "value": "172.217.160.78"
+                        }, 
+                        "scalars.metadata_t@l4DstPort": {
+                            "value": "54321"
+                        }, 
+                        "scalars.metadata_t@l4SrcPort": {
+                            "value": "80"
+                        }, 
+                        "ipv4.dstAddr": {
+                            "value": "140.113.131.155"
+                        }, 
+                        "ipv4.protocol": {
+                            "value": "6"
+                        }
+                    }
+                }, 
+                {
+                    "action": {
+                        "data": {
+                            "grekey": {
+                                "value": "5.5.5.5"
+                            }, 
+                            "udpDstPort": {
+                                "value": "22222"
+                            }, 
+                            "vg_mac": {
+                                "value": "00:00:00:00:00:aa"
+                            }, 
+                            "ipDstAddr": {
+                                "value": "140.113.131.156"
+                            }, 
+                            "ethSrcAddr": {
+                                "value": "00:15:4d:13:59:9d"
+                            }, 
+                            "udpSrcPort": {
+                                "value": "50000"
+                            }, 
+                            "ue_port": {
+                                "value": "4321"
+                            }, 
+                            "ue_mac": {
+                                "value": "e6:2f:f7:5c:41:5b"
+                            }, 
+                            "ipSrcAddr": {
+                                "value": "140.113.131.155"
+                            }, 
+                            "ethDstAddr": {
+                                "value": "38:4f:49:ae:8b:a0"
+                            }, 
+                            "ue_ip": {
+                                "value": "192.168.0.111"
+                            }, 
+                            "espec": {
+                                "value": "p1"
+                            }
+                        }, 
+                        "type": "ingress::do_reverse_nat"
+                    }, 
+                    "name": "four", 
+                    "match": {
+                        "ipv4.srcAddr": {
+                            "value": "172.217.160.78"
+                        }, 
+                        "scalars.metadata_t@l4DstPort": {
+                            "value": "54878"
+                        }, 
+                        "scalars.metadata_t@l4SrcPort": {
+                            "value": "80"
+                        }, 
+                        "ipv4.dstAddr": {
+                            "value": "140.113.131.155"
+                        }, 
+                        "ipv4.protocol": {
+                            "value": "6"
+                        }
+                    }
+                }
+            ]
+        }, 
+        "ingress::dhcp_request_tbl": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "espec": {
+                                "value": "v0.1"
+                            }
+                        }, 
+                        "type": "ingress::decap_fwd_vf"
+                    }, 
+                    "name": "vG1", 
+                    "match": {
+                        "debugUDP.dstPort": {
+                            "value": "67"
+                        }, 
+                        "gretap.presentKey": {
+                            "value": "1"
+                        }, 
+                        "gretap.grekey": {
+                            "value": "5.5.5.5"
+                        }
+                    }
+                }
+            ]
+        }, 
+        "ingress::dhcp_reply_tbl": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "grekey": {
+                                "value": "5.5.5.5"
+                            }, 
+                            "udpDstPort": {
+                                "value": "22222"
+                            }, 
+                            "ipDstAddr": {
+                                "value": "140.113.131.156"
+                            }, 
+                            "ethSrcAddr": {
+                                "value": "00:15:4d:13:59:9d"
+                            }, 
+                            "udpSrcPort": {
+                                "value": "50000"
+                            }, 
+                            "ipSrcAddr": {
+                                "value": "140.113.131.155"
+                            }, 
+                            "ethDstAddr": {
+                                "value": "38:4f:49:ae:8b:a0"
+                            }, 
+                            "espec": {
+                                "value": "p1"
+                            }
+                        }, 
+                        "type": "ingress::encap_fwd_pf"
+                    }, 
+                    "name": "vG1", 
+                    "match": {
+                        "udp.dstPort": {
+                            "value": "68"
+                        }, 
+                        "standard_metadata.ingress_port": {
+                            "value": "v0.1"
+                        }
+                    }
+                }
+            ]
+        }, 
+        "ingress::vg_arp_tbl": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "vg_eth": {
+                                "value": "00:00:00:00:00:aa"
+                            }
+                        }, 
+                        "type": "ingress::send_tunnelarp_reply"
+                    }, 
+                    "name": "vG1", 
+                    "match": {
+                        "gretap.grekey": {
+                            "value": "5.5.5.5"
+                        }, 
+                        "debugARP.opcode": {
+                            "value": "1"
+                        }, 
+                        "gretap.presentKey": {
+                            "value": "1"
+                        }, 
+                        "debugARP.dstProtoAddr": {
+                            "value": "192.168.0.100"
+                        }
+                    }
+                }
+            ]
+        }, 
+        "ingress::host_arp_tbl": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "my_eth": {
+                                "value": "01:02:03:04:05:06"
+                            }
+                        }, 
+                        "type": "ingress::send_arp_reply"
+                    }, 
+                    "name": "test", 
+                    "match": {
+                        "arp.dstProtoAddr": {
+                            "value": "192.168.87.87"
+                        }, 
+                        "arp.opcode": {
+                            "value": "1"
+                        }
+                    }
+                }, 
+                {
+                    "action": {
+                        "data": {
+                            "my_eth": {
+                                "value": "00:15:4d:13:59:9d"
+                            }
+                        }, 
+                        "type": "ingress::send_arp_reply"
+                    }, 
+                    "name": "nctu", 
+                    "match": {
+                        "arp.dstProtoAddr": {
+                            "value": "140.113.131.155"
+                        }, 
+                        "arp.opcode": {
+                            "value": "1"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
