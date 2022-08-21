@@ -11,17 +11,6 @@ arp:
     -   opcode: 16
     type: header
 
-bg_md:
-    fields:
-    -   far_id: 32
-    -   qer_id: 32
-    -   encap_flag: 1
-    -   intf: 4
-    -   bypass_modify_mac: 1
-    -   _pad: 4
-    -   qfi: 6
-    type: header
-
 errors:
     type: enum
     values:
@@ -142,12 +131,11 @@ scalars:
     -   metadata_t@l4_inner_src_port: 16
     -   metadata_t@l4_inner_dst_port: 16
     -   metadata_t@far_id: 32
-    -   metadata_t@decap_flag: 1
+    -   metadata_t@decap_flag: 8
     -   metadata_t@encap_flag: 1
-    -   metadata_t@intf: 4
+    -   metadata_t@intf: 8
     -   metadata_t@bypass_modify_mac: 1
     -   metadata_t@qfi: 6
-    -   _padding: 3
     type: metadata
 
 standard_metadata:
@@ -251,7 +239,7 @@ calc_0:
 parse_arp:
     implementation: extract(arp);
     src_filename: main.p4
-    src_lineno: 194
+    src_lineno: 180
     type: parse_state
 
 parse_gtpu:
@@ -261,7 +249,7 @@ parse_gtpu:
     - gtpu.seq_flag
     - gtpu.npdu_flag
     src_filename: main.p4
-    src_lineno: 226
+    src_lineno: 212
     type: parse_state
 
 parse_gtpu_ex:
@@ -269,13 +257,13 @@ parse_gtpu_ex:
     select_value:
     - gtpu_option.type
     src_filename: main.p4
-    src_lineno: 240
+    src_lineno: 226
     type: parse_state
 
 parse_gtpu_seq:
     implementation: extract(gtpu_option);
     src_filename: main.p4
-    src_lineno: 235
+    src_lineno: 221
     type: parse_state
 
 parse_inner_ipv4:
@@ -283,7 +271,7 @@ parse_inner_ipv4:
     select_value:
     - inner_ipv4.protocol
     src_filename: main.p4
-    src_lineno: 253
+    src_lineno: 239
     type: parse_state
 
 parse_inner_tcp:
@@ -292,7 +280,7 @@ parse_inner_tcp:
         set(scalars.metadata_t@l4_inner_src_port, inner_tcp.src_port);
         set(scalars.metadata_t@l4_inner_dst_port, inner_tcp.dst_port);
     src_filename: main.p4
-    src_lineno: 271
+    src_lineno: 257
     type: parse_state
 
 parse_inner_udp:
@@ -301,7 +289,7 @@ parse_inner_udp:
         set(scalars.metadata_t@l4_inner_src_port, inner_udp.src_port);
         set(scalars.metadata_t@l4_inner_dst_port, inner_udp.dst_port);
     src_filename: main.p4
-    src_lineno: 264
+    src_lineno: 250
     type: parse_state
 
 parse_ipv4:
@@ -309,13 +297,13 @@ parse_ipv4:
     select_value:
     - ipv4.protocol
     src_filename: main.p4
-    src_lineno: 199
+    src_lineno: 185
     type: parse_state
 
 parse_pdu_ses_container:
     implementation: extract(gtpu_ex);
     src_filename: main.p4
-    src_lineno: 248
+    src_lineno: 234
     type: parse_state
 
 parse_tcp:
@@ -324,7 +312,7 @@ parse_tcp:
         set(scalars.metadata_t@l4_src_port, tcp.src_port);
         set(scalars.metadata_t@l4_dst_port, tcp.dst_port);
     src_filename: main.p4
-    src_lineno: 209
+    src_lineno: 195
     type: parse_state
 
 parse_udp:
@@ -335,7 +323,7 @@ parse_udp:
     select_value:
     - udp.dst_port
     src_filename: main.p4
-    src_lineno: 216
+    src_lineno: 202
     type: parse_state
 
 start:
@@ -343,7 +331,7 @@ start:
     select_value:
     - ethernet.ether_type
     src_filename: main.p4
-    src_lineno: 180
+    src_lineno: 167
     type: parse_state
 
 
@@ -383,35 +371,60 @@ parser:
 
 
 ##########################################
+# Action Expressions                     #
+##########################################
+
+_expression_gtp_encap_0:
+    expression: ((((inner_ipv4.len) + (0x0010))) & (0xffff))
+    format: bracketed_expr
+    type: expression
+
+_expression_gtp_encap_1:
+    expression: ((((inner_ipv4.len) + (0x0024))) & (0xffff))
+    format: bracketed_expr
+    type: expression
+
+
+##########################################
 # Action sets                            #
 ##########################################
 
-ingress::drop:
-    implementation: exit();
-    src_filename: main.p4
-    src_lineno: 359
-    type: action
-
-ingress::gtp_decap:
+ingress::gtp_encap:
     implementation: |-
-        remove_header(ipv4);
-        remove_header(udp);
-        remove_header(gtpu);
-        remove_header(gtpu_option);
-        remove_header(gtpu_ex);
-    src_filename: main.p4
-    src_lineno: 300
-    type: action
-
-ingress::set_egress_port_and_encap:
-    implementation: |-
-        modify_field(scalars.metadata_t@encap_flag, do_encap);
-        modify_field(standard_metadata.egress_spec, port);
+        add_header(ipv4);
+        add_header(udp);
+        add_header(gtpu);
+        modify_field(gtpu.version, 0x01);
+        modify_field(gtpu.pt, 0x01);
+        modify_field(gtpu.spare, 0x00);
+        modify_field(gtpu.ex_flag, 0x00);
+        modify_field(gtpu.seq_flag, 0x00);
+        modify_field(gtpu.npdu_flag, 0x00);
+        modify_field(gtpu.msgtype, 0xff);
+        modify_field(gtpu.msglen, inner_ipv4.len);
+        modify_field(gtpu.teid, teid);
+        modify_field(udp.src_port, 0x0868);
+        modify_field(udp.dst_port, 0x0868);
+        modify_field(udp.len, _expression_gtp_encap_0);
+        modify_field(udp.checksum, 0x0000);
+        modify_field(ipv4.version, 0x04);
+        modify_field(ipv4.ihl, 0x05);
+        modify_field(ipv4.dscp, 0x00);
+        modify_field(ipv4.len, _expression_gtp_encap_1);
+        modify_field(ipv4.identification, 0x1513);
+        modify_field(ipv4.flags, 0x00);
+        modify_field(ipv4.frag_offset, 0x0000);
+        modify_field(ipv4.ttl, 0x40);
+        modify_field(ipv4.protocol, 0x11);
+        modify_field(ipv4.src_addr, upf_ip);
+        modify_field(ipv4.dst_addr, ran_ip);
+        modify_field(ipv4.hdr_checksum, 0x0000);
     parameter_list:
-    -   port: 16
-    -   do_encap: 1
+    -   teid: 32
+    -   ran_ip: 32
+    -   upf_ip: 32
     src_filename: main.p4
-    src_lineno: 352
+    src_lineno: 348
     type: action
 
 ingress::set_rules:
@@ -420,17 +433,24 @@ ingress::set_rules:
         modify_field(scalars.metadata_t@decap_flag, must_decap);
     parameter_list:
     -   far_id: 32
-    -   must_decap: 1
+    -   must_decap: 8
     src_filename: main.p4
-    src_lineno: 313
+    src_lineno: 303
     type: action
 
 ingress::set_src_intf:
-    implementation: modify_field(scalars.metadata_t@intf, src_intf);
+    implementation: |-
+        modify_field(scalars.metadata_t@intf, src_intf);
+        modify_field(ethernet.src_addr, src_mac);
+        modify_field(ethernet.dst_addr, dst_mac);
+        modify_field(standard_metadata.egress_spec, port);
     parameter_list:
-    -   src_intf: 4
+    -   src_intf: 8
+    -   port: 16
+    -   src_mac: 48
+    -   dst_mac: 48
     src_filename: main.p4
-    src_lineno: 309
+    src_lineno: 295
     type: action
 
 
@@ -438,29 +458,25 @@ ingress::set_src_intf:
 # Ingress and Egress tables              #
 ##########################################
 
-ingress::far_ingress:
+ingress::far_egress_table:
     allowed_actions:
-    - ingress::set_egress_port_and_encap
-    - ingress::drop
+    - ingress::gtp_encap
     match_on:
         scalars.metadata_t@far_id: exact
     max_entries: 16385
     src_filename: main.p4
-    src_lineno: 401
+    src_lineno: 400
     type: table
 
-ingress::pdr_ingress:
+ingress::pdr_ingress_table:
     allowed_actions:
     - ingress::set_rules
     match_on:
-        gtpu.teid: ternary
-        inner_ipv4.src_addr: ternary
-        ipv4.dst_addr: ternary
-        ipv4.src_addr: ternary
+        ipv4.src_addr: exact
         scalars.metadata_t@intf: exact
     max_entries: 24501
     src_filename: main.p4
-    src_lineno: 335
+    src_lineno: 323
     type: table
 
 ingress::src_intf_table:
@@ -470,31 +486,8 @@ ingress::src_intf_table:
         standard_metadata.ingress_port: exact
     max_entries: 33
     src_filename: main.p4
-    src_lineno: 321
+    src_lineno: 310
     type: table
-
-ingress::tbl_gtp_decap:
-    allowed_actions:
-    - ingress::gtp_decap
-    default_entry:
-        action: ingress::gtp_decap
-        const: true
-    max_entries: 1025
-    src_filename: ''
-    src_lineno: 1
-    type: table
-
-
-##########################################
-# Ingress conditionals sets              #
-##########################################
-
-_condition_0:
-    condition: ((scalars.metadata_t@decap_flag) == (1))
-    format: bracketed_expr
-    src_filename: main.p4
-    src_lineno: 420
-    type: conditional
 
 
 ##########################################
@@ -506,12 +499,9 @@ ingress_flow:
     format: dot
     implementation: |-
         digraph {
-            "ingress::src_intf_table" -> "ingress::pdr_ingress" [action = always]
-            "ingress::pdr_ingress" -> "_condition_0" [action = always]
-            "_condition_0" -> "ingress::far_ingress" [condition = false]
-            "_condition_0" -> "ingress::tbl_gtp_decap" [condition = true]
-            "ingress::far_ingress" -> "exit_control_flow" [action = always]
-            "ingress::tbl_gtp_decap" -> "ingress::far_ingress" [action = always]
+            "ingress::src_intf_table" -> "ingress::pdr_ingress_table" [action = always]
+            "ingress::pdr_ingress_table" -> "ingress::far_egress_table" [action = always]
+            "ingress::far_egress_table" -> "exit_control_flow" [action = always]
         }
     start_state: ingress::src_intf_table
     type: control_flow
@@ -554,12 +544,11 @@ layout:
 ##########################################
 
 source_info:
-    date: 2022/08/19 07:48:17
+    date: 2022/08/21 04:42:29
     output_file: output/main.yml
     p4_version: '16'
     source_files:
     - main.p4
-    - ''
     - /opt/netronome/p4/include/16/p4include/core.p4
     type: source_info
 

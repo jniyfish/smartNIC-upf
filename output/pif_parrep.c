@@ -221,8 +221,7 @@ __label_parse_ipv4:
         {
             __lmem struct pif_global_flowkey_ipv4 *_pif_fk = (__lmem struct pif_global_flowkey_ipv4 *)(_pif_parrep_fk_ptr + (*_pif_parrep_fk_len));
             _pif_fk->ipv4__src_addr = ipv4->src_addr;
-            _pif_fk->ipv4__dst_addr = ipv4->dst_addr;
-            (*_pif_parrep_fk_len) += 2;
+            (*_pif_parrep_fk_len) += 1;
         }
 #endif
         if (((ipv4->protocol) == (0x11))) {
@@ -405,13 +404,6 @@ __label_parse_gtpu:
                 PIF_PARREP_SET_gtpu_ORIG_LEN(_pif_ctldata, _pif_parrep_hdrsz);
             }
         }
-#ifndef PIF_GLOBAL_FLOWCACHE_DISABLED
-        {
-            __lmem struct pif_global_flowkey_gtpu *_pif_fk = (__lmem struct pif_global_flowkey_gtpu *)(_pif_parrep_fk_ptr + (*_pif_parrep_fk_len));
-            _pif_fk->gtpu__teid = gtpu->teid;
-            (*_pif_parrep_fk_len) += 1;
-        }
-#endif
         if (1 /* condition always true */) {
             __critical_path(); /* prioritize the fall through */
         } else if (1 /* condition always true */) {
@@ -660,13 +652,6 @@ __label_parse_inner_ipv4:
                 PIF_PARREP_SET_inner_ipv4_ORIG_LEN(_pif_ctldata, _pif_parrep_hdrsz);
             }
         }
-#ifndef PIF_GLOBAL_FLOWCACHE_DISABLED
-        {
-            __lmem struct pif_global_flowkey_inner_ipv4 *_pif_fk = (__lmem struct pif_global_flowkey_inner_ipv4 *)(_pif_parrep_fk_ptr + (*_pif_parrep_fk_len));
-            _pif_fk->inner_ipv4__src_addr = inner_ipv4->src_addr;
-            (*_pif_parrep_fk_len) += 1;
-        }
-#endif
         if (((inner_ipv4->protocol) == (0x11))) {
             goto __label_parse_inner_udp;
         } else if (((inner_ipv4->protocol) == (0x6))) {
@@ -1154,7 +1139,7 @@ _pif_parrep_label_exit:
         _pif_fk->__padding = 0;
         (*_pif_parrep_fk_len) += 1;
         }
-    _pif_parrep_fk_ptr[(*_pif_parrep_fk_len) + 0] = _pif_parrep[PIF_PARREP_CTLDATA_OFF_LW + 0] & 0x88201000;
+    _pif_parrep_fk_ptr[(*_pif_parrep_fk_len) + 0] = _pif_parrep[PIF_PARREP_CTLDATA_OFF_LW + 0] & 0x88000000;
     (*_pif_parrep_fk_len) += PIF_PARREP_CTLDATA_LEN_LW;
 #endif /* !PIF_GLOBAL_FLOWCACHE_DISABLED */
     return 0;

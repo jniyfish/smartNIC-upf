@@ -2,39 +2,25 @@
     "source_info": {
         "action": {
             "node_source_map": {
-                "ingress::gtp_decap": {
+                "ingress::gtp_encap": {
                     "debug_state_value": 50331648, 
-                    "label": "pif_action_state_ingress::gtp_decap", 
+                    "label": "pif_action_state_ingress::gtp_encap", 
                     "live_ranges": null, 
-                    "lineno": 300, 
+                    "lineno": 348, 
                     "filename": "main.p4"
                 }, 
                 "ingress::set_src_intf": {
                     "debug_state_value": 50331649, 
                     "label": "pif_action_state_ingress::set_src_intf", 
                     "live_ranges": null, 
-                    "lineno": 309, 
-                    "filename": "main.p4"
-                }, 
-                "ingress::drop": {
-                    "debug_state_value": 50331650, 
-                    "label": "pif_action_state_ingress::drop", 
-                    "live_ranges": null, 
-                    "lineno": 359, 
-                    "filename": "main.p4"
-                }, 
-                "ingress::set_egress_port_and_encap": {
-                    "debug_state_value": 50331651, 
-                    "label": "pif_action_state_ingress::set_egress_port_and_encap", 
-                    "live_ranges": null, 
-                    "lineno": 352, 
+                    "lineno": 295, 
                     "filename": "main.p4"
                 }, 
                 "ingress::set_rules": {
-                    "debug_state_value": 50331652, 
+                    "debug_state_value": 50331650, 
                     "label": "pif_action_state_ingress::set_rules", 
                     "live_ranges": null, 
-                    "lineno": 313, 
+                    "lineno": 303, 
                     "filename": "main.p4"
                 }
             }
@@ -42,39 +28,25 @@
         "ctlflow": {
             "ingress_flow": {
                 "node_source_map": {
-                    "_condition_0": {
-                        "debug_state_value": 33554432, 
-                        "label": "pif_ctlflow_state_ingress_flow__condition_0", 
-                        "live_ranges": null, 
-                        "lineno": 420, 
-                        "filename": "main.p4"
-                    }, 
-                    "ingress::far_ingress": {
+                    "ingress::pdr_ingress_table": {
                         "debug_state_value": 33554434, 
-                        "label": "pif_ctlflow_state_ingress_flow_ingress::far_ingress", 
+                        "label": "pif_ctlflow_state_ingress_flow_ingress::pdr_ingress_table", 
                         "live_ranges": null, 
-                        "lineno": 401, 
-                        "filename": "main.p4"
-                    }, 
-                    "ingress::tbl_gtp_decap": {
-                        "debug_state_value": 33554433, 
-                        "label": "pif_ctlflow_state_ingress_flow_ingress::tbl_gtp_decap", 
-                        "live_ranges": null, 
-                        "lineno": 1, 
-                        "filename": ""
-                    }, 
-                    "ingress::pdr_ingress": {
-                        "debug_state_value": 33554436, 
-                        "label": "pif_ctlflow_state_ingress_flow_ingress::pdr_ingress", 
-                        "live_ranges": null, 
-                        "lineno": 335, 
+                        "lineno": 323, 
                         "filename": "main.p4"
                     }, 
                     "ingress::src_intf_table": {
-                        "debug_state_value": 33554435, 
+                        "debug_state_value": 33554433, 
                         "label": "pif_ctlflow_state_ingress_flow_ingress::src_intf_table", 
                         "live_ranges": null, 
-                        "lineno": 321, 
+                        "lineno": 310, 
+                        "filename": "main.p4"
+                    }, 
+                    "ingress::far_egress_table": {
+                        "debug_state_value": 33554432, 
+                        "label": "pif_ctlflow_state_ingress_flow_ingress::far_egress_table", 
+                        "live_ranges": null, 
+                        "lineno": 400, 
                         "filename": "main.p4"
                     }
                 }
@@ -82,23 +54,13 @@
         }, 
         "table_hit": {
             "node_source_map": {
-                "ingress::gtp_decap": {
-                    "label": "pif_table_hit_ingress::gtp_decap", 
+                "ingress::gtp_encap": {
+                    "label": "pif_table_hit_ingress::gtp_encap", 
                     "lineno": null, 
                     "filename": null
                 }, 
                 "ingress::set_src_intf": {
                     "label": "pif_table_hit_ingress::set_src_intf", 
-                    "lineno": null, 
-                    "filename": null
-                }, 
-                "ingress::drop": {
-                    "label": "pif_table_hit_ingress::drop", 
-                    "lineno": null, 
-                    "filename": null
-                }, 
-                "ingress::set_egress_port_and_encap": {
-                    "label": "pif_table_hit_ingress::set_egress_port_and_encap", 
                     "lineno": null, 
                     "filename": null
                 }, 
@@ -115,84 +77,84 @@
                     "debug_state_value": 16777225, 
                     "label": "pif_parrep_state_parse_inner_ipv4", 
                     "live_ranges": null, 
-                    "lineno": 253, 
+                    "lineno": 239, 
                     "filename": "main.p4"
                 }, 
                 "parse_ipv4": {
                     "debug_state_value": 16777217, 
                     "label": "pif_parrep_state_parse_ipv4", 
                     "live_ranges": null, 
-                    "lineno": 199, 
+                    "lineno": 185, 
                     "filename": "main.p4"
                 }, 
                 "parse_tcp": {
                     "debug_state_value": 16777220, 
                     "label": "pif_parrep_state_parse_tcp", 
                     "live_ranges": null, 
-                    "lineno": 209, 
+                    "lineno": 195, 
                     "filename": "main.p4"
                 }, 
                 "parse_gtpu": {
                     "debug_state_value": 16777221, 
                     "label": "pif_parrep_state_parse_gtpu", 
                     "live_ranges": null, 
-                    "lineno": 226, 
+                    "lineno": 212, 
                     "filename": "main.p4"
                 }, 
                 "parse_inner_tcp": {
                     "debug_state_value": 16777226, 
                     "label": "pif_parrep_state_parse_inner_tcp", 
                     "live_ranges": null, 
-                    "lineno": 271, 
+                    "lineno": 257, 
                     "filename": "main.p4"
                 }, 
                 "parse_udp": {
                     "debug_state_value": 16777219, 
                     "label": "pif_parrep_state_parse_udp", 
                     "live_ranges": null, 
-                    "lineno": 216, 
+                    "lineno": 202, 
                     "filename": "main.p4"
                 }, 
                 "parse_gtpu_ex": {
                     "debug_state_value": 16777222, 
                     "label": "pif_parrep_state_parse_gtpu_ex", 
                     "live_ranges": null, 
-                    "lineno": 240, 
+                    "lineno": 226, 
                     "filename": "main.p4"
                 }, 
                 "parse_arp": {
                     "debug_state_value": 16777218, 
                     "label": "pif_parrep_state_parse_arp", 
                     "live_ranges": null, 
-                    "lineno": 194, 
+                    "lineno": 180, 
                     "filename": "main.p4"
                 }, 
                 "start": {
                     "debug_state_value": 16777216, 
                     "label": "pif_parrep_state_start", 
                     "live_ranges": null, 
-                    "lineno": 180, 
+                    "lineno": 167, 
                     "filename": "main.p4"
                 }, 
                 "parse_gtpu_seq": {
                     "debug_state_value": 16777223, 
                     "label": "pif_parrep_state_parse_gtpu_seq", 
                     "live_ranges": null, 
-                    "lineno": 235, 
+                    "lineno": 221, 
                     "filename": "main.p4"
                 }, 
                 "parse_pdu_ses_container": {
                     "debug_state_value": 16777224, 
                     "label": "pif_parrep_state_parse_pdu_ses_container", 
                     "live_ranges": null, 
-                    "lineno": 248, 
+                    "lineno": 234, 
                     "filename": "main.p4"
                 }, 
                 "parse_inner_udp": {
                     "debug_state_value": 16777227, 
                     "label": "pif_parrep_state_parse_inner_udp", 
                     "live_ranges": null, 
-                    "lineno": 264, 
+                    "lineno": 250, 
                     "filename": "main.p4"
                 }
             }
@@ -1922,7 +1884,7 @@
                         }
                     }
                 ], 
-                "off_lw": 29
+                "off_lw": 26
             }, 
             "scalars": {
                 "layout": [
@@ -2004,14 +1966,44 @@
                     {
                         "layout": [
                             {
-                                "width": 6, 
+                                "width": 8, 
                                 "lmbitoff": 96, 
+                                "name": "metadata_t__decap_flag", 
+                                "fldbitoff": 0
+                            }
+                        ], 
+                        "name": "metadata_t@decap_flag", 
+                        "lmoff": 96, 
+                        "width": 8, 
+                        "cname": "metadata_t__decap_flag", 
+                        "attributes": {}
+                    }, 
+                    {
+                        "layout": [
+                            {
+                                "width": 8, 
+                                "lmbitoff": 104, 
+                                "name": "metadata_t__intf", 
+                                "fldbitoff": 0
+                            }
+                        ], 
+                        "name": "metadata_t@intf", 
+                        "lmoff": 104, 
+                        "width": 8, 
+                        "cname": "metadata_t__intf", 
+                        "attributes": {}
+                    }, 
+                    {
+                        "layout": [
+                            {
+                                "width": 6, 
+                                "lmbitoff": 112, 
                                 "name": "metadata_t__qfi", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@qfi", 
-                        "lmoff": 96, 
+                        "lmoff": 112, 
                         "width": 6, 
                         "cname": "metadata_t__qfi", 
                         "attributes": {}
@@ -2019,29 +2011,14 @@
                     {
                         "layout": [
                             {
-                                "width": 4, 
-                                "lmbitoff": 102, 
-                                "name": "metadata_t__intf", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "metadata_t@intf", 
-                        "lmoff": 102, 
-                        "width": 4, 
-                        "cname": "metadata_t__intf", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
                                 "width": 1, 
-                                "lmbitoff": 106, 
+                                "lmbitoff": 118, 
                                 "name": "metadata_t__bypass_modify_mac", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@bypass_modify_mac", 
-                        "lmoff": 106, 
+                        "lmoff": 118, 
                         "width": 1, 
                         "cname": "metadata_t__bypass_modify_mac", 
                         "attributes": {}
@@ -2050,28 +2027,13 @@
                         "layout": [
                             {
                                 "width": 1, 
-                                "lmbitoff": 107, 
-                                "name": "metadata_t__decap_flag", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "metadata_t@decap_flag", 
-                        "lmoff": 107, 
-                        "width": 1, 
-                        "cname": "metadata_t__decap_flag", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 1, 
-                                "lmbitoff": 108, 
+                                "lmbitoff": 119, 
                                 "name": "metadata_t__encap_flag", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@encap_flag", 
-                        "lmoff": 108, 
+                        "lmoff": 119, 
                         "width": 1, 
                         "cname": "metadata_t__encap_flag", 
                         "attributes": {}
@@ -2079,132 +2041,22 @@
                     {
                         "layout": [
                             {
-                                "width": 19, 
-                                "lmbitoff": 109, 
+                                "width": 8, 
+                                "lmbitoff": 120, 
                                 "name": "_padding_0", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "_padding_0", 
-                        "lmoff": 109, 
-                        "width": 19, 
+                        "lmoff": 120, 
+                        "width": 8, 
                         "cname": "_padding_0", 
                         "attributes": {
                             "padding": true
                         }
                     }
                 ], 
-                "off_lw": 33
-            }, 
-            "bg_md": {
-                "layout": [
-                    {
-                        "layout": [
-                            {
-                                "width": 32, 
-                                "lmbitoff": 0, 
-                                "name": "far_id", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "far_id", 
-                        "lmoff": 0, 
-                        "width": 32, 
-                        "cname": "far_id", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 32, 
-                                "lmbitoff": 32, 
-                                "name": "qer_id", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "qer_id", 
-                        "lmoff": 32, 
-                        "width": 32, 
-                        "cname": "qer_id", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 1, 
-                                "lmbitoff": 64, 
-                                "name": "encap_flag", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "encap_flag", 
-                        "lmoff": 64, 
-                        "width": 1, 
-                        "cname": "encap_flag", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 4, 
-                                "lmbitoff": 65, 
-                                "name": "intf", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "intf", 
-                        "lmoff": 65, 
-                        "width": 4, 
-                        "cname": "intf", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 1, 
-                                "lmbitoff": 69, 
-                                "name": "bypass_modify_mac", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "bypass_modify_mac", 
-                        "lmoff": 69, 
-                        "width": 1, 
-                        "cname": "bypass_modify_mac", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 4, 
-                                "lmbitoff": 70, 
-                                "name": "_pad", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "_pad", 
-                        "lmoff": 70, 
-                        "width": 4, 
-                        "cname": "_pad", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 6, 
-                                "lmbitoff": 74, 
-                                "name": "qfi", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "qfi", 
-                        "lmoff": 74, 
-                        "width": 6, 
-                        "cname": "qfi", 
-                        "attributes": {}
-                    }
-                ], 
-                "off_lw": 26
+                "off_lw": 30
             }
         }
     }, 

@@ -137,16 +137,13 @@ struct pif_parrep_ctldata {
  * Metadata
  */
 
-#define PIF_PARREP_bg_md_OFF_LW 26
-#define PIF_PARREP_bg_md_LEN_LW 3
-
-#define PIF_PARREP_standard_metadata_OFF_LW 29
+#define PIF_PARREP_standard_metadata_OFF_LW 26
 #define PIF_PARREP_standard_metadata_LEN_LW 4
 
-#define PIF_PARREP_scalars_OFF_LW 33
+#define PIF_PARREP_scalars_OFF_LW 30
 #define PIF_PARREP_scalars_LEN_LW 4
 
-#define PIF_PARREP_LEN_LW 37
+#define PIF_PARREP_LEN_LW 34
 
 /* Parsing branches to a constant control entry point */
 #define PIF_PARREP_NO_VARIABLE_EXIT

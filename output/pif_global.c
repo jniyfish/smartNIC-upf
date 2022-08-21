@@ -18,6 +18,7 @@ extern __forceinline void pif_global_metadata_init(__lmem uint32_t *parrep)
     PIF_HEADER_SET_standard_metadata___instance_type(standard_metadata, 0);
     PIF_HEADER_SET_standard_metadata___egress_instance(standard_metadata, 0);
     scalars->metadata_t__far_id = 0x0;
+    scalars->metadata_t__intf = 0x0;
 }
 
 extern __forceinline unsigned int pif_global_get_stdmd_egress_spec(__lmem uint32_t *parrep)

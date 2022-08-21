@@ -1,0 +1,110 @@
+{
+    "tables": {
+        "ingress::src_intf_table": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "src_intf": {
+                                "value": "1"
+                            },
+                            "port": {
+                                "value": "p0"
+                            },
+                            "src_mac": {
+                                "value": "00:15:4d:13:59:9d"
+                            },
+                            "dst_mac": {
+                                "value": "d8:c4:97:4d:da:ec"
+                            }
+                        }, 
+                        "type": "ingress::set_src_intf"
+                    }, 
+                    "name": "one", 
+                    "match": {
+                        "standard_metadata.ingress_port": {
+                            "value": "p1"
+                        }
+                    }
+                },
+                {
+                    "action": {
+                        "data": {
+                            "src_intf": {
+                                "value": "1"
+                            },
+                            "port": {
+                                "value": "p0"
+                            },
+                            "src_mac": {
+                                "value": "00:15:4d:13:59:9d"
+                            },
+                            "dst_mac": {
+                                "value": "d8:c4:97:4d:da:ed"
+                            }
+                        }, 
+                        "type": "ingress::set_src_intf"
+                    }, 
+                    "name": "two", 
+                    "match": {
+                        "standard_metadata.ingress_port": {
+                            "value": "p1"
+                        }
+                    }
+                }
+            ]
+        },
+        "ingress::pdr_ingress_table": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "far_id": {
+                                "value": "1"
+                            },
+                            "must_decap": {
+                                "value": "0"
+                            }
+                        }, 
+                        "type": "ingress::set_rules"
+                    }, 
+                    "name": "one", 
+                    "match": {
+                        "ipv4.src_addr": {
+                            "value": "10.0.100.1"
+                        },
+                        "scalars.metadata_t@intf": {
+                            "value": "1"
+                        }
+                    }
+                }
+            ]
+        },
+        "ingress::far_egress_table": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "teid": {
+                                "value": "1"
+                            },
+                            "ran_ip": {
+                                "value": "10.100.100.1"
+                            },
+                            "upf_ip": {
+                                "value": "10.100.100.10"
+                            }
+                        }, 
+                        "type": "ingress::gtp_encap"
+                    }, 
+                    "name": "one", 
+                    "match": {
+                        "scalars.metadata_t@far_id": {
+                            "value": "1"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

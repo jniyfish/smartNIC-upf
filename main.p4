@@ -130,28 +130,15 @@ struct metadata_t {
     bit<16>     l4_inner_src_port;
     bit<16>     l4_inner_dst_port;
     TYPE_FAR_ID     far_id;
-    bit<1>       decap_flag;
+    bit<8>       decap_flag;
     bit<1>         encap_flag;
-    bit<4>      intf;
+    bit<8>      intf;
     //PortId_t    ingress_port;
     bit<1>      bypass_modify_mac;
     bit<6> qfi;
 }
 
-
-
-header bridged_metadata_h {
-    TYPE_FAR_ID far_id;
-    TYPE_QER_ID qer_id;
-    bit<1>   encap_flag;
-    bit<4>  intf;
-    bit<1>  bypass_modify_mac;
-    bit<4>  _pad;
-    bit<6>  qfi;
-}
-
 struct headers_t {
-    bridged_metadata_h bg_md;
     ethernet_h ethernet;
     arp_h arp;
     ipv4_h  ipv4;
@@ -186,7 +173,6 @@ parser MyParser(
         transition select(hdr.ethernet.ether_type) {
             ETH_TYPE_ARP: parse_arp;
             ETH_TYPE_IPV4: parse_ipv4;
-            // ETH_TYPE_IPV6: parse_ipv6;
             default: accept;
         }
     }
@@ -306,18 +292,21 @@ control MyIngress(
         hdr.gtpu_ex.setInvalid();
     }
 
-    action set_src_intf(bit<4> src_intf) {
+    action set_src_intf(bit<8> src_intf, bit<16> port, 
+            bit<48> src_mac, bit<48> dst_mac) {
         meta.intf = src_intf;
+        hdr.ethernet.src_addr = src_mac;
+        hdr.ethernet.dst_addr = dst_mac;
+        standard_metadata.egress_spec = port;
     }
 
     action set_rules(
             TYPE_FAR_ID far_id,
-            bit<1>  must_decap) {
+            bit<8>  must_decap) {
         meta.far_id = far_id;
         meta.decap_flag = must_decap;
     }
 
-    @name(".src_intf_table")
     table src_intf_table {
         key = {
             standard_metadata.ingress_port: exact;
@@ -331,13 +320,9 @@ control MyIngress(
     }
 
     // At least one of the match field must be ternary to have priority
-    @name(".pdr_ingress")
     table pdr_ingress_table {
         key = {
-            hdr.ipv4.src_addr:          ternary;
-            hdr.ipv4.dst_addr:          ternary;
-            hdr.inner_ipv4.src_addr:    ternary;
-            hdr.gtpu.teid:              ternary;
+            hdr.ipv4.src_addr:          exact;
             meta.intf:                 exact;
         }
         actions = {
@@ -360,7 +345,7 @@ control MyIngress(
         exit;
     }
 
-    action gtp_encap(teid_t teid, ipv4_addr_t ran_ip) {
+    action gtp_encap(teid_t teid, ipv4_addr_t ran_ip, ipv4_addr_t upf_ip) {
         hdr.ipv4.setValid();
         hdr.udp.setValid();
         hdr.gtpu.setValid();
@@ -392,12 +377,11 @@ control MyIngress(
         hdr.ipv4.frag_offset = 0;
         hdr.ipv4.ttl = DEFAULT_IPV4_TTL;
         hdr.ipv4.protocol = IP_PROTO_UDP;
-        hdr.ipv4.src_addr = 0; // Update later
+        hdr.ipv4.src_addr = upf_ip; // Update later
         hdr.ipv4.dst_addr = ran_ip; // From outer header creation
         hdr.ipv4.hdr_checksum = 0; // Update later
     }
 
-    @name(".far_ingress")
     table far_ingress_table {
         key = {
             meta.far_id:   exact;
@@ -413,14 +397,29 @@ control MyIngress(
         const default_action = NoAction;
     }
 
+    table far_egress_table {
+        key = {
+            meta.far_id: exact;
+        }
+
+        actions = {
+            gtp_encap;
+            @defaultonly NoAction;
+        }
+        // size = 32768;
+        size = 16384;
+        const default_action = NoAction;
+    }
+
     /******************* Apply ******************/
     apply {
         src_intf_table.apply();
         pdr_ingress_table.apply();
-        if (meta.decap_flag == 1) {
-            gtp_decap();
-        }
-        far_ingress_table.apply();
+        //if (meta.decap_flag == 1) {
+        //    gtp_decap();
+        //}
+        //far_ingress_table.apply();
+        far_egress_table.apply();
     }
 }
 

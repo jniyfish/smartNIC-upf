@@ -3,7 +3,7 @@
 #ifndef __PIF_GLOBAL_H__
 #define __PIF_GLOBAL_H__
 
-#define PIF_GLOBAL_FLOWKEY_MAX_LW 6
+#define PIF_GLOBAL_FLOWKEY_MAX_LW 3
 __packed_bits struct pif_global_flowkey_metadata {
     unsigned int standard_metadata__ingress_port:16;
     unsigned int __padding:16;
@@ -11,15 +11,6 @@ __packed_bits struct pif_global_flowkey_metadata {
 
 __packed_bits struct pif_global_flowkey_ipv4 {
     unsigned int ipv4__src_addr:32;
-    unsigned int ipv4__dst_addr:32;
-};
-
-__packed_bits struct pif_global_flowkey_gtpu {
-    unsigned int gtpu__teid:32;
-};
-
-__packed_bits struct pif_global_flowkey_inner_ipv4 {
-    unsigned int inner_ipv4__src_addr:32;
 };
 
 

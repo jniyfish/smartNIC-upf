@@ -76,36 +76,28 @@
 .%alloc_resource "..nfd/me/blocks/vnic/pci_in.h" 176 nfd_in_ring_num00 nfd_in_ring_nums_res0 global 0x1 0
 .%alloc_resource "..nfd/me/blocks/vnic/pci_in.h" 177 nfd_in_issued_lso_ring_num00 emem0_queues global 0x1 0x1
 .%alloc_resource "..nfd/me/blocks/vnic/pci_in.h" 178 nfd_in_issued_lso_ring_num01 emem0_queues global 0x1 0x1
-.%declare_resource "..brary/include/nfp_chipres.h" 110 emem0_queues global 0x400
 .%declare_resource "..brary/include/nfp_chipres.h" 121 emem1_queues global 0x400
 .%declare_resource "..brary/include/nfp_chipres.h" 162 cls_rings island 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 181 cls_apsignals island 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 197 cls_apfilters island 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 366 pcie0_cpp2pcie_bars global 0x8
 .%declare_resource "..brary/include/nfp_chipres.h" 367 pcie0_dma_cfg_regs global 0x10
-.%declare_resource "..brary/include/nfp_chipres.h" 370 pcie0_topci_med global 0x40
+.%declare_resource "..brary/include/nfp_chipres.h" 369 pcie0_topci_hi global 0x40
 .%declare_resource "..brary/include/nfp_chipres.h" 371 pcie0_topci_lo global 0x80
 .%declare_resource "..brary/include/nfp_chipres.h" 372 pcie0_frompci_hi global 0x40
 .%declare_resource "..brary/include/nfp_chipres.h" 373 pcie0_frompci_med global 0x40
-.%declare_resource "..brary/include/nfp_chipres.h" 374 pcie0_frompci_lo global 0x80
-.%declare_resource "..brary/include/nfp_chipres.h" 121 emem1_queues global 0x400
 .%declare_resource "..brary/include/nfp_chipres.h" 181 cls_apsignals island 0x10
-.%declare_resource "..brary/include/nfp_chipres.h" 366 pcie0_cpp2pcie_bars global 0x8
+.%declare_resource "..brary/include/nfp_chipres.h" 197 cls_apfilters island 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 371 pcie0_topci_lo global 0x80
 .%declare_resource "..brary/include/nfp_chipres.h" 372 pcie0_frompci_hi global 0x40
 .%alloc_mem MAC_PORT_PAUSED_BITMAP cls island 0x8 0x0 0xfff8 addr40
 .%init MAC_PORT_PAUSED_BITMAP+0 0
 .%init MAC_PORT_PAUSED_BITMAP+4 0
-.%declare_resource "..brary/include/nfp_chipres.h" 110 emem0_queues global 0x400
-.%declare_resource "..brary/include/nfp_chipres.h" 121 emem1_queues global 0x400
-.%declare_resource "..brary/include/nfp_chipres.h" 162 cls_rings island 0x10
-.%declare_resource "..brary/include/nfp_chipres.h" 181 cls_apsignals island 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 197 cls_apfilters island 0x10
-.%declare_resource "..brary/include/nfp_chipres.h" 367 pcie0_dma_cfg_regs global 0x10
+.%declare_resource "..brary/include/nfp_chipres.h" 366 pcie0_cpp2pcie_bars global 0x8
 .%declare_resource "..brary/include/nfp_chipres.h" 369 pcie0_topci_hi global 0x40
-.%declare_resource "..brary/include/nfp_chipres.h" 371 pcie0_topci_lo global 0x80
 .%declare_resource "..brary/include/nfp_chipres.h" 372 pcie0_frompci_hi global 0x40
-.%declare_resource "..brary/include/nfp_chipres.h" 374 pcie0_frompci_lo global 0x80
+.%declare_resource "..brary/include/nfp_chipres.h" 373 pcie0_frompci_med global 0x40
 .%alloc_resource "../p4/components/gro/libgro.c" 110 gro_release_ring_0 emem0_queues global 0x1 0
 .%alloc_resource "../p4/components/gro/libgro.c" 114 gro_release_ring_1 emem1_queues global 0x1 0
 .%declare_resource "..brary/include/nfp_chipres.h" 110 emem0_queues global 0x400
@@ -547,14 +539,15 @@
 .%declare_resource "..brary/include/nfp_chipres.h" 369 pcie0_topci_hi global 0x40
 .%declare_resource "..brary/include/nfp_chipres.h" 370 pcie0_topci_med global 0x40
 .%declare_resource "..brary/include/nfp_chipres.h" 372 pcie0_frompci_hi global 0x40
-.%declare_resource "..brary/include/nfp_chipres.h" 110 emem0_queues global 0x400
 .%declare_resource "..brary/include/nfp_chipres.h" 121 emem1_queues global 0x400
-.%declare_resource "..brary/include/nfp_chipres.h" 181 cls_apsignals island 0x10
+.%declare_resource "..brary/include/nfp_chipres.h" 162 cls_rings island 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 197 cls_apfilters island 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 366 pcie0_cpp2pcie_bars global 0x8
 .%declare_resource "..brary/include/nfp_chipres.h" 367 pcie0_dma_cfg_regs global 0x10
+.%declare_resource "..brary/include/nfp_chipres.h" 370 pcie0_topci_med global 0x40
 .%declare_resource "..brary/include/nfp_chipres.h" 371 pcie0_topci_lo global 0x80
-.%declare_resource "..brary/include/nfp_chipres.h" 373 pcie0_frompci_med global 0x40
+.%declare_resource "..brary/include/nfp_chipres.h" 372 pcie0_frompci_hi global 0x40
+.%declare_resource "..brary/include/nfp_chipres.h" 374 pcie0_frompci_lo global 0x80
 .%declare_resource "output/pif_digests.c" 11 emem0_queues global 0x400
 .%alloc_mem MAC_PORT_PAUSED_BITMAP cls island 0x8 0x0 0xfff8 addr40
 .%alloc_mem mac_cfg_active_ports_nbi0 cls island 0x4 0x0 addr40
@@ -574,12 +567,16 @@
 .%declare_resource "..brary/include/nfp_chipres.h" 367 pcie0_dma_cfg_regs global 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 370 pcie0_topci_med global 0x40
 .%declare_resource "..brary/include/nfp_chipres.h" 372 pcie0_frompci_hi global 0x40
+.%declare_resource "..brary/include/nfp_chipres.h" 374 pcie0_frompci_lo global 0x80
+.%declare_resource "..brary/include/nfp_chipres.h" 110 emem0_queues global 0x400
+.%declare_resource "..brary/include/nfp_chipres.h" 121 emem1_queues global 0x400
+.%declare_resource "..brary/include/nfp_chipres.h" 162 cls_rings island 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 181 cls_apsignals island 0x10
+.%declare_resource "..brary/include/nfp_chipres.h" 197 cls_apfilters island 0x10
 .%declare_resource "..brary/include/nfp_chipres.h" 369 pcie0_topci_hi global 0x40
-.%declare_resource "..brary/include/nfp_chipres.h" 371 pcie0_topci_lo global 0x80
+.%declare_resource "..brary/include/nfp_chipres.h" 370 pcie0_topci_med global 0x40
 .%declare_resource "..brary/include/nfp_chipres.h" 372 pcie0_frompci_hi global 0x40
 .%declare_resource "..brary/include/nfp_chipres.h" 373 pcie0_frompci_med global 0x40
-.%declare_resource "..brary/include/nfp_chipres.h" 374 pcie0_frompci_lo global 0x80
 
 .%bigendian
 
@@ -1627,30 +1624,30 @@
 :l_1610#	379
 :l_1612#	385
 :l_19#	21
-:l_20307#	419
-:l_20553#	78
-:l_20554#	86
-:l_20555#	26
-:l_20561#	349
-:l_20562#	332
-:l_20563#	417
-:l_20564#	617
-:l_20565#	3
-:l_20566#	6
-:l_20567#	9
-:l_20568#	12
-:l_20569#	15
-:l_20570#	18
-:l_20571#	21
-:l_20572#	24
-:l_20573#	26
-:l_20574#	497
-:l_20575#	536
-:l_20576#	608
-:l_20577#	628
-:l_20578#	649
-:l_20579#	656
-:l_20580#	667
+:l_20286#	419
+:l_20532#	78
+:l_20533#	86
+:l_20534#	26
+:l_20540#	349
+:l_20541#	332
+:l_20542#	417
+:l_20543#	617
+:l_20544#	3
+:l_20545#	6
+:l_20546#	9
+:l_20547#	12
+:l_20548#	15
+:l_20549#	18
+:l_20550#	21
+:l_20551#	24
+:l_20552#	26
+:l_20553#	497
+:l_20554#	536
+:l_20555#	608
+:l_20556#	628
+:l_20557#	649
+:l_20558#	656
+:l_20559#	667
 :l_207#	104
 :l_208#	105
 :l_22#	24
@@ -1783,11 +1780,11 @@ _main#:
 .%import_expr common_code 2 <27:20:8,17:10:0> &bp 3 +
 .2 00F0000C0C03 common_code
 	.%line 100 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:71 0
-	load_addr[a3, l_20565#]
+	load_addr[a3, l_20544#]
 .3 00F0000C0300 common_code
 	.%line 104 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:71 0
 /******/          system_init_done();
-l_20565#:
+l_20544#:
 	nop
 .%import_expr common_code 4 <40:40:13,34:22:0> &bp 445 +
 .4 00D86F508038 common_code
@@ -1796,12 +1793,12 @@ l_20565#:
 .%import_expr common_code 5 <27:20:8,7:0:0> &bp 6 +
 .5 00F000000706 common_code
 	.%line 104 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:71 0
-	load_addr[b1, l_20566#]
+	load_addr[b1, l_20545#]
 .%import_expr common_code 6 <40:40:13,34:22:0> &bp 9 +
 .6 00D802400031 common_code
 	.%line 107 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:71 0 9
 /******/      if (ctx() == APP_MASTER_CTX_NFDCFG)
-l_20566#:
+l_20545#:
 l_4#:
 	br!=ctx[0, l_7#]
 .%import_expr common_code 7 <40:40:13,34:22:0> &bp 27 +
@@ -1812,12 +1809,12 @@ l_4#:
 .%import_expr common_code 8 <27:20:8,7:0:0> &bp 9 +
 .8 00F000000309 common_code
 	.%line 108 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:71 0
-	load_addr[b0, l_20567#]
+	load_addr[b0, l_20546#]
 .%import_expr common_code 9 <40:40:13,34:22:0> &bp 12 +
 .9 00D803004031 common_code
 	.%line 110 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:71 0 12
 /******/      if (ctx() == APP_MASTER_CTX_NFDSTATS)
-l_20567#:
+l_20546#:
 l_7#:
 	br!=ctx[1, l_10#]
 .%import_expr common_code 10 <40:40:13,34:22:0> &bp 167 +
@@ -1828,12 +1825,12 @@ l_7#:
 .%import_expr common_code 11 <27:20:8,7:0:0> &bp 12 +
 .11 00F00000030C common_code
 	.%line 111 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:71 0
-	load_addr[b0, l_20568#]
+	load_addr[b0, l_20547#]
 .%import_expr common_code 12 <40:40:13,34:22:0> &bp 15 +
 .12 00D803C08031 common_code
 	.%line 113 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:71 0 15
 /******/      if (ctx() == APP_MASTER_CTX_MACPORT)
-l_20568#:
+l_20547#:
 l_10#:
 	br!=ctx[2, l_13#]
 .%import_expr common_code 13 <40:40:13,34:22:0> &bp 665 +
@@ -1844,12 +1841,12 @@ l_10#:
 .%import_expr common_code 14 <27:20:8,7:0:0> &bp 15 +
 .14 00F00000030F common_code
 	.%line 114 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:71 0
-	load_addr[b0, l_20569#]
+	load_addr[b0, l_20548#]
 .%import_expr common_code 15 <40:40:13,34:22:0> &bp 18 +
 .15 00D80480C031 common_code
 	.%line 116 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:71 0 18
 /******/      if (ctx() == APP_MASTER_CTX_MACTIME)
-l_20569#:
+l_20548#:
 l_13#:
 	br!=ctx[3, l_16#]
 .%import_expr common_code 16 <40:40:13,34:22:0> &bp 606 +
@@ -1860,12 +1857,12 @@ l_13#:
 .%import_expr common_code 17 <27:20:8,7:0:0> &bp 18 +
 .17 00F000000312 common_code
 	.%line 117 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:71 0
-	load_addr[b0, l_20570#]
+	load_addr[b0, l_20549#]
 .%import_expr common_code 18 <40:40:13,34:22:0> &bp 21 +
 .18 00D805410031 common_code
 	.%line 119 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:71 0 21
 /******/      if (ctx() == CTX_PVS)
-l_20570#:
+l_20549#:
 l_16#:
 	br!=ctx[4, l_19#]
 .%import_expr common_code 19 <40:40:13,34:22:0> &bp 311 +
@@ -1876,12 +1873,12 @@ l_16#:
 .%import_expr common_code 20 <27:20:8,7:0:0> &bp 21 +
 .20 00F000000315 common_code
 	.%line 120 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:71 0
-	load_addr[b0, l_20571#]
+	load_addr[b0, l_20550#]
 .%import_expr common_code 21 <40:40:13,34:22:0> &bp 24 +
 .21 00D806014031 common_code
 	.%line 122 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:71 0 24
 /******/      if (ctx() == CTX_CFG)
-l_20571#:
+l_20550#:
 l_19#:
 	br!=ctx[5, l_22#]
 .%import_expr common_code 22 <40:40:13,34:22:0> &bp 317 +
@@ -1892,24 +1889,24 @@ l_19#:
 .%import_expr common_code 23 <27:20:8,7:0:0> &bp 24 +
 .23 00F000000318 common_code
 	.%line 123 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:71 0
-	load_addr[b0, l_20572#]
+	load_addr[b0, l_20551#]
 .%import_expr common_code 24 <40:40:13,34:22:0> &bp 407 +
 .24 00D865D08038 common_code
 	.%line 125 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:71 1 407
 /******/      return 0;
-l_20572#:
+l_20551#:
 l_22#:
 	br[_exit#], defer[1]
 .%import_expr common_code 25 <27:20:8,7:0:0> &bp 26 +
 .25 00F00000031A common_code
 	.%line 125 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:71 0
-	load_addr[b0, l_20573#]
+	load_addr[b0, l_20552#]
 .%import_expr common_code 26 <40:40:13,34:22:0> &bp 26 +
 .26 00D806808038 common_code
 	.%line 125 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:71 0 26
-l_20573#:
-l_20555#:
-	br[l_20555#]
+l_20552#:
+l_20534#:
+	br[l_20534#]
 .27 00F000000700 common_code
 	.%line 124 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 1 fiid:1493 0
 /******/      nfd_cfg_init_cfg_msg(&nfd_cfg_sig_app_master0, &cfg_msg[0]);
@@ -2079,7 +2076,7 @@ l_119#:
 .%import_expr common_code 74 <40:40:13,34:22:0> &bp 78 +
 .74 00D813A08120 common_code
 	.%line 136 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 1 fiid:79 2 78
-	beq[l_20553#], defer[2]
+	beq[l_20532#], defer[2]
 .75 00A000360000 common_code
 	.%line 136 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 0 fiid:79 1
 	alu[a3, --, B, $0]
@@ -2091,7 +2088,7 @@ l_119#:
 	immed[a2, 1, <<0]
 .78 00B4002C0402 common_code
 	.%line 136 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 1 fiid:79 0
-l_20553#:
+l_20532#:
 	alu[b2, a2, AND, 1]
 .79 008810208603 common_code
 	.%line 136 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 1 fiid:79 0
@@ -2105,7 +2102,7 @@ l_20553#:
 .%import_expr common_code 82 <40:40:13,34:22:0> &bp 86 +
 .82 00D815A08120 common_code
 	.%line 136 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 1 fiid:79 2 86
-	beq[l_20554#], defer[2]
+	beq[l_20533#], defer[2]
 .83 008A10200A02 common_code
 	.%line 136 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 0 fiid:79 1
 	alu_shf[a2, a2, OR, b2, <<31]
@@ -2117,7 +2114,7 @@ l_20553#:
 	immed[b2, 1, <<0]
 .86 00A440300B01 common_code
 	.%line 136 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 1 fiid:79 0
-l_20554#:
+l_20533#:
 	alu[a3, b2, AND, 1]
 .87 009820208602 common_code
 	.%line 136 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 1 fiid:79 0
@@ -2984,7 +2981,7 @@ l_1467#:
 	alu_shf[b1, --, B, b0, <<3]
 .332 00AA40200700 common_code
 	.%line 70 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:69 1
-l_20562#:
+l_20541#:
 	alu[a2, b1, OR, 0]
 .333 009DF0100500 common_code
 	.%line 70 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:69 0
@@ -3042,7 +3039,7 @@ l_20562#:
 	alu[b1, a1, +, b1]
 .349 00FC07600700 common_code
 	.%line 74 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:69 0
-l_20561#:
+l_20540#:
 	local_csr_wr[t_index, b1]
 .350 00F0000C0300 common_code
 	.%line 74 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:69 0
@@ -3115,7 +3112,7 @@ l_20561#:
 .%import_expr common_code 371 <40:40:13,34:22:0> &bp 349 +
 .371 00D857708129 common_code
 	.%line 73 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:69 3 349
-	blt[l_20561#], defer[3]
+	blt[l_20540#], defer[3]
 .372 0091E0100A00 common_code
 	.%line 73 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:69 2
 	alu_shf[b1, --, B, b2, <<2]
@@ -3135,7 +3132,7 @@ l_20561#:
 .%import_expr common_code 377 <40:40:13,34:22:0> &bp 332 +
 .377 00D853108129 common_code
 	.%line 69 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 1 fiid:69 1 332
-	blt[l_20562#], defer[1]
+	blt[l_20541#], defer[1]
 .378 0091D0100200 common_code
 	.%line 69 "/opt/netronome/p4/components/nfp_pif/me/apps/pif_app_nfd/src/app_master.c" 0 fiid:69 0
 	alu_shf[b1, --, B, b0, <<3]
@@ -3291,14 +3288,14 @@ _fc_global_init#:
 	alu_shf[b0, --, B, b2, <<2]
 .417 00B080000002 common_code
 	.%line 345 "/opt/netronome/p4/components/flowcache/me/lib/flowcache/_c/flow_cache.c" 1 fiid:740 0
-l_20563#:
+l_20542#:
 	alu[b0, a2, +, b0]
 .418 00FC07600300 common_code
 	.%line 345 "/opt/netronome/p4/components/flowcache/me/lib/flowcache/_c/flow_cache.c" 1 fiid:740 0
 	local_csr_wr[t_index, b0]
 .419 00B080000801 common_code
 	.%line 345 "/opt/netronome/p4/components/flowcache/me/lib/flowcache/_c/flow_cache.c" 1 fiid:740 0
-l_20307#:
+l_20286#:
 	alu[b0, a1, +, b2]
 .420 00B0C0200B01 common_code
 	.%line 343 "/opt/netronome/p4/components/flowcache/me/lib/flowcache/_c/flow_cache.c" 1 fiid:740 0
@@ -3310,7 +3307,7 @@ l_20307#:
 .%import_expr common_code 422 <40:40:13,34:22:0> &bp 419 +
 .422 00D868D08125 common_code
 	.%line 343 "/opt/netronome/p4/components/flowcache/me/lib/flowcache/_c/flow_cache.c" 1 fiid:740 1 419
-	blo[l_20307#], defer[1]
+	blo[l_20286#], defer[1]
 .423 00A014200000 common_code
 	.%line 345 "/opt/netronome/p4/components/flowcache/me/lib/flowcache/_c/flow_cache.c" 0 fiid:740 0
 /******/              wr_free_entry_idx[j] = i + j;
@@ -3374,7 +3371,7 @@ l_20307#:
 .%import_expr common_code 440 <40:40:13,34:22:0> &bp 417 +
 .440 00D868708125 common_code
 	.%line 341 "/opt/netronome/p4/components/flowcache/me/lib/flowcache/_c/flow_cache.c" 1 fiid:740 3 417
-	blo[l_20563#], defer[3]
+	blo[l_20542#], defer[3]
 .441 00F000000B00 common_code
 	.%line 341 "/opt/netronome/p4/components/flowcache/me/lib/flowcache/_c/flow_cache.c" 0 fiid:740 2
 	immed[b2, 0, <<0]
@@ -3579,10 +3576,10 @@ _mac_flush_port_if_paused#:
 .%import_expr common_code 496 <27:20:8,17:10:0> &bp 497 +
 .496 00F0001FC405 common_code
 	.%line 407 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 0 fiid:1451 0
-	load_addr[a5, l_20574#]
+	load_addr[a5, l_20553#]
 .497 00A058000004 common_code
 	.%line 407 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 1 fiid:1451 0
-l_20574#:
+l_20553#:
 	alu[$0, --, B, a4]
 .498 00A018100000 common_code
 	.%line 407 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 1 fiid:1451 0
@@ -3713,10 +3710,10 @@ l_1228#:
 .%import_expr common_code 535 <27:20:8,17:10:0> &bp 536 +
 .535 00F0002C6005 common_code
 	.%line 417 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 0 fiid:1452 0
-	load_addr[a5, l_20575#]
+	load_addr[a5, l_20554#]
 .536 00A058000004 common_code
 	.%line 417 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 1 fiid:1452 0
-l_20575#:
+l_20554#:
 	alu[$0, --, B, a4]
 .537 00A018100000 common_code
 	.%line 417 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 1 fiid:1452 0
@@ -3969,11 +3966,11 @@ l_1281#:
 .%import_expr common_code 607 <27:20:8,17:10:0> &bp 608 +
 .607 00F0002D8002 common_code
 	.%line 202 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 0 fiid:75 0
-	load_addr[a2, l_20576#]
+	load_addr[a2, l_20555#]
 .608 00FC0C000000 common_code
 	.%line 203 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 1 fiid:1523 1
 /******/          sleep(APP_MASTER_POLL_MACTIME);
-l_20576#:
+l_20555#:
 	local_csr_rd[timestamp_low]
 .609 00F0000C0001 common_code
 	.%line 203 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 0 fiid:1523 0
@@ -4007,7 +4004,7 @@ _mac_poll_nbi_ports#:
 .617 00AA70000300 common_code
 	.%line 490 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 1 fiid:85 1
 /******/          active_ports_bitmap &= ~(1 << port);
-l_20564#:
+l_20543#:
 	alu[--, b0, OR, 0]
 .618 008200108600 common_code
 	.%line 490 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 0 fiid:85 0
@@ -4051,16 +4048,16 @@ l_1147#:
 .%import_expr common_code 627 <27:20:8,17:10:0> &bp 628 +
 .627 00F0002DD006 common_code
 	.%line 500 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 0 fiid:85 0
-	load_addr[a6, l_20577#]
+	load_addr[a6, l_20556#]
 .628 00A030000400 common_code
 	.%line 487 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 1 fiid:85 0
 /******/      while (active_ports_bitmap)
-l_20577#:
+l_20556#:
 	alu[--, --, B, b1]
 .%import_expr common_code 629 <40:40:13,34:22:0> &bp 617 +
 .629 00D89A508121 common_code
 	.%line 487 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 1 fiid:85 1 617
-	bne[l_20564#], defer[1]
+	bne[l_20543#], defer[1]
 .630 00B700000700 common_code
 	.%line 487 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 0 fiid:85 0
 	ffs[b0, b1]
@@ -4140,11 +4137,11 @@ l_1103#:
 .%import_expr common_code 648 <27:20:8,7:0:0> &bp 649 +
 .648 00F000201789 common_code
 	.%line 535 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 0 fiid:89 0
-	load_addr[b5, l_20578#]
+	load_addr[b5, l_20557#]
 .649 00A030060000 common_code
 	.%line 538 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 1 fiid:89 0
 /******/          if (xfr_active_ports_nbi1 != 0x0) {
-l_20578#:
+l_20557#:
 	alu[--, --, B, $0]
 .%import_expr common_code 650 <40:40:13,34:22:0> &bp 656 +
 .650 00D8A4008120 common_code
@@ -4169,11 +4166,11 @@ l_1105#:
 .%import_expr common_code 655 <27:20:8,7:0:0> &bp 656 +
 .655 00F000201790 common_code
 	.%line 540 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 0 fiid:89 0
-	load_addr[b5, l_20579#]
+	load_addr[b5, l_20558#]
 .656 00A030001800 common_code
 	.%line 543 "/opt/netronome/p4/components/nfp_pif/me/lib/macflush/libmacflush.c" 1 fiid:89 0
 /******/          if (active_ports == 0x0) {
-l_20579#:
+l_20558#:
 l_1106#:
 	alu[--, --, B, b6]
 .%import_expr common_code 657 <40:40:13,34:22:0> &bp 632 +
@@ -4215,11 +4212,11 @@ l_942#:
 .%import_expr common_code 666 <27:20:8,7:0:0> &bp 667 +
 .666 00F00020039B common_code
 	.%line 210 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 0 fiid:74 0
-	load_addr[b0, l_20580#]
+	load_addr[b0, l_20559#]
 .667 00FC0C000000 common_code
 	.%line 211 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 1 fiid:1528 1
 /******/          sleep(APP_MASTER_POLL_MACPORT);
-l_20580#:
+l_20559#:
 	local_csr_rd[timestamp_low]
 .668 00F000000300 common_code
 	.%line 211 "/opt/netronome/p4/components/nfp_pif/me/apps/common/src/app_master_common.c" 0 fiid:1528 0

@@ -6,48 +6,6 @@
  * Access function prototypes
  */
 
-/* get bg_md.far_id */
-uint32_t pif_plugin_meta_get__bg_md__far_id(EXTRACTED_HEADERS_T *extracted_headers);
-
-/* set bg_md.far_id */
-void pif_plugin_meta_set__bg_md__far_id(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
-
-/* get bg_md.qer_id */
-uint32_t pif_plugin_meta_get__bg_md__qer_id(EXTRACTED_HEADERS_T *extracted_headers);
-
-/* set bg_md.qer_id */
-void pif_plugin_meta_set__bg_md__qer_id(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
-
-/* get bg_md.encap_flag */
-uint32_t pif_plugin_meta_get__bg_md__encap_flag(EXTRACTED_HEADERS_T *extracted_headers);
-
-/* set bg_md.encap_flag */
-void pif_plugin_meta_set__bg_md__encap_flag(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
-
-/* get bg_md.intf */
-uint32_t pif_plugin_meta_get__bg_md__intf(EXTRACTED_HEADERS_T *extracted_headers);
-
-/* set bg_md.intf */
-void pif_plugin_meta_set__bg_md__intf(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
-
-/* get bg_md.bypass_modify_mac */
-uint32_t pif_plugin_meta_get__bg_md__bypass_modify_mac(EXTRACTED_HEADERS_T *extracted_headers);
-
-/* set bg_md.bypass_modify_mac */
-void pif_plugin_meta_set__bg_md__bypass_modify_mac(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
-
-/* get bg_md._pad */
-uint32_t pif_plugin_meta_get__bg_md___pad(EXTRACTED_HEADERS_T *extracted_headers);
-
-/* set bg_md._pad */
-void pif_plugin_meta_set__bg_md___pad(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
-
-/* get bg_md.qfi */
-uint32_t pif_plugin_meta_get__bg_md__qfi(EXTRACTED_HEADERS_T *extracted_headers);
-
-/* set bg_md.qfi */
-void pif_plugin_meta_set__bg_md__qfi(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
-
 /* get standard_metadata.clone_spec */
 uint32_t pif_plugin_meta_get__standard_metadata__clone_spec(EXTRACTED_HEADERS_T *extracted_headers);
 
@@ -138,11 +96,11 @@ uint32_t pif_plugin_meta_get__scalars__metadata_t__l4_dst_port(EXTRACTED_HEADERS
 /* set scalars.metadata_t@l4_dst_port */
 void pif_plugin_meta_set__scalars__metadata_t__l4_dst_port(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
 
-/* get scalars.metadata_t@qfi */
-uint32_t pif_plugin_meta_get__scalars__metadata_t__qfi(EXTRACTED_HEADERS_T *extracted_headers);
+/* get scalars.metadata_t@decap_flag */
+uint32_t pif_plugin_meta_get__scalars__metadata_t__decap_flag(EXTRACTED_HEADERS_T *extracted_headers);
 
-/* set scalars.metadata_t@qfi */
-void pif_plugin_meta_set__scalars__metadata_t__qfi(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
+/* set scalars.metadata_t@decap_flag */
+void pif_plugin_meta_set__scalars__metadata_t__decap_flag(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
 
 /* get scalars.metadata_t@intf */
 uint32_t pif_plugin_meta_get__scalars__metadata_t__intf(EXTRACTED_HEADERS_T *extracted_headers);
@@ -150,17 +108,17 @@ uint32_t pif_plugin_meta_get__scalars__metadata_t__intf(EXTRACTED_HEADERS_T *ext
 /* set scalars.metadata_t@intf */
 void pif_plugin_meta_set__scalars__metadata_t__intf(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
 
+/* get scalars.metadata_t@qfi */
+uint32_t pif_plugin_meta_get__scalars__metadata_t__qfi(EXTRACTED_HEADERS_T *extracted_headers);
+
+/* set scalars.metadata_t@qfi */
+void pif_plugin_meta_set__scalars__metadata_t__qfi(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
+
 /* get scalars.metadata_t@bypass_modify_mac */
 uint32_t pif_plugin_meta_get__scalars__metadata_t__bypass_modify_mac(EXTRACTED_HEADERS_T *extracted_headers);
 
 /* set scalars.metadata_t@bypass_modify_mac */
 void pif_plugin_meta_set__scalars__metadata_t__bypass_modify_mac(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
-
-/* get scalars.metadata_t@decap_flag */
-uint32_t pif_plugin_meta_get__scalars__metadata_t__decap_flag(EXTRACTED_HEADERS_T *extracted_headers);
-
-/* set scalars.metadata_t@decap_flag */
-void pif_plugin_meta_set__scalars__metadata_t__decap_flag(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
 
 /* get scalars.metadata_t@encap_flag */
 uint32_t pif_plugin_meta_get__scalars__metadata_t__encap_flag(EXTRACTED_HEADERS_T *extracted_headers);
@@ -179,90 +137,6 @@ void pif_plugin_meta_set__scalars__metadata_t__encap_flag(EXTRACTED_HEADERS_T *e
 
 #include "pif_parrep.h"
 #include "pif_headers.h"
-
-__forceinline uint32_t pif_plugin_meta_get__bg_md__far_id(EXTRACTED_HEADERS_T *extracted_headers)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    return PIF_HEADER_GET_bg_md___far_id(md);
-}
-
-__forceinline void pif_plugin_meta_set__bg_md__far_id(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    PIF_HEADER_SET_bg_md___far_id(md, val);
-}
-
-__forceinline uint32_t pif_plugin_meta_get__bg_md__qer_id(EXTRACTED_HEADERS_T *extracted_headers)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    return PIF_HEADER_GET_bg_md___qer_id(md);
-}
-
-__forceinline void pif_plugin_meta_set__bg_md__qer_id(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    PIF_HEADER_SET_bg_md___qer_id(md, val);
-}
-
-__forceinline uint32_t pif_plugin_meta_get__bg_md__encap_flag(EXTRACTED_HEADERS_T *extracted_headers)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    return PIF_HEADER_GET_bg_md___encap_flag(md);
-}
-
-__forceinline void pif_plugin_meta_set__bg_md__encap_flag(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    PIF_HEADER_SET_bg_md___encap_flag(md, val);
-}
-
-__forceinline uint32_t pif_plugin_meta_get__bg_md__intf(EXTRACTED_HEADERS_T *extracted_headers)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    return PIF_HEADER_GET_bg_md___intf(md);
-}
-
-__forceinline void pif_plugin_meta_set__bg_md__intf(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    PIF_HEADER_SET_bg_md___intf(md, val);
-}
-
-__forceinline uint32_t pif_plugin_meta_get__bg_md__bypass_modify_mac(EXTRACTED_HEADERS_T *extracted_headers)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    return PIF_HEADER_GET_bg_md___bypass_modify_mac(md);
-}
-
-__forceinline void pif_plugin_meta_set__bg_md__bypass_modify_mac(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    PIF_HEADER_SET_bg_md___bypass_modify_mac(md, val);
-}
-
-__forceinline uint32_t pif_plugin_meta_get__bg_md___pad(EXTRACTED_HEADERS_T *extracted_headers)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    return PIF_HEADER_GET_bg_md____pad(md);
-}
-
-__forceinline void pif_plugin_meta_set__bg_md___pad(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    PIF_HEADER_SET_bg_md____pad(md, val);
-}
-
-__forceinline uint32_t pif_plugin_meta_get__bg_md__qfi(EXTRACTED_HEADERS_T *extracted_headers)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    return PIF_HEADER_GET_bg_md___qfi(md);
-}
-
-__forceinline void pif_plugin_meta_set__bg_md__qfi(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
-{
-    __lmem struct pif_header_bg_md *md = (__lmem struct pif_header_bg_md *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_bg_md_OFF_LW);
-    PIF_HEADER_SET_bg_md___qfi(md, val);
-}
 
 __forceinline uint32_t pif_plugin_meta_get__standard_metadata__clone_spec(EXTRACTED_HEADERS_T *extracted_headers)
 {
@@ -444,16 +318,16 @@ __forceinline void pif_plugin_meta_set__scalars__metadata_t__l4_dst_port(EXTRACT
     PIF_HEADER_SET_scalars___metadata_t__l4_dst_port(md, val);
 }
 
-__forceinline uint32_t pif_plugin_meta_get__scalars__metadata_t__qfi(EXTRACTED_HEADERS_T *extracted_headers)
+__forceinline uint32_t pif_plugin_meta_get__scalars__metadata_t__decap_flag(EXTRACTED_HEADERS_T *extracted_headers)
 {
     __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
-    return PIF_HEADER_GET_scalars___metadata_t__qfi(md);
+    return PIF_HEADER_GET_scalars___metadata_t__decap_flag(md);
 }
 
-__forceinline void pif_plugin_meta_set__scalars__metadata_t__qfi(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
+__forceinline void pif_plugin_meta_set__scalars__metadata_t__decap_flag(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
 {
     __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
-    PIF_HEADER_SET_scalars___metadata_t__qfi(md, val);
+    PIF_HEADER_SET_scalars___metadata_t__decap_flag(md, val);
 }
 
 __forceinline uint32_t pif_plugin_meta_get__scalars__metadata_t__intf(EXTRACTED_HEADERS_T *extracted_headers)
@@ -468,6 +342,18 @@ __forceinline void pif_plugin_meta_set__scalars__metadata_t__intf(EXTRACTED_HEAD
     PIF_HEADER_SET_scalars___metadata_t__intf(md, val);
 }
 
+__forceinline uint32_t pif_plugin_meta_get__scalars__metadata_t__qfi(EXTRACTED_HEADERS_T *extracted_headers)
+{
+    __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
+    return PIF_HEADER_GET_scalars___metadata_t__qfi(md);
+}
+
+__forceinline void pif_plugin_meta_set__scalars__metadata_t__qfi(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
+{
+    __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
+    PIF_HEADER_SET_scalars___metadata_t__qfi(md, val);
+}
+
 __forceinline uint32_t pif_plugin_meta_get__scalars__metadata_t__bypass_modify_mac(EXTRACTED_HEADERS_T *extracted_headers)
 {
     __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
@@ -478,18 +364,6 @@ __forceinline void pif_plugin_meta_set__scalars__metadata_t__bypass_modify_mac(E
 {
     __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
     PIF_HEADER_SET_scalars___metadata_t__bypass_modify_mac(md, val);
-}
-
-__forceinline uint32_t pif_plugin_meta_get__scalars__metadata_t__decap_flag(EXTRACTED_HEADERS_T *extracted_headers)
-{
-    __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
-    return PIF_HEADER_GET_scalars___metadata_t__decap_flag(md);
-}
-
-__forceinline void pif_plugin_meta_set__scalars__metadata_t__decap_flag(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
-{
-    __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
-    PIF_HEADER_SET_scalars___metadata_t__decap_flag(md, val);
 }
 
 __forceinline uint32_t pif_plugin_meta_get__scalars__metadata_t__encap_flag(EXTRACTED_HEADERS_T *extracted_headers)

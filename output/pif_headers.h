@@ -751,68 +751,6 @@ struct pif_header_inner_udp {
  * Metadata
  */
 
-/* bg_md (10B) */
-struct pif_header_bg_md {
-    unsigned int far_id:32;
-    unsigned int qer_id:32;
-    unsigned int encap_flag:1;
-    unsigned int intf:4;
-    unsigned int bypass_modify_mac:1;
-    unsigned int _pad:4;
-    unsigned int qfi:6;
-};
-
-/* bg_md field accessor macros */
-#define PIF_HEADER_GET_bg_md___far_id(_hdr_p) (((_hdr_p)->far_id)) /* bg_md.far_id [32;0] */
-
-#define PIF_HEADER_SET_bg_md___far_id(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->far_id = (unsigned)(((_val))); \
-    } while (0) /* bg_md.far_id[32;0] */
-
-#define PIF_HEADER_GET_bg_md___qer_id(_hdr_p) (((_hdr_p)->qer_id)) /* bg_md.qer_id [32;0] */
-
-#define PIF_HEADER_SET_bg_md___qer_id(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->qer_id = (unsigned)(((_val))); \
-    } while (0) /* bg_md.qer_id[32;0] */
-
-#define PIF_HEADER_GET_bg_md___encap_flag(_hdr_p) (((_hdr_p)->encap_flag)) /* bg_md.encap_flag [1;0] */
-
-#define PIF_HEADER_SET_bg_md___encap_flag(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->encap_flag = (unsigned)(((_val))); \
-    } while (0) /* bg_md.encap_flag[1;0] */
-
-#define PIF_HEADER_GET_bg_md___intf(_hdr_p) (((_hdr_p)->intf)) /* bg_md.intf [4;0] */
-
-#define PIF_HEADER_SET_bg_md___intf(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->intf = (unsigned)(((_val))); \
-    } while (0) /* bg_md.intf[4;0] */
-
-#define PIF_HEADER_GET_bg_md___bypass_modify_mac(_hdr_p) (((_hdr_p)->bypass_modify_mac)) /* bg_md.bypass_modify_mac [1;0] */
-
-#define PIF_HEADER_SET_bg_md___bypass_modify_mac(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->bypass_modify_mac = (unsigned)(((_val))); \
-    } while (0) /* bg_md.bypass_modify_mac[1;0] */
-
-#define PIF_HEADER_GET_bg_md____pad(_hdr_p) (((_hdr_p)->_pad)) /* bg_md._pad [4;0] */
-
-#define PIF_HEADER_SET_bg_md____pad(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->_pad = (unsigned)(((_val))); \
-    } while (0) /* bg_md._pad[4;0] */
-
-#define PIF_HEADER_GET_bg_md___qfi(_hdr_p) (((_hdr_p)->qfi)) /* bg_md.qfi [6;0] */
-
-#define PIF_HEADER_SET_bg_md___qfi(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->qfi = (unsigned)(((_val))); \
-    } while (0) /* bg_md.qfi[6;0] */
-
-
 /* standard_metadata (16B) */
 struct pif_header_standard_metadata {
     unsigned int clone_spec:32;
@@ -922,12 +860,12 @@ struct pif_header_scalars {
     unsigned int metadata_t__l4_inner_dst_port:16;
     unsigned int metadata_t__l4_src_port:16;
     unsigned int metadata_t__l4_dst_port:16;
+    unsigned int metadata_t__decap_flag:8;
+    unsigned int metadata_t__intf:8;
     unsigned int metadata_t__qfi:6;
-    unsigned int metadata_t__intf:4;
     unsigned int metadata_t__bypass_modify_mac:1;
-    unsigned int metadata_t__decap_flag:1;
     unsigned int metadata_t__encap_flag:1;
-    unsigned int _padding_0:19;
+    unsigned int _padding_0:8;
 };
 
 /* scalars field accessor macros */
@@ -966,19 +904,26 @@ struct pif_header_scalars {
         (_hdr_p)->metadata_t__l4_dst_port = (unsigned)(((_val))); \
     } while (0) /* scalars.metadata_t__l4_dst_port[16;0] */
 
+#define PIF_HEADER_GET_scalars___metadata_t__decap_flag(_hdr_p) (((_hdr_p)->metadata_t__decap_flag)) /* scalars.metadata_t__decap_flag [8;0] */
+
+#define PIF_HEADER_SET_scalars___metadata_t__decap_flag(_hdr_p, _val) \
+    do { \
+        (_hdr_p)->metadata_t__decap_flag = (unsigned)(((_val))); \
+    } while (0) /* scalars.metadata_t__decap_flag[8;0] */
+
+#define PIF_HEADER_GET_scalars___metadata_t__intf(_hdr_p) (((_hdr_p)->metadata_t__intf)) /* scalars.metadata_t__intf [8;0] */
+
+#define PIF_HEADER_SET_scalars___metadata_t__intf(_hdr_p, _val) \
+    do { \
+        (_hdr_p)->metadata_t__intf = (unsigned)(((_val))); \
+    } while (0) /* scalars.metadata_t__intf[8;0] */
+
 #define PIF_HEADER_GET_scalars___metadata_t__qfi(_hdr_p) (((_hdr_p)->metadata_t__qfi)) /* scalars.metadata_t__qfi [6;0] */
 
 #define PIF_HEADER_SET_scalars___metadata_t__qfi(_hdr_p, _val) \
     do { \
         (_hdr_p)->metadata_t__qfi = (unsigned)(((_val))); \
     } while (0) /* scalars.metadata_t__qfi[6;0] */
-
-#define PIF_HEADER_GET_scalars___metadata_t__intf(_hdr_p) (((_hdr_p)->metadata_t__intf)) /* scalars.metadata_t__intf [4;0] */
-
-#define PIF_HEADER_SET_scalars___metadata_t__intf(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->metadata_t__intf = (unsigned)(((_val))); \
-    } while (0) /* scalars.metadata_t__intf[4;0] */
 
 #define PIF_HEADER_GET_scalars___metadata_t__bypass_modify_mac(_hdr_p) (((_hdr_p)->metadata_t__bypass_modify_mac)) /* scalars.metadata_t__bypass_modify_mac [1;0] */
 
@@ -987,13 +932,6 @@ struct pif_header_scalars {
         (_hdr_p)->metadata_t__bypass_modify_mac = (unsigned)(((_val))); \
     } while (0) /* scalars.metadata_t__bypass_modify_mac[1;0] */
 
-#define PIF_HEADER_GET_scalars___metadata_t__decap_flag(_hdr_p) (((_hdr_p)->metadata_t__decap_flag)) /* scalars.metadata_t__decap_flag [1;0] */
-
-#define PIF_HEADER_SET_scalars___metadata_t__decap_flag(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->metadata_t__decap_flag = (unsigned)(((_val))); \
-    } while (0) /* scalars.metadata_t__decap_flag[1;0] */
-
 #define PIF_HEADER_GET_scalars___metadata_t__encap_flag(_hdr_p) (((_hdr_p)->metadata_t__encap_flag)) /* scalars.metadata_t__encap_flag [1;0] */
 
 #define PIF_HEADER_SET_scalars___metadata_t__encap_flag(_hdr_p, _val) \
@@ -1001,12 +939,12 @@ struct pif_header_scalars {
         (_hdr_p)->metadata_t__encap_flag = (unsigned)(((_val))); \
     } while (0) /* scalars.metadata_t__encap_flag[1;0] */
 
-#define PIF_HEADER_GET_scalars____padding_0(_hdr_p) (((_hdr_p)->_padding_0)) /* scalars._padding_0 [19;0] */
+#define PIF_HEADER_GET_scalars____padding_0(_hdr_p) (((_hdr_p)->_padding_0)) /* scalars._padding_0 [8;0] */
 
 #define PIF_HEADER_SET_scalars____padding_0(_hdr_p, _val) \
     do { \
         (_hdr_p)->_padding_0 = (unsigned)(((_val))); \
-    } while (0) /* scalars._padding_0[19;0] */
+    } while (0) /* scalars._padding_0[8;0] */
 
 
 

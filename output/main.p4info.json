@@ -30,39 +30,21 @@
   },
   {
    "preamble": {
-    "id": 33565433,
-    "name": "pdr_ingress",
-    "alias": "pdr_ingress"
+    "id": 33597227,
+    "name": "pdr_ingress_table",
+    "alias": "pdr_ingress_table"
    },
    "matchFields": [
     {
      "id": 1,
      "name": "hdr.ipv4.src_addr",
      "bitwidth": 32,
-     "matchType": "TERNARY"
+     "matchType": "EXACT"
     },
     {
      "id": 2,
-     "name": "hdr.ipv4.dst_addr",
-     "bitwidth": 32,
-     "matchType": "TERNARY"
-    },
-    {
-     "id": 3,
-     "name": "hdr.inner_ipv4.src_addr",
-     "bitwidth": 32,
-     "matchType": "TERNARY"
-    },
-    {
-     "id": 4,
-     "name": "hdr.gtpu.teid",
-     "bitwidth": 32,
-     "matchType": "TERNARY"
-    },
-    {
-     "id": 5,
      "name": "meta.intf",
-     "bitwidth": 4,
+     "bitwidth": 8,
      "matchType": "EXACT"
     }
    ],
@@ -82,9 +64,9 @@
   },
   {
    "preamble": {
-    "id": 33569260,
-    "name": "far_ingress",
-    "alias": "far_ingress"
+    "id": 33611948,
+    "name": "far_egress_table",
+    "alias": "far_egress_table"
    },
    "matchFields": [
     {
@@ -96,10 +78,7 @@
    ],
    "actionRefs": [
     {
-     "id": 16818617
-    },
-    {
-     "id": 16793508
+     "id": 16830914
     },
     {
      "id": 16800567,
@@ -122,13 +101,6 @@
   },
   {
    "preamble": {
-    "id": 16817907,
-    "name": "gtp_decap",
-    "alias": "gtp_decap"
-   }
-  },
-  {
-   "preamble": {
     "id": 16819508,
     "name": "set_src_intf",
     "alias": "set_src_intf"
@@ -137,7 +109,22 @@
     {
      "id": 1,
      "name": "src_intf",
-     "bitwidth": 4
+     "bitwidth": 8
+    },
+    {
+     "id": 2,
+     "name": "port",
+     "bitwidth": 16
+    },
+    {
+     "id": 3,
+     "name": "src_mac",
+     "bitwidth": 48
+    },
+    {
+     "id": 4,
+     "name": "dst_mac",
+     "bitwidth": 48
     }
    ]
   },
@@ -156,35 +143,33 @@
     {
      "id": 2,
      "name": "must_decap",
-     "bitwidth": 1
+     "bitwidth": 8
     }
    ]
   },
   {
    "preamble": {
-    "id": 16818617,
-    "name": "set_egress_port_and_encap",
-    "alias": "set_egress_port_and_encap"
+    "id": 16830914,
+    "name": "gtp_encap",
+    "alias": "gtp_encap"
    },
    "params": [
     {
      "id": 1,
-     "name": "port",
-     "bitwidth": 16
+     "name": "teid",
+     "bitwidth": 32
     },
     {
      "id": 2,
-     "name": "do_encap",
-     "bitwidth": 1
+     "name": "ran_ip",
+     "bitwidth": 32
+    },
+    {
+     "id": 3,
+     "name": "upf_ip",
+     "bitwidth": 32
     }
    ]
-  },
-  {
-   "preamble": {
-    "id": 16793508,
-    "name": "drop",
-    "alias": "drop"
-   }
   }
  ]
 }
