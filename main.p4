@@ -260,6 +260,8 @@ parser MyParser(
         meta.l4_inner_dst_port = hdr.inner_tcp.dst_port;
         transition accept;
     }
+
+
 }
 
 /*************************************************************************
@@ -288,8 +290,8 @@ control MyIngress(
         // hdr.ipv6.setInvalid();
         hdr.udp.setInvalid();
         hdr.gtpu.setInvalid();
-        hdr.gtpu_option.setInvalid();
-        hdr.gtpu_ex.setInvalid();
+        //hdr.gtpu_option.setInvalid();
+        //hdr.gtpu_ex.setInvalid();
     }
 
     action set_src_intf(bit<8> src_intf, bit<16> port, 
@@ -349,6 +351,22 @@ control MyIngress(
         hdr.ipv4.setValid();
         hdr.udp.setValid();
         hdr.gtpu.setValid();
+        hdr.inner_ipv4.setValid();
+
+
+        hdr.inner_ipv4.version=hdr.ipv4.version;
+        hdr.inner_ipv4.ihl=hdr.ipv4.ihl;
+        hdr.inner_ipv4.dscp=hdr.ipv4.dscp;
+        hdr.inner_ipv4.ecn=hdr.ipv4.ecn;
+        hdr.inner_ipv4.len=hdr.ipv4.len;
+        hdr.inner_ipv4.identification=hdr.ipv4.identification;
+        hdr.inner_ipv4.flags=hdr.ipv4.flags;
+        hdr.inner_ipv4.frag_offset=hdr.ipv4.frag_offset;
+        hdr.inner_ipv4.ttl=hdr.ipv4.ttl;
+        hdr.inner_ipv4.protocol=hdr.ipv4.protocol;
+        hdr.inner_ipv4.hdr_checksum=hdr.ipv4.hdr_checksum;
+        hdr.inner_ipv4.src_addr=hdr.ipv4.src_addr;
+        hdr.inner_ipv4.dst_addr=hdr.ipv4.dst_addr;
 
         hdr.gtpu.version = GTPU_VERSION;
         hdr.gtpu.pt = GTP_PROTOCOL_TYPE_GTP;
@@ -382,21 +400,6 @@ control MyIngress(
         hdr.ipv4.hdr_checksum = 0; // Update later
     }
 
-    table far_ingress_table {
-        key = {
-            meta.far_id:   exact;
-        }
-
-        actions = {
-            set_egress_port_and_encap;
-            drop;
-            @defaultonly NoAction;
-        }
-        // size = 32768;
-        size = 16384;
-        const default_action = NoAction;
-    }
-
     table far_egress_table {
         key = {
             meta.far_id: exact;
@@ -413,12 +416,21 @@ control MyIngress(
 
     /******************* Apply ******************/
     apply {
+        if(hdr.udp.isValid()) {
+            if(meta.l4_src_port!=2152){
+                hdr.inner_udp.setValid();
+                hdr.inner_udp.src_port = hdr.udp.src_port;
+                hdr.inner_udp.dst_port = hdr.udp.dst_port;
+                hdr.inner_udp.len = hdr.udp.len;
+                hdr.inner_udp.checksum = hdr.udp.checksum;
+                hdr.udp.setInvalid();
+            }
+        }
         src_intf_table.apply();
         pdr_ingress_table.apply();
-        //if (meta.decap_flag == 1) {
-        //    gtp_decap();
-        //}
-        //far_ingress_table.apply();
+        if (meta.decap_flag == 1) {
+            gtp_decap();
+        }
         far_egress_table.apply();
     }
 }

@@ -1134,9 +1134,10 @@ _pif_parrep_label_exit:
 #ifndef PIF_GLOBAL_FLOWCACHE_DISABLED
     {
         __lmem struct pif_header_standard_metadata *standard_metadata = (__lmem struct pif_header_standard_metadata *)(parrep + PIF_PARREP_standard_metadata_OFF_LW);
+        __lmem struct pif_header_scalars *scalars = (__lmem struct pif_header_scalars *)(parrep + PIF_PARREP_scalars_OFF_LW);
         __lmem struct pif_global_flowkey_metadata *_pif_fk = (__lmem struct pif_global_flowkey_metadata *)(_pif_parrep_fk_ptr + *_pif_parrep_fk_len);
         _pif_fk->standard_metadata__ingress_port = standard_metadata->ingress_port;
-        _pif_fk->__padding = 0;
+        _pif_fk->scalars__metadata_t__l4_src_port = scalars->metadata_t__l4_src_port;
         (*_pif_parrep_fk_len) += 1;
         }
     _pif_parrep_fk_ptr[(*_pif_parrep_fk_len) + 0] = _pif_parrep[PIF_PARREP_CTLDATA_OFF_LW + 0] & 0x88000000;

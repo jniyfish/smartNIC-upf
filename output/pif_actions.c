@@ -59,10 +59,12 @@ static int pif_action_exec_ingress__gtp_encap(__lmem uint32_t *_pif_parrep, __xr
     inner_ipv4 = (__lmem struct pif_header_inner_ipv4 *) (_pif_parrep + PIF_PARREP_inner_ipv4_OFF_LW);
     ipv4 = (__lmem struct pif_header_ipv4 *) (_pif_parrep + PIF_PARREP_ipv4_OFF_LW);
     gtpu = (__lmem struct pif_header_gtpu *) (_pif_parrep + PIF_PARREP_gtpu_OFF_LW);
-    PIF_PARREP_SET_gtpu_DIRTY(_pif_ctldata);
+    PIF_PARREP_SET_inner_ipv4_DIRTY(_pif_ctldata);
     PIF_PARREP_SET_ipv4_DIRTY(_pif_ctldata);
     PIF_PARREP_SET_udp_DIRTY(_pif_ctldata);
+    PIF_PARREP_SET_gtpu_DIRTY(_pif_ctldata);
 
+    PIF_FLCALC_UPD_INCR_CLEAR(PIF_FLCALC_CALC_0);
     PIF_FLCALC_UPD_INCR_CLEAR(PIF_FLCALC_CALC);
     {
         /* add_header(ipv4) */
@@ -105,6 +107,111 @@ static int pif_action_exec_ingress__gtp_encap(__lmem uint32_t *_pif_parrep, __xr
             }
             PIF_PARREP_SET_gtpu_VALID(_pif_ctldata);
         }
+    }
+    {
+        /* add_header(inner_ipv4) */
+
+        /* primitive body */
+        {
+            /* zero headers for P4-14 spec compliance */
+            if (!PIF_PARREP_inner_ipv4_VALID(_pif_ctldata)) {
+                int i;
+                for (i = 0; i < PIF_PARREP_inner_ipv4_LEN_LW; i++)
+                    ((__lmem uint32_t *)inner_ipv4)[i] = 0;
+            }
+            PIF_PARREP_SET_inner_ipv4_VALID(_pif_ctldata);
+        }
+    }
+    {
+        /* modify_field(inner_ipv4.version,ipv4.version) */
+
+        /* primitive body */
+        inner_ipv4->version = ipv4->version;
+
+    }
+    {
+        /* modify_field(inner_ipv4.ihl,ipv4.ihl) */
+
+        /* primitive body */
+        inner_ipv4->ihl = ipv4->ihl;
+
+    }
+    {
+        /* modify_field(inner_ipv4.dscp,ipv4.dscp) */
+
+        /* primitive body */
+        inner_ipv4->dscp = ipv4->dscp;
+
+    }
+    {
+        /* modify_field(inner_ipv4.ecn,ipv4.ecn) */
+
+        /* primitive body */
+        inner_ipv4->ecn = ipv4->ecn;
+
+    }
+    {
+        /* modify_field(inner_ipv4.len,ipv4.len) */
+
+        /* primitive body */
+        inner_ipv4->len = ipv4->len;
+
+    }
+    {
+        /* modify_field(inner_ipv4.identification,ipv4.identification) */
+
+        /* primitive body */
+        inner_ipv4->identification = ipv4->identification;
+
+    }
+    {
+        /* modify_field(inner_ipv4.flags,ipv4.flags) */
+
+        /* primitive body */
+        inner_ipv4->flags = ipv4->flags;
+
+    }
+    {
+        /* modify_field(inner_ipv4.frag_offset,ipv4.frag_offset) */
+
+        /* primitive body */
+        inner_ipv4->frag_offset = ipv4->frag_offset;
+
+    }
+    {
+        /* modify_field(inner_ipv4.ttl,ipv4.ttl) */
+
+        /* primitive body */
+        inner_ipv4->ttl = ipv4->ttl;
+
+    }
+    {
+        /* modify_field(inner_ipv4.protocol,ipv4.protocol) */
+
+        /* primitive body */
+        inner_ipv4->protocol = ipv4->protocol;
+
+    }
+    {
+        /* modify_field(inner_ipv4.hdr_checksum,ipv4.hdr_checksum) */
+
+        /* primitive body */
+        inner_ipv4->hdr_checksum = ipv4->hdr_checksum;
+
+    }
+    {
+        /* modify_field(inner_ipv4.src_addr,ipv4.src_addr) */
+
+        /* primitive body */
+        inner_ipv4->src_addr = ipv4->src_addr;
+
+    }
+    {
+        /* modify_field(inner_ipv4.dst_addr,ipv4.dst_addr) */
+
+        /* primitive body */
+        inner_ipv4->dst_addr = ipv4->dst_addr;
+
     }
     {
         /* modify_field(gtpu.version,0x01) */
@@ -156,10 +263,10 @@ static int pif_action_exec_ingress__gtp_encap(__lmem uint32_t *_pif_parrep, __xr
 
     }
     {
-        /* modify_field(gtpu.msglen,inner_ipv4.len) */
+        /* modify_field(gtpu.msglen,ipv4.len) */
 
         /* primitive body */
-        gtpu->msglen = inner_ipv4->len;
+        gtpu->msglen = ipv4->len;
 
     }
     {
@@ -188,22 +295,22 @@ static int pif_action_exec_ingress__gtp_encap(__lmem uint32_t *_pif_parrep, __xr
         unsigned int pif_expression__expression_gtp_encap_0_register_2;
 
         /* primitive body */
-        //expression _expression_gtp_encap_0: ((((inner_ipv4.len) + (0x0010))) & (0xffff))
+        //expression _expression_gtp_encap_0: ((((ipv4.len) + (0x0010))) & (0xffff))
         {
         unsigned int pif_expression__expression_gtp_encap_0_register_0;
         unsigned int pif_expression__expression_gtp_encap_0_register_1;
         //subexpression 4: 0x0010
         // constant : 0x10
 
-        //subexpression 1: (inner_ipv4.len)+(0x0010)
-        pif_expression__expression_gtp_encap_0_register_1 = inner_ipv4->len;
+        //subexpression 1: (ipv4.len)+(0x0010)
+        pif_expression__expression_gtp_encap_0_register_1 = ipv4->len;
         pif_expression__expression_gtp_encap_0_register_2 = 0x10;
         pif_expression__expression_gtp_encap_0_register_0 = pif_expression__expression_gtp_encap_0_register_1 + pif_expression__expression_gtp_encap_0_register_2;
         pif_expression__expression_gtp_encap_0_register_0 &= 0xffff;
         //subexpression 2: 0xffff
         // constant : 0xffff
 
-        //subexpression 0: (((inner_ipv4.len)+(0x0010)))&(0xffff)
+        //subexpression 0: (((ipv4.len)+(0x0010)))&(0xffff)
         pif_expression__expression_gtp_encap_0_register_1 = 0xffff;
         pif_expression__expression_gtp_encap_0_register_2 = pif_expression__expression_gtp_encap_0_register_0 & pif_expression__expression_gtp_encap_0_register_1;
         }
@@ -244,22 +351,22 @@ static int pif_action_exec_ingress__gtp_encap(__lmem uint32_t *_pif_parrep, __xr
         unsigned int pif_expression__expression_gtp_encap_1_register_2;
 
         /* primitive body */
-        //expression _expression_gtp_encap_1: ((((inner_ipv4.len) + (0x0024))) & (0xffff))
+        //expression _expression_gtp_encap_1: ((((ipv4.len) + (0x0024))) & (0xffff))
         {
         unsigned int pif_expression__expression_gtp_encap_1_register_0;
         unsigned int pif_expression__expression_gtp_encap_1_register_1;
         //subexpression 4: 0x0024
         // constant : 0x24
 
-        //subexpression 1: (inner_ipv4.len)+(0x0024)
-        pif_expression__expression_gtp_encap_1_register_1 = inner_ipv4->len;
+        //subexpression 1: (ipv4.len)+(0x0024)
+        pif_expression__expression_gtp_encap_1_register_1 = ipv4->len;
         pif_expression__expression_gtp_encap_1_register_2 = 0x24;
         pif_expression__expression_gtp_encap_1_register_0 = pif_expression__expression_gtp_encap_1_register_1 + pif_expression__expression_gtp_encap_1_register_2;
         pif_expression__expression_gtp_encap_1_register_0 &= 0xffff;
         //subexpression 2: 0xffff
         // constant : 0xffff
 
-        //subexpression 0: (((inner_ipv4.len)+(0x0024)))&(0xffff)
+        //subexpression 0: (((ipv4.len)+(0x0024)))&(0xffff)
         pif_expression__expression_gtp_encap_1_register_1 = 0xffff;
         pif_expression__expression_gtp_encap_1_register_2 = pif_expression__expression_gtp_encap_1_register_0 & pif_expression__expression_gtp_encap_1_register_1;
         }
@@ -401,6 +508,171 @@ static int pif_action_exec_ingress__set_src_intf(__lmem uint32_t *_pif_parrep, _
     return _pif_return;
 }
 
+static int pif_action_exec_ingress__act(__lmem uint32_t *_pif_parrep, __xread uint32_t *_pif_actdatabuf, unsigned _pif_debug)
+{
+    int _pif_return = PIF_RETURN_FORWARD;
+    __xread struct pif_action_actiondata_ingress__act *_pif_act_data = (__xread struct pif_action_actiondata_ingress__act *)_pif_actdatabuf;
+    __lmem struct pif_parrep_ctldata *_pif_ctldata = (__lmem struct pif_parrep_ctldata *)(_pif_parrep + PIF_PARREP_CTLDATA_OFF_LW);
+    __lmem struct pif_header_udp *udp;
+    __lmem struct pif_header_inner_udp *inner_udp;
+#ifdef PIF_DEBUG
+    if (_pif_debug & PIF_ACTION_OPDATA_DBGFLAG_BREAK) {
+        /* copy the table number and rule number into mailboxes */
+        unsigned int temp0, temp1;
+        temp0 = local_csr_read(local_csr_mailbox_2);
+        temp1 = local_csr_read(local_csr_mailbox_3);
+        local_csr_write(local_csr_mailbox_2, _pif_act_data->__pif_rule_no);
+        local_csr_write(local_csr_mailbox_3, _pif_act_data->__pif_table_no);
+#if SIMULATION == 1
+        __asm { /* add nops so mailboxes have time to propagate */
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        }
+#endif
+        __debug_label("pif_table_hit_ingress__act");
+        local_csr_write(local_csr_mailbox_2, temp0);
+        local_csr_write(local_csr_mailbox_3, temp1);
+    }
+#endif
+#ifdef PIF_DEBUG
+    __debug_label("pif_action_state_ingress__act");
+#endif
+
+    udp = (__lmem struct pif_header_udp *) (_pif_parrep + PIF_PARREP_udp_OFF_LW);
+    inner_udp = (__lmem struct pif_header_inner_udp *) (_pif_parrep + PIF_PARREP_inner_udp_OFF_LW);
+    PIF_PARREP_SET_udp_DIRTY(_pif_ctldata);
+    PIF_PARREP_SET_inner_udp_DIRTY(_pif_ctldata);
+
+    {
+        /* add_header(inner_udp) */
+
+        /* primitive body */
+        {
+            /* zero headers for P4-14 spec compliance */
+            if (!PIF_PARREP_inner_udp_VALID(_pif_ctldata)) {
+                int i;
+                for (i = 0; i < PIF_PARREP_inner_udp_LEN_LW; i++)
+                    ((__lmem uint32_t *)inner_udp)[i] = 0;
+            }
+            PIF_PARREP_SET_inner_udp_VALID(_pif_ctldata);
+        }
+    }
+    {
+        /* modify_field(inner_udp.src_port,udp.src_port) */
+
+        /* primitive body */
+        inner_udp->src_port = udp->src_port;
+
+    }
+    {
+        /* modify_field(inner_udp.dst_port,udp.dst_port) */
+
+        /* primitive body */
+        inner_udp->dst_port = udp->dst_port;
+
+    }
+    {
+        /* modify_field(inner_udp.len,udp.len) */
+
+        /* primitive body */
+        inner_udp->len = udp->len;
+
+    }
+    {
+        /* modify_field(inner_udp.checksum,udp.checksum) */
+
+        /* primitive body */
+        inner_udp->checksum = udp->checksum;
+
+    }
+    {
+        /* remove_header(udp) */
+
+        /* primitive body */
+        {
+            PIF_PARREP_CLEAR_udp_VALID(_pif_ctldata);
+        }
+    }
+    return _pif_return;
+}
+
+static int pif_action_exec_ingress__gtp_decap(__lmem uint32_t *_pif_parrep, __xread uint32_t *_pif_actdatabuf, unsigned _pif_debug)
+{
+    int _pif_return = PIF_RETURN_FORWARD;
+    __xread struct pif_action_actiondata_ingress__gtp_decap *_pif_act_data = (__xread struct pif_action_actiondata_ingress__gtp_decap *)_pif_actdatabuf;
+    __lmem struct pif_parrep_ctldata *_pif_ctldata = (__lmem struct pif_parrep_ctldata *)(_pif_parrep + PIF_PARREP_CTLDATA_OFF_LW);
+    __lmem struct pif_header_udp *udp;
+    __lmem struct pif_header_ipv4 *ipv4;
+    __lmem struct pif_header_gtpu *gtpu;
+#ifdef PIF_DEBUG
+    if (_pif_debug & PIF_ACTION_OPDATA_DBGFLAG_BREAK) {
+        /* copy the table number and rule number into mailboxes */
+        unsigned int temp0, temp1;
+        temp0 = local_csr_read(local_csr_mailbox_2);
+        temp1 = local_csr_read(local_csr_mailbox_3);
+        local_csr_write(local_csr_mailbox_2, _pif_act_data->__pif_rule_no);
+        local_csr_write(local_csr_mailbox_3, _pif_act_data->__pif_table_no);
+#if SIMULATION == 1
+        __asm { /* add nops so mailboxes have time to propagate */
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        }
+#endif
+        __debug_label("pif_table_hit_ingress__gtp_decap");
+        local_csr_write(local_csr_mailbox_2, temp0);
+        local_csr_write(local_csr_mailbox_3, temp1);
+    }
+#endif
+#ifdef PIF_DEBUG
+    __debug_label("pif_action_state_ingress__gtp_decap");
+#endif
+
+    udp = (__lmem struct pif_header_udp *) (_pif_parrep + PIF_PARREP_udp_OFF_LW);
+    ipv4 = (__lmem struct pif_header_ipv4 *) (_pif_parrep + PIF_PARREP_ipv4_OFF_LW);
+    gtpu = (__lmem struct pif_header_gtpu *) (_pif_parrep + PIF_PARREP_gtpu_OFF_LW);
+    PIF_PARREP_SET_udp_DIRTY(_pif_ctldata);
+    PIF_PARREP_SET_gtpu_DIRTY(_pif_ctldata);
+    PIF_PARREP_SET_ipv4_DIRTY(_pif_ctldata);
+
+    {
+        /* remove_header(ipv4) */
+
+        /* primitive body */
+        {
+            PIF_PARREP_CLEAR_ipv4_VALID(_pif_ctldata);
+        }
+    }
+    {
+        /* remove_header(udp) */
+
+        /* primitive body */
+        {
+            PIF_PARREP_CLEAR_udp_VALID(_pif_ctldata);
+        }
+    }
+    {
+        /* remove_header(gtpu) */
+
+        /* primitive body */
+        {
+            PIF_PARREP_CLEAR_gtpu_VALID(_pif_ctldata);
+        }
+    }
+    return _pif_return;
+}
+
 static int pif_action_exec_ingress__set_rules(__lmem uint32_t *_pif_parrep, __xread uint32_t *_pif_actdatabuf, unsigned _pif_debug)
 {
     int _pif_return = PIF_RETURN_FORWARD;
@@ -472,6 +744,12 @@ extern __forceinline int pif_action_exec_op(__lmem uint32_t *parrep, __xread uin
         break;
     case PIF_ACTION_ID_ingress__set_src_intf:
         ret = pif_action_exec_ingress__set_src_intf(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
+        break;
+    case PIF_ACTION_ID_ingress__act:
+        ret = pif_action_exec_ingress__act(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
+        break;
+    case PIF_ACTION_ID_ingress__gtp_decap:
+        ret = pif_action_exec_ingress__gtp_decap(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
         break;
     case PIF_ACTION_ID_ingress__set_rules:
         ret = pif_action_exec_ingress__set_rules(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);

@@ -17,6 +17,7 @@ extern __forceinline void pif_global_metadata_init(__lmem uint32_t *parrep)
     PIF_HEADER_SET_standard_metadata___ingress_port(standard_metadata, PIF_PKT_P4PORT(&pif_pkt_info_global));
     PIF_HEADER_SET_standard_metadata___instance_type(standard_metadata, 0);
     PIF_HEADER_SET_standard_metadata___egress_instance(standard_metadata, 0);
+    scalars->metadata_t__l4_src_port = 0x0;
     scalars->metadata_t__far_id = 0x0;
     scalars->metadata_t__intf = 0x0;
 }

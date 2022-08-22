@@ -31,16 +31,16 @@
                     "action": {
                         "data": {
                             "src_intf": {
-                                "value": "1"
+                                "value": "2"
                             },
                             "port": {
-                                "value": "p0"
+                                "value": "p1"
                             },
                             "src_mac": {
                                 "value": "00:15:4d:13:59:9d"
                             },
                             "dst_mac": {
-                                "value": "d8:c4:97:4d:da:ed"
+                                "value": "08:94:ef:94:2c:42"
                             }
                         }, 
                         "type": "ingress::set_src_intf"
@@ -48,7 +48,7 @@
                     "name": "two", 
                     "match": {
                         "standard_metadata.ingress_port": {
-                            "value": "p1"
+                            "value": "p0"
                         }
                     }
                 }
@@ -75,6 +75,28 @@
                         },
                         "scalars.metadata_t@intf": {
                             "value": "1"
+                        }
+                    }
+                },
+                {
+                    "action": {
+                        "data": {
+                            "far_id": {
+                                "value": "2"
+                            },
+                            "must_decap": {
+                                "value": "1"
+                            }
+                        }, 
+                        "type": "ingress::set_rules"
+                    }, 
+                    "name": "two", 
+                    "match": {
+                        "ipv4.src_addr": {
+                            "value": "10.100.100.1"
+                        },
+                        "scalars.metadata_t@intf": {
+                            "value": "2"
                         }
                     }
                 }

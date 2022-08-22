@@ -375,12 +375,12 @@ parser:
 ##########################################
 
 _expression_gtp_encap_0:
-    expression: ((((inner_ipv4.len) + (0x0010))) & (0xffff))
+    expression: ((((ipv4.len) + (0x0010))) & (0xffff))
     format: bracketed_expr
     type: expression
 
 _expression_gtp_encap_1:
-    expression: ((((inner_ipv4.len) + (0x0024))) & (0xffff))
+    expression: ((((ipv4.len) + (0x0024))) & (0xffff))
     format: bracketed_expr
     type: expression
 
@@ -389,11 +389,46 @@ _expression_gtp_encap_1:
 # Action sets                            #
 ##########################################
 
+ingress::act:
+    implementation: |-
+        add_header(inner_udp);
+        modify_field(inner_udp.src_port, udp.src_port);
+        modify_field(inner_udp.dst_port, udp.dst_port);
+        modify_field(inner_udp.len, udp.len);
+        modify_field(inner_udp.checksum, udp.checksum);
+        remove_header(udp);
+    src_filename: ''
+    src_lineno: 1
+    type: action
+
+ingress::gtp_decap:
+    implementation: |-
+        remove_header(ipv4);
+        remove_header(udp);
+        remove_header(gtpu);
+    src_filename: main.p4
+    src_lineno: 288
+    type: action
+
 ingress::gtp_encap:
     implementation: |-
         add_header(ipv4);
         add_header(udp);
         add_header(gtpu);
+        add_header(inner_ipv4);
+        modify_field(inner_ipv4.version, ipv4.version);
+        modify_field(inner_ipv4.ihl, ipv4.ihl);
+        modify_field(inner_ipv4.dscp, ipv4.dscp);
+        modify_field(inner_ipv4.ecn, ipv4.ecn);
+        modify_field(inner_ipv4.len, ipv4.len);
+        modify_field(inner_ipv4.identification, ipv4.identification);
+        modify_field(inner_ipv4.flags, ipv4.flags);
+        modify_field(inner_ipv4.frag_offset, ipv4.frag_offset);
+        modify_field(inner_ipv4.ttl, ipv4.ttl);
+        modify_field(inner_ipv4.protocol, ipv4.protocol);
+        modify_field(inner_ipv4.hdr_checksum, ipv4.hdr_checksum);
+        modify_field(inner_ipv4.src_addr, ipv4.src_addr);
+        modify_field(inner_ipv4.dst_addr, ipv4.dst_addr);
         modify_field(gtpu.version, 0x01);
         modify_field(gtpu.pt, 0x01);
         modify_field(gtpu.spare, 0x00);
@@ -401,7 +436,7 @@ ingress::gtp_encap:
         modify_field(gtpu.seq_flag, 0x00);
         modify_field(gtpu.npdu_flag, 0x00);
         modify_field(gtpu.msgtype, 0xff);
-        modify_field(gtpu.msglen, inner_ipv4.len);
+        modify_field(gtpu.msglen, ipv4.len);
         modify_field(gtpu.teid, teid);
         modify_field(udp.src_port, 0x0868);
         modify_field(udp.dst_port, 0x0868);
@@ -424,7 +459,7 @@ ingress::gtp_encap:
     -   ran_ip: 32
     -   upf_ip: 32
     src_filename: main.p4
-    src_lineno: 348
+    src_lineno: 350
     type: action
 
 ingress::set_rules:
@@ -435,7 +470,7 @@ ingress::set_rules:
     -   far_id: 32
     -   must_decap: 8
     src_filename: main.p4
-    src_lineno: 303
+    src_lineno: 305
     type: action
 
 ingress::set_src_intf:
@@ -450,7 +485,7 @@ ingress::set_src_intf:
     -   src_mac: 48
     -   dst_mac: 48
     src_filename: main.p4
-    src_lineno: 295
+    src_lineno: 297
     type: action
 
 
@@ -465,7 +500,7 @@ ingress::far_egress_table:
         scalars.metadata_t@far_id: exact
     max_entries: 16385
     src_filename: main.p4
-    src_lineno: 400
+    src_lineno: 403
     type: table
 
 ingress::pdr_ingress_table:
@@ -476,7 +511,7 @@ ingress::pdr_ingress_table:
         scalars.metadata_t@intf: exact
     max_entries: 24501
     src_filename: main.p4
-    src_lineno: 323
+    src_lineno: 325
     type: table
 
 ingress::src_intf_table:
@@ -486,8 +521,56 @@ ingress::src_intf_table:
         standard_metadata.ingress_port: exact
     max_entries: 33
     src_filename: main.p4
-    src_lineno: 310
+    src_lineno: 312
     type: table
+
+ingress::tbl_act:
+    allowed_actions:
+    - ingress::act
+    default_entry:
+        action: ingress::act
+        const: true
+    max_entries: 1025
+    src_filename: ''
+    src_lineno: 1
+    type: table
+
+ingress::tbl_gtp_decap:
+    allowed_actions:
+    - ingress::gtp_decap
+    default_entry:
+        action: ingress::gtp_decap
+        const: true
+    max_entries: 1025
+    src_filename: ''
+    src_lineno: 1
+    type: table
+
+
+##########################################
+# Ingress conditionals sets              #
+##########################################
+
+_condition_0:
+    condition: (valid(udp))
+    format: bracketed_expr
+    src_filename: main.p4
+    src_lineno: 419
+    type: conditional
+
+_condition_1:
+    condition: ((scalars.metadata_t@l4_src_port) != (2152))
+    format: bracketed_expr
+    src_filename: main.p4
+    src_lineno: 420
+    type: conditional
+
+_condition_2:
+    condition: ((scalars.metadata_t@decap_flag) == (1))
+    format: bracketed_expr
+    src_filename: main.p4
+    src_lineno: 431
+    type: conditional
 
 
 ##########################################
@@ -499,11 +582,19 @@ ingress_flow:
     format: dot
     implementation: |-
         digraph {
+            "_condition_0" -> "ingress::src_intf_table" [condition = false]
+            "_condition_0" -> "_condition_1" [condition = true]
             "ingress::src_intf_table" -> "ingress::pdr_ingress_table" [action = always]
-            "ingress::pdr_ingress_table" -> "ingress::far_egress_table" [action = always]
+            "ingress::pdr_ingress_table" -> "_condition_2" [action = always]
+            "_condition_2" -> "ingress::far_egress_table" [condition = false]
+            "_condition_2" -> "ingress::tbl_gtp_decap" [condition = true]
             "ingress::far_egress_table" -> "exit_control_flow" [action = always]
+            "ingress::tbl_gtp_decap" -> "ingress::far_egress_table" [action = always]
+            "_condition_1" -> "ingress::src_intf_table" [condition = false]
+            "_condition_1" -> "ingress::tbl_act" [condition = true]
+            "ingress::tbl_act" -> "ingress::src_intf_table" [action = always]
         }
-    start_state: ingress::src_intf_table
+    start_state: _condition_0
     type: control_flow
 
 
@@ -544,11 +635,12 @@ layout:
 ##########################################
 
 source_info:
-    date: 2022/08/21 04:42:29
+    date: 2022/08/22 09:37:25
     output_file: output/main.yml
     p4_version: '16'
     source_files:
     - main.p4
+    - ''
     - /opt/netronome/p4/include/16/p4include/core.p4
     type: source_info
 
