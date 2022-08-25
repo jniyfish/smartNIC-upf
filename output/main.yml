@@ -459,7 +459,7 @@ ingress::gtp_encap:
     -   ran_ip: 32
     -   upf_ip: 32
     src_filename: main.p4
-    src_lineno: 350
+    src_lineno: 344
     type: action
 
 ingress::set_rules:
@@ -470,22 +470,29 @@ ingress::set_rules:
     -   far_id: 32
     -   must_decap: 8
     src_filename: main.p4
-    src_lineno: 305
+    src_lineno: 299
     type: action
 
 ingress::set_src_intf:
     implementation: |-
         modify_field(scalars.metadata_t@intf, src_intf);
-        modify_field(ethernet.src_addr, src_mac);
-        modify_field(ethernet.dst_addr, dst_mac);
         modify_field(standard_metadata.egress_spec, port);
     parameter_list:
     -   src_intf: 8
     -   port: 16
+    src_filename: main.p4
+    src_lineno: 294
+    type: action
+
+ingress::update_mac:
+    implementation: |-
+        modify_field(ethernet.src_addr, src_mac);
+        modify_field(ethernet.dst_addr, dst_mac);
+    parameter_list:
     -   src_mac: 48
     -   dst_mac: 48
     src_filename: main.p4
-    src_lineno: 297
+    src_lineno: 411
     type: action
 
 
@@ -500,7 +507,7 @@ ingress::far_egress_table:
         scalars.metadata_t@far_id: exact
     max_entries: 16385
     src_filename: main.p4
-    src_lineno: 403
+    src_lineno: 397
     type: table
 
 ingress::pdr_ingress_table:
@@ -511,7 +518,18 @@ ingress::pdr_ingress_table:
         scalars.metadata_t@intf: exact
     max_entries: 24501
     src_filename: main.p4
-    src_lineno: 325
+    src_lineno: 319
+    type: table
+
+ingress::route:
+    allowed_actions:
+    - ingress::update_mac
+    match_on:
+        inner_ipv4.dst_addr: exact
+        ipv4.dst_addr: exact
+    max_entries: 5
+    src_filename: main.p4
+    src_lineno: 416
     type: table
 
 ingress::src_intf_table:
@@ -521,7 +539,7 @@ ingress::src_intf_table:
         standard_metadata.ingress_port: exact
     max_entries: 33
     src_filename: main.p4
-    src_lineno: 312
+    src_lineno: 306
     type: table
 
 ingress::tbl_act:
@@ -555,21 +573,21 @@ _condition_0:
     condition: (valid(udp))
     format: bracketed_expr
     src_filename: main.p4
-    src_lineno: 419
+    src_lineno: 431
     type: conditional
 
 _condition_1:
     condition: ((scalars.metadata_t@l4_src_port) != (2152))
     format: bracketed_expr
     src_filename: main.p4
-    src_lineno: 420
+    src_lineno: 432
     type: conditional
 
 _condition_2:
     condition: ((scalars.metadata_t@decap_flag) == (1))
     format: bracketed_expr
     src_filename: main.p4
-    src_lineno: 431
+    src_lineno: 445
     type: conditional
 
 
@@ -585,11 +603,12 @@ ingress_flow:
             "_condition_0" -> "ingress::src_intf_table" [condition = false]
             "_condition_0" -> "_condition_1" [condition = true]
             "ingress::src_intf_table" -> "ingress::pdr_ingress_table" [action = always]
-            "ingress::pdr_ingress_table" -> "_condition_2" [action = always]
-            "_condition_2" -> "ingress::far_egress_table" [condition = false]
+            "ingress::pdr_ingress_table" -> "ingress::far_egress_table" [action = always]
+            "ingress::far_egress_table" -> "ingress::route" [action = always]
+            "ingress::route" -> "_condition_2" [action = always]
+            "_condition_2" -> "exit_control_flow" [condition = false]
             "_condition_2" -> "ingress::tbl_gtp_decap" [condition = true]
-            "ingress::far_egress_table" -> "exit_control_flow" [action = always]
-            "ingress::tbl_gtp_decap" -> "ingress::far_egress_table" [action = always]
+            "ingress::tbl_gtp_decap" -> "exit_control_flow" [action = always]
             "_condition_1" -> "ingress::src_intf_table" [condition = false]
             "_condition_1" -> "ingress::tbl_act" [condition = true]
             "ingress::tbl_act" -> "ingress::src_intf_table" [action = always]
@@ -635,7 +654,7 @@ layout:
 ##########################################
 
 source_info:
-    date: 2022/08/22 09:37:25
+    date: 2022/08/25 06:52:18
     output_file: output/main.yml
     p4_version: '16'
     source_files:

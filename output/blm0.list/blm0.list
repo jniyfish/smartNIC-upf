@@ -2,7 +2,7 @@
 +switches:  
 +nfas_version: 6.1.0.1-preview.3243
 +nfas_date: Oct  9 2018 17:02:52
-+current_date: Mon Aug 22 17:37:29 2022
++current_date: Thu Aug 25 14:52:22 2022
 
 .chip_id AMDA0096-0001:0 0x10 0x10
 

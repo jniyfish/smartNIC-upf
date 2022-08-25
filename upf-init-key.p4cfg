@@ -10,12 +10,6 @@
                             },
                             "port": {
                                 "value": "p0"
-                            },
-                            "src_mac": {
-                                "value": "00:15:4d:13:59:9d"
-                            },
-                            "dst_mac": {
-                                "value": "d8:c4:97:4d:da:ec"
                             }
                         }, 
                         "type": "ingress::set_src_intf"
@@ -35,12 +29,6 @@
                             },
                             "port": {
                                 "value": "p1"
-                            },
-                            "src_mac": {
-                                "value": "00:15:4d:13:59:9d"
-                            },
-                            "dst_mac": {
-                                "value": "08:94:ef:94:2c:42"
                             }
                         }, 
                         "type": "ingress::set_src_intf"
@@ -82,7 +70,7 @@
                     "action": {
                         "data": {
                             "far_id": {
-                                "value": "2"
+                                "value": "3"
                             },
                             "must_decap": {
                                 "value": "1"
@@ -97,6 +85,28 @@
                         },
                         "scalars.metadata_t@intf": {
                             "value": "2"
+                        }
+                    }
+                },
+                {
+                    "action": {
+                        "data": {
+                            "far_id": {
+                                "value": "2"
+                            },
+                            "must_decap": {
+                                "value": "0"
+                            }
+                        }, 
+                        "type": "ingress::set_rules"
+                    }, 
+                    "name": "three", 
+                    "match": {
+                        "ipv4.src_addr": {
+                            "value": "10.0.100.2"
+                        },
+                        "scalars.metadata_t@intf": {
+                            "value": "1"
                         }
                     }
                 }
@@ -123,6 +133,67 @@
                     "match": {
                         "scalars.metadata_t@far_id": {
                             "value": "1"
+                        }
+                    }
+                }
+            ]
+        },
+        "ingress::route": {
+            "rules": [
+                {
+                    "action": {
+                        "data": {
+                            "src_mac": {
+                                "value": "00:15:4d:13:59:9d"
+                            },
+                            "dst_mac": {
+                                "value": "d8:c4:97:4d:da:ec"
+                            }
+                        }, 
+                        "type": "ingress::update_mac"
+                    }, 
+                    "name": "one", 
+                    "match": {
+                        "ipv4.dst_addr": {
+                            "value": "10.100.100.1"
+                        }
+                    }
+                },
+                {
+                    "action": {
+                        "data": {
+                            "src_mac": {
+                                "value": "00:15:4d:13:59:9d"
+                            },
+                            "dst_mac": {
+                                "value": "d8:c4:97:4d:da:ed"
+                            }
+                        }, 
+                        "type": "ingress::update_mac"
+                    }, 
+                    "name": "two", 
+                    "match": {
+                        "ipv4.dst_addr": {
+                            "value": "10.100.100.2"
+                        }
+                    }
+                },
+                {
+                    "action": {
+                        "data": {
+                            "src_mac": {
+                                "value": "00:15:4d:13:59:9d"
+                            },
+                            "dst_mac": {
+                                "value": "08:94:ef:94:2c:42"
+                            }
+                        }, 
+                        "type": "ingress::update_mac"
+                    }, 
+                    "name": "three", 
+                    "match": {
+                        "ipv4.dst_addr": {
+                            "value": "10.100.100.10"
                         }
                     }
                 }

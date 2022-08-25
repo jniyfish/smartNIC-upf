@@ -433,81 +433,6 @@ static int pif_action_exec_ingress__gtp_encap(__lmem uint32_t *_pif_parrep, __xr
     return _pif_return;
 }
 
-static int pif_action_exec_ingress__set_src_intf(__lmem uint32_t *_pif_parrep, __xread uint32_t *_pif_actdatabuf, unsigned _pif_debug)
-{
-    int _pif_return = PIF_RETURN_FORWARD;
-    __xread struct pif_action_actiondata_ingress__set_src_intf *_pif_act_data = (__xread struct pif_action_actiondata_ingress__set_src_intf *)_pif_actdatabuf;
-    __lmem struct pif_parrep_ctldata *_pif_ctldata = (__lmem struct pif_parrep_ctldata *)(_pif_parrep + PIF_PARREP_CTLDATA_OFF_LW);
-    __lmem struct pif_header_ethernet *ethernet;
-    __lmem struct pif_header_standard_metadata *standard_metadata;
-    __lmem struct pif_header_scalars *scalars;
-#ifdef PIF_DEBUG
-    if (_pif_debug & PIF_ACTION_OPDATA_DBGFLAG_BREAK) {
-        /* copy the table number and rule number into mailboxes */
-        unsigned int temp0, temp1;
-        temp0 = local_csr_read(local_csr_mailbox_2);
-        temp1 = local_csr_read(local_csr_mailbox_3);
-        local_csr_write(local_csr_mailbox_2, _pif_act_data->__pif_rule_no);
-        local_csr_write(local_csr_mailbox_3, _pif_act_data->__pif_table_no);
-#if SIMULATION == 1
-        __asm { /* add nops so mailboxes have time to propagate */
-        nop;
-        nop;
-        nop;
-        nop;
-        nop;
-        nop;
-        nop;
-        nop;
-        }
-#endif
-        __debug_label("pif_table_hit_ingress__set_src_intf");
-        local_csr_write(local_csr_mailbox_2, temp0);
-        local_csr_write(local_csr_mailbox_3, temp1);
-    }
-#endif
-#ifdef PIF_DEBUG
-    __debug_label("pif_action_state_ingress__set_src_intf");
-#endif
-
-    ethernet = (__lmem struct pif_header_ethernet *) (_pif_parrep + PIF_PARREP_ethernet_OFF_LW);
-    standard_metadata = (__lmem struct pif_header_standard_metadata *) (_pif_parrep + PIF_PARREP_standard_metadata_OFF_LW);
-    scalars = (__lmem struct pif_header_scalars *) (_pif_parrep + PIF_PARREP_scalars_OFF_LW);
-    PIF_PARREP_SET_ethernet_DIRTY(_pif_ctldata);
-
-    {
-        /* modify_field(scalars.metadata_t@intf,src_intf) */
-
-        /* primitive body */
-        scalars->metadata_t__intf = _pif_act_data->src_intf;
-
-    }
-    {
-        /* modify_field(ethernet.src_addr,src_mac) */
-
-        /* primitive body */
-        ethernet->src_addr = ((_pif_act_data->src_mac_1 >> 16) & 0xffff);
-        ethernet->__src_addr_1 = ((_pif_act_data->src_mac_1 & 0xffff) << 16) | _pif_act_data->src_mac_0;
-
-    }
-    {
-        /* modify_field(ethernet.dst_addr,dst_mac) */
-
-        /* primitive body */
-        ethernet->dst_addr = _pif_act_data->dst_mac_1;
-        ethernet->__dst_addr_1 = _pif_act_data->dst_mac_0;
-
-    }
-    {
-        /* modify_field(standard_metadata.egress_spec,port) */
-
-        /* primitive body */
-        standard_metadata->egress_spec = _pif_act_data->port;
-
-    }
-    return _pif_return;
-}
-
 static int pif_action_exec_ingress__act(__lmem uint32_t *_pif_parrep, __xread uint32_t *_pif_actdatabuf, unsigned _pif_debug)
 {
     int _pif_return = PIF_RETURN_FORWARD;
@@ -598,6 +523,62 @@ static int pif_action_exec_ingress__act(__lmem uint32_t *_pif_parrep, __xread ui
         {
             PIF_PARREP_CLEAR_udp_VALID(_pif_ctldata);
         }
+    }
+    return _pif_return;
+}
+
+static int pif_action_exec_ingress__set_src_intf(__lmem uint32_t *_pif_parrep, __xread uint32_t *_pif_actdatabuf, unsigned _pif_debug)
+{
+    int _pif_return = PIF_RETURN_FORWARD;
+    __xread struct pif_action_actiondata_ingress__set_src_intf *_pif_act_data = (__xread struct pif_action_actiondata_ingress__set_src_intf *)_pif_actdatabuf;
+    __lmem struct pif_parrep_ctldata *_pif_ctldata = (__lmem struct pif_parrep_ctldata *)(_pif_parrep + PIF_PARREP_CTLDATA_OFF_LW);
+    __lmem struct pif_header_scalars *scalars;
+    __lmem struct pif_header_standard_metadata *standard_metadata;
+#ifdef PIF_DEBUG
+    if (_pif_debug & PIF_ACTION_OPDATA_DBGFLAG_BREAK) {
+        /* copy the table number and rule number into mailboxes */
+        unsigned int temp0, temp1;
+        temp0 = local_csr_read(local_csr_mailbox_2);
+        temp1 = local_csr_read(local_csr_mailbox_3);
+        local_csr_write(local_csr_mailbox_2, _pif_act_data->__pif_rule_no);
+        local_csr_write(local_csr_mailbox_3, _pif_act_data->__pif_table_no);
+#if SIMULATION == 1
+        __asm { /* add nops so mailboxes have time to propagate */
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        }
+#endif
+        __debug_label("pif_table_hit_ingress__set_src_intf");
+        local_csr_write(local_csr_mailbox_2, temp0);
+        local_csr_write(local_csr_mailbox_3, temp1);
+    }
+#endif
+#ifdef PIF_DEBUG
+    __debug_label("pif_action_state_ingress__set_src_intf");
+#endif
+
+    scalars = (__lmem struct pif_header_scalars *) (_pif_parrep + PIF_PARREP_scalars_OFF_LW);
+    standard_metadata = (__lmem struct pif_header_standard_metadata *) (_pif_parrep + PIF_PARREP_standard_metadata_OFF_LW);
+
+    {
+        /* modify_field(scalars.metadata_t@intf,src_intf) */
+
+        /* primitive body */
+        scalars->metadata_t__intf = _pif_act_data->src_intf;
+
+    }
+    {
+        /* modify_field(standard_metadata.egress_spec,port) */
+
+        /* primitive body */
+        standard_metadata->egress_spec = _pif_act_data->port;
+
     }
     return _pif_return;
 }
@@ -727,6 +708,63 @@ static int pif_action_exec_ingress__set_rules(__lmem uint32_t *_pif_parrep, __xr
     return _pif_return;
 }
 
+static int pif_action_exec_ingress__update_mac(__lmem uint32_t *_pif_parrep, __xread uint32_t *_pif_actdatabuf, unsigned _pif_debug)
+{
+    int _pif_return = PIF_RETURN_FORWARD;
+    __xread struct pif_action_actiondata_ingress__update_mac *_pif_act_data = (__xread struct pif_action_actiondata_ingress__update_mac *)_pif_actdatabuf;
+    __lmem struct pif_parrep_ctldata *_pif_ctldata = (__lmem struct pif_parrep_ctldata *)(_pif_parrep + PIF_PARREP_CTLDATA_OFF_LW);
+    __lmem struct pif_header_ethernet *ethernet;
+#ifdef PIF_DEBUG
+    if (_pif_debug & PIF_ACTION_OPDATA_DBGFLAG_BREAK) {
+        /* copy the table number and rule number into mailboxes */
+        unsigned int temp0, temp1;
+        temp0 = local_csr_read(local_csr_mailbox_2);
+        temp1 = local_csr_read(local_csr_mailbox_3);
+        local_csr_write(local_csr_mailbox_2, _pif_act_data->__pif_rule_no);
+        local_csr_write(local_csr_mailbox_3, _pif_act_data->__pif_table_no);
+#if SIMULATION == 1
+        __asm { /* add nops so mailboxes have time to propagate */
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        nop;
+        }
+#endif
+        __debug_label("pif_table_hit_ingress__update_mac");
+        local_csr_write(local_csr_mailbox_2, temp0);
+        local_csr_write(local_csr_mailbox_3, temp1);
+    }
+#endif
+#ifdef PIF_DEBUG
+    __debug_label("pif_action_state_ingress__update_mac");
+#endif
+
+    ethernet = (__lmem struct pif_header_ethernet *) (_pif_parrep + PIF_PARREP_ethernet_OFF_LW);
+    PIF_PARREP_SET_ethernet_DIRTY(_pif_ctldata);
+
+    {
+        /* modify_field(ethernet.src_addr,src_mac) */
+
+        /* primitive body */
+        ethernet->src_addr = ((_pif_act_data->src_mac_1 >> 16) & 0xffff);
+        ethernet->__src_addr_1 = ((_pif_act_data->src_mac_1 & 0xffff) << 16) | _pif_act_data->src_mac_0;
+
+    }
+    {
+        /* modify_field(ethernet.dst_addr,dst_mac) */
+
+        /* primitive body */
+        ethernet->dst_addr = _pif_act_data->dst_mac_1;
+        ethernet->__dst_addr_1 = _pif_act_data->dst_mac_0;
+
+    }
+    return _pif_return;
+}
+
 extern __forceinline int pif_action_exec_op(__lmem uint32_t *parrep, __xread uint32_t *_actdata)
 {
     __xread union pif_action_opdata *opdata = (__xread union pif_action_opdata *) _actdata;
@@ -742,17 +780,20 @@ extern __forceinline int pif_action_exec_op(__lmem uint32_t *parrep, __xread uin
     case PIF_ACTION_ID_ingress__gtp_encap:
         ret = pif_action_exec_ingress__gtp_encap(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
         break;
-    case PIF_ACTION_ID_ingress__set_src_intf:
-        ret = pif_action_exec_ingress__set_src_intf(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
-        break;
     case PIF_ACTION_ID_ingress__act:
         ret = pif_action_exec_ingress__act(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
+        break;
+    case PIF_ACTION_ID_ingress__set_src_intf:
+        ret = pif_action_exec_ingress__set_src_intf(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
         break;
     case PIF_ACTION_ID_ingress__gtp_decap:
         ret = pif_action_exec_ingress__gtp_decap(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
         break;
     case PIF_ACTION_ID_ingress__set_rules:
         ret = pif_action_exec_ingress__set_rules(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
+        break;
+    case PIF_ACTION_ID_ingress__update_mac:
+        ret = pif_action_exec_ingress__update_mac(parrep, _actdata + PIF_ACTION_OPDATA_LW, opdata->dbg_flags);
         break;
     }
 #ifdef PIF_DEBUG

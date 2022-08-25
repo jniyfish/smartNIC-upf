@@ -287,18 +287,12 @@ control MyIngress(
     // A workaround for outer header removal
     action gtp_decap() {
         hdr.ipv4.setInvalid();
-        // hdr.ipv6.setInvalid();
         hdr.udp.setInvalid();
         hdr.gtpu.setInvalid();
-        //hdr.gtpu_option.setInvalid();
-        //hdr.gtpu_ex.setInvalid();
     }
 
-    action set_src_intf(bit<8> src_intf, bit<16> port, 
-            bit<48> src_mac, bit<48> dst_mac) {
+    action set_src_intf(bit<8> src_intf, bit<16> port) {
         meta.intf = src_intf;
-        hdr.ethernet.src_addr = src_mac;
-        hdr.ethernet.dst_addr = dst_mac;
         standard_metadata.egress_spec = port;
     }
 
@@ -414,6 +408,24 @@ control MyIngress(
         const default_action = NoAction;
     }
 
+    action update_mac(bit<48> src_mac, bit<48> dst_mac) {
+        hdr.ethernet.src_addr = src_mac;
+        hdr.ethernet.dst_addr = dst_mac;
+    }
+
+    table route {
+        key = {
+            hdr.inner_ipv4.dst_addr: exact;
+            hdr.ipv4.dst_addr: exact;
+        }
+        actions = {
+            update_mac;
+            @defaultonly NoAction;
+        }
+        size = 4;
+        const default_action = NoAction;
+    }
+
     /******************* Apply ******************/
     apply {
         if(hdr.udp.isValid()) {
@@ -428,10 +440,11 @@ control MyIngress(
         }
         src_intf_table.apply();
         pdr_ingress_table.apply();
+        far_egress_table.apply();
+        route.apply();
         if (meta.decap_flag == 1) {
             gtp_decap();
         }
-        far_egress_table.apply();
     }
 }
 

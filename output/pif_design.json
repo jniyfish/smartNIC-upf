@@ -1,19 +1,26 @@
 {
     "generic": {
         "tables_info": {
-            "ingress::pdr_ingress_table": {
-                "max_entries": 24501, 
-                "allowed_actions": [
-                    "ingress::set_rules"
-                ], 
-                "name": "ingress::pdr_ingress_table"
-            }, 
             "ingress::src_intf_table": {
                 "max_entries": 33, 
                 "allowed_actions": [
                     "ingress::set_src_intf"
                 ], 
                 "name": "ingress::src_intf_table"
+            }, 
+            "ingress::route": {
+                "max_entries": 5, 
+                "allowed_actions": [
+                    "ingress::update_mac"
+                ], 
+                "name": "ingress::route"
+            }, 
+            "ingress::pdr_ingress_table": {
+                "max_entries": 24501, 
+                "allowed_actions": [
+                    "ingress::set_rules"
+                ], 
+                "name": "ingress::pdr_ingress_table"
             }, 
             "ingress::far_egress_table": {
                 "max_entries": 16385, 
@@ -44,21 +51,9 @@
                     }
                 }
             }, 
-            "ingress::set_src_intf": {
-                "name": "ingress::set_src_intf", 
+            "ingress::act": {
+                "name": "ingress::act", 
                 "action_data": {
-                    "src_intf": {
-                        "size": 8
-                    }, 
-                    "port": {
-                        "size": 16
-                    }, 
-                    "src_mac": {
-                        "size": 48
-                    }, 
-                    "dst_mac": {
-                        "size": 48
-                    }, 
                     "__pif_rule_no": {
                         "size": 32
                     }, 
@@ -67,9 +62,15 @@
                     }
                 }
             }, 
-            "ingress::act": {
-                "name": "ingress::act", 
+            "ingress::update_mac": {
+                "name": "ingress::update_mac", 
                 "action_data": {
+                    "src_mac": {
+                        "size": 48
+                    }, 
+                    "dst_mac": {
+                        "size": 48
+                    }, 
                     "__pif_rule_no": {
                         "size": 32
                     }, 
@@ -105,19 +106,36 @@
                         "size": 32
                     }
                 }
+            }, 
+            "ingress::set_src_intf": {
+                "name": "ingress::set_src_intf", 
+                "action_data": {
+                    "src_intf": {
+                        "size": 8
+                    }, 
+                    "port": {
+                        "size": 16
+                    }, 
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }
             }
         }
     }, 
     "vendor": {
         "register_info": {}, 
         "backend_source_info": {
-            "date": "2022/08/22 09:37:25", 
+            "date": "2022/08/25 06:52:19", 
             "source_files": "output/main.yml"
         }, 
         "counters_info": {}, 
         "meter_info": {}, 
         "frontend_source_info": {
-            "date": "2022/08/22 09:37:25", 
+            "date": "2022/08/25 06:52:18", 
             "source_files": [
                 "main.p4", 
                 "", 
@@ -125,6 +143,99 @@
             ]
         }, 
         "tables_info": {
+            "ingress::src_intf_table": {
+                "name": "ingress::src_intf_table", 
+                "constant_default": false, 
+                "matches": [
+                    {
+                        "field": "standard_metadata.ingress_port", 
+                        "type": "exact", 
+                        "class": "field", 
+                        "lm_layout": [
+                            {
+                                "width": 16, 
+                                "fldbitoff": 0, 
+                                "name": "ingress_port", 
+                                "lmbitoff": 912
+                            }
+                        ]
+                    }
+                ], 
+                "allowed_actions": [
+                    "ingress::set_src_intf"
+                ], 
+                "id": 3, 
+                "max_entries": 33, 
+                "data_shift": 4, 
+                "rtsym": "_pif_actiondata_table_3_ingress__src_intf_table", 
+                "data_size": 16
+            }, 
+            "ingress::route": {
+                "name": "ingress::route", 
+                "constant_default": false, 
+                "matches": [
+                    {
+                        "field": "ipv4.dst_addr", 
+                        "type": "exact", 
+                        "class": "field", 
+                        "header_valid": {
+                            "header": "ipv4", 
+                            "type": "header_valid", 
+                            "class": "header_valid", 
+                            "lm_layout": [
+                                {
+                                    "width": 1, 
+                                    "name": "ipv4_valid", 
+                                    "value": 1, 
+                                    "lmbitoff": 27
+                                }
+                            ]
+                        }, 
+                        "lm_layout": [
+                            {
+                                "width": 32, 
+                                "fldbitoff": 0, 
+                                "name": "dst_addr", 
+                                "lmbitoff": 288
+                            }
+                        ]
+                    }, 
+                    {
+                        "field": "inner_ipv4.dst_addr", 
+                        "type": "exact", 
+                        "class": "field", 
+                        "header_valid": {
+                            "header": "inner_ipv4", 
+                            "type": "header_valid", 
+                            "class": "header_valid", 
+                            "lm_layout": [
+                                {
+                                    "width": 1, 
+                                    "name": "inner_ipv4_valid", 
+                                    "value": 1, 
+                                    "lmbitoff": 12
+                                }
+                            ]
+                        }, 
+                        "lm_layout": [
+                            {
+                                "width": 32, 
+                                "fldbitoff": 0, 
+                                "name": "dst_addr", 
+                                "lmbitoff": 640
+                            }
+                        ]
+                    }
+                ], 
+                "allowed_actions": [
+                    "ingress::update_mac"
+                ], 
+                "id": 0, 
+                "max_entries": 5, 
+                "data_shift": 5, 
+                "rtsym": "_pif_actiondata_table_0_ingress__route", 
+                "data_size": 32
+            }, 
             "ingress::pdr_ingress_table": {
                 "name": "ingress::pdr_ingress_table", 
                 "constant_default": false, 
@@ -172,37 +283,10 @@
                 "allowed_actions": [
                     "ingress::set_rules"
                 ], 
-                "id": 0, 
+                "id": 1, 
                 "max_entries": 24501, 
                 "data_shift": 5, 
-                "rtsym": "_pif_actiondata_table_0_ingress__pdr_ingress_table", 
-                "data_size": 32
-            }, 
-            "ingress::src_intf_table": {
-                "name": "ingress::src_intf_table", 
-                "constant_default": false, 
-                "matches": [
-                    {
-                        "field": "standard_metadata.ingress_port", 
-                        "type": "exact", 
-                        "class": "field", 
-                        "lm_layout": [
-                            {
-                                "width": 16, 
-                                "fldbitoff": 0, 
-                                "name": "ingress_port", 
-                                "lmbitoff": 912
-                            }
-                        ]
-                    }
-                ], 
-                "allowed_actions": [
-                    "ingress::set_src_intf"
-                ], 
-                "id": 1, 
-                "max_entries": 33, 
-                "data_shift": 5, 
-                "rtsym": "_pif_actiondata_table_1_ingress__src_intf_table", 
+                "rtsym": "_pif_actiondata_table_1_ingress__pdr_ingress_table", 
                 "data_size": 32
             }, 
             "ingress::far_egress_table": {
@@ -311,16 +395,48 @@
                 "id": 0, 
                 "tableno_field": "__pif_table_no"
             }, 
-            "ingress::set_src_intf": {
+            "ingress::act": {
                 "timeoutno_field": "", 
-                "name": "ingress::set_src_intf", 
+                "name": "ingress::act", 
                 "action_data": {
-                    "src_intf": {
-                        "size": 8
+                    "__pif_rule_no": {
+                        "size": 32
                     }, 
-                    "port": {
-                        "size": 16
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }, 
+                "ruleno_field": "__pif_rule_no", 
+                "action_data_packed": [
+                    {
+                        "actiondata": "__pif_rule_no", 
+                        "name": "__pif_rule_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
                     }, 
+                    {
+                        "actiondata": "__pif_table_no", 
+                        "name": "__pif_table_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }
+                ], 
+                "noeffect": false, 
+                "id": 1, 
+                "tableno_field": "__pif_table_no"
+            }, 
+            "ingress::update_mac": {
+                "timeoutno_field": "", 
+                "name": "ingress::update_mac", 
+                "action_data": {
                     "src_mac": {
                         "size": 48
                     }, 
@@ -379,16 +495,6 @@
                         "size": 32
                     }, 
                     {
-                        "actiondata": "port", 
-                        "name": "port", 
-                        "pad_cnt": 1, 
-                        "doc": null, 
-                        "pad_szbytes": 2, 
-                        "pad_type": "uint16_t", 
-                        "split": false, 
-                        "size": 16
-                    }, 
-                    {
                         "actiondata": "src_mac", 
                         "name": "src_mac_0", 
                         "pad_cnt": 1, 
@@ -409,68 +515,10 @@
                         "split": true, 
                         "size": 16, 
                         "splitoff": 0
-                    }, 
-                    {
-                        "actiondata": "src_intf", 
-                        "name": "src_intf", 
-                        "pad_cnt": 1, 
-                        "doc": null, 
-                        "pad_szbytes": 1, 
-                        "pad_type": "uint8_t", 
-                        "split": false, 
-                        "size": 8
-                    }, 
-                    {
-                        "pad_cnt": 1, 
-                        "pad_type": "uint8_t", 
-                        "actiondata": null, 
-                        "name": "__pif_padding", 
-                        "split": false, 
-                        "doc": "padding", 
-                        "pad_szbytes": 1, 
-                        "size": 8
                     }
                 ], 
                 "noeffect": false, 
-                "id": 1, 
-                "tableno_field": "__pif_table_no"
-            }, 
-            "ingress::act": {
-                "timeoutno_field": "", 
-                "name": "ingress::act", 
-                "action_data": {
-                    "__pif_rule_no": {
-                        "size": 32
-                    }, 
-                    "__pif_table_no": {
-                        "size": 32
-                    }
-                }, 
-                "ruleno_field": "__pif_rule_no", 
-                "action_data_packed": [
-                    {
-                        "actiondata": "__pif_rule_no", 
-                        "name": "__pif_rule_no", 
-                        "pad_cnt": 1, 
-                        "doc": null, 
-                        "pad_szbytes": 4, 
-                        "pad_type": "uint32_t", 
-                        "split": false, 
-                        "size": 32
-                    }, 
-                    {
-                        "actiondata": "__pif_table_no", 
-                        "name": "__pif_table_no", 
-                        "pad_cnt": 1, 
-                        "doc": null, 
-                        "pad_szbytes": 4, 
-                        "pad_type": "uint32_t", 
-                        "split": false, 
-                        "size": 32
-                    }
-                ], 
-                "noeffect": false, 
-                "id": 2, 
+                "id": 5, 
                 "tableno_field": "__pif_table_no"
             }, 
             "ingress::gtp_decap": {
@@ -584,6 +632,80 @@
                 "noeffect": false, 
                 "id": 4, 
                 "tableno_field": "__pif_table_no"
+            }, 
+            "ingress::set_src_intf": {
+                "timeoutno_field": "", 
+                "name": "ingress::set_src_intf", 
+                "action_data": {
+                    "src_intf": {
+                        "size": 8
+                    }, 
+                    "port": {
+                        "size": 16
+                    }, 
+                    "__pif_rule_no": {
+                        "size": 32
+                    }, 
+                    "__pif_table_no": {
+                        "size": 32
+                    }
+                }, 
+                "ruleno_field": "__pif_rule_no", 
+                "action_data_packed": [
+                    {
+                        "actiondata": "__pif_rule_no", 
+                        "name": "__pif_rule_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "__pif_table_no", 
+                        "name": "__pif_table_no", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 4, 
+                        "pad_type": "uint32_t", 
+                        "split": false, 
+                        "size": 32
+                    }, 
+                    {
+                        "actiondata": "port", 
+                        "name": "port", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 2, 
+                        "pad_type": "uint16_t", 
+                        "split": false, 
+                        "size": 16
+                    }, 
+                    {
+                        "actiondata": "src_intf", 
+                        "name": "src_intf", 
+                        "pad_cnt": 1, 
+                        "doc": null, 
+                        "pad_szbytes": 1, 
+                        "pad_type": "uint8_t", 
+                        "split": false, 
+                        "size": 8
+                    }, 
+                    {
+                        "pad_cnt": 1, 
+                        "pad_type": "uint8_t", 
+                        "actiondata": null, 
+                        "name": "__pif_padding", 
+                        "split": false, 
+                        "doc": "padding", 
+                        "pad_szbytes": 1, 
+                        "size": 8
+                    }
+                ], 
+                "noeffect": false, 
+                "id": 2, 
+                "tableno_field": "__pif_table_no"
             }
         }, 
         "multicast": {
@@ -601,9 +723,9 @@
         }, 
         "build_uuid": [
             2541216041, 
-            2554058948, 
-            570298861, 
-            134103221
+            2892552388, 
+            608309741, 
+            1986265960
         ], 
         "digests_info": {}, 
         "parser_value_set_info": {}
@@ -699,6 +821,40 @@
                 }, 
                 "constDefaultActionId": 16800567, 
                 "size": "16384"
+            }, 
+            {
+                "actionRefs": [
+                    {
+                        "id": 16778089
+                    }, 
+                    {
+                        "id": 16800567, 
+                        "annotations": [
+                            "@defaultonly()"
+                        ]
+                    }
+                ], 
+                "matchFields": [
+                    {
+                        "matchType": "EXACT", 
+                        "bitwidth": 32, 
+                        "id": 1, 
+                        "name": "hdr.inner_ipv4.dst_addr"
+                    }, 
+                    {
+                        "matchType": "EXACT", 
+                        "bitwidth": 32, 
+                        "id": 2, 
+                        "name": "hdr.ipv4.dst_addr"
+                    }
+                ], 
+                "preamble": {
+                    "alias": "route", 
+                    "id": 33571477, 
+                    "name": "route"
+                }, 
+                "constDefaultActionId": 16800567, 
+                "size": "4"
             }
         ], 
         "actions": [
@@ -727,16 +883,6 @@
                         "bitwidth": 16, 
                         "id": 2, 
                         "name": "port"
-                    }, 
-                    {
-                        "bitwidth": 48, 
-                        "id": 3, 
-                        "name": "src_mac"
-                    }, 
-                    {
-                        "bitwidth": 48, 
-                        "id": 4, 
-                        "name": "dst_mac"
                     }
                 ], 
                 "preamble": {
@@ -786,6 +932,25 @@
                     "alias": "gtp_encap", 
                     "id": 16830914, 
                     "name": "gtp_encap"
+                }
+            }, 
+            {
+                "params": [
+                    {
+                        "bitwidth": 48, 
+                        "id": 1, 
+                        "name": "src_mac"
+                    }, 
+                    {
+                        "bitwidth": 48, 
+                        "id": 2, 
+                        "name": "dst_mac"
+                    }
+                ], 
+                "preamble": {
+                    "alias": "update_mac", 
+                    "id": 16778089, 
+                    "name": "update_mac"
                 }
             }
         ]

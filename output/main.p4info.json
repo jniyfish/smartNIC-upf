@@ -89,6 +89,40 @@
    ],
    "constDefaultActionId": 16800567,
    "size": "16384"
+  },
+  {
+   "preamble": {
+    "id": 33571477,
+    "name": "route",
+    "alias": "route"
+   },
+   "matchFields": [
+    {
+     "id": 1,
+     "name": "hdr.inner_ipv4.dst_addr",
+     "bitwidth": 32,
+     "matchType": "EXACT"
+    },
+    {
+     "id": 2,
+     "name": "hdr.ipv4.dst_addr",
+     "bitwidth": 32,
+     "matchType": "EXACT"
+    }
+   ],
+   "actionRefs": [
+    {
+     "id": 16778089
+    },
+    {
+     "id": 16800567,
+     "annotations": [
+      "@defaultonly()"
+     ]
+    }
+   ],
+   "constDefaultActionId": 16800567,
+   "size": "4"
   }
  ],
  "actions": [
@@ -122,16 +156,6 @@
      "id": 2,
      "name": "port",
      "bitwidth": 16
-    },
-    {
-     "id": 3,
-     "name": "src_mac",
-     "bitwidth": 48
-    },
-    {
-     "id": 4,
-     "name": "dst_mac",
-     "bitwidth": 48
     }
    ]
   },
@@ -175,6 +199,25 @@
      "id": 3,
      "name": "upf_ip",
      "bitwidth": 32
+    }
+   ]
+  },
+  {
+   "preamble": {
+    "id": 16778089,
+    "name": "update_mac",
+    "alias": "update_mac"
+   },
+   "params": [
+    {
+     "id": 1,
+     "name": "src_mac",
+     "bitwidth": 48
+    },
+    {
+     "id": 2,
+     "name": "dst_mac",
+     "bitwidth": 48
     }
    ]
   }
