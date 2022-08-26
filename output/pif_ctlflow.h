@@ -19,9 +19,10 @@
 #define PIF_CTLFLOW_STATE_ingress_flow__condition_2 3
 #define PIF_CTLFLOW_STATE_ingress_flow__condition_0 4
 #define PIF_CTLFLOW_STATE_ingress_flow_ingress__tbl_gtp_decap 5
-#define PIF_CTLFLOW_STATE_ingress_flow__condition_1 6
-#define PIF_CTLFLOW_STATE_ingress_flow_ingress__pdr_ingress_table 7
-#define PIF_CTLFLOW_STATE_ingress_flow_ingress__far_egress_table 8
+#define PIF_CTLFLOW_STATE_ingress_flow_ingress__pdr_ingress_table_ul 6
+#define PIF_CTLFLOW_STATE_ingress_flow_ingress__pdr_ingress_table_dl 7
+#define PIF_CTLFLOW_STATE_ingress_flow__condition_1 8
+#define PIF_CTLFLOW_STATE_ingress_flow_ingress__far_egress_table 9
 
 /* Unified control state numbers */
 #define PIF_CTLFLOW_STATE_ingress__tbl_act 0
@@ -30,9 +31,10 @@
 #define PIF_CTLFLOW_STATE__condition_2 3
 #define PIF_CTLFLOW_STATE__condition_0 4
 #define PIF_CTLFLOW_STATE_ingress__tbl_gtp_decap 5
-#define PIF_CTLFLOW_STATE__condition_1 6
-#define PIF_CTLFLOW_STATE_ingress__pdr_ingress_table 7
-#define PIF_CTLFLOW_STATE_ingress__far_egress_table 8
+#define PIF_CTLFLOW_STATE_ingress__pdr_ingress_table_ul 6
+#define PIF_CTLFLOW_STATE_ingress__pdr_ingress_table_dl 7
+#define PIF_CTLFLOW_STATE__condition_1 8
+#define PIF_CTLFLOW_STATE_ingress__far_egress_table 9
 
 /* Control flow entry points  */
 int pif_ctlflow_ingress_flow(int *start_state, __lmem uint32_t *_pif_parrep, __mem __addr40 uint32_t *actbuf, unsigned int actbuf_off);

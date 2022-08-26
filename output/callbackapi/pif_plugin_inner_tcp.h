@@ -153,7 +153,7 @@ __forceinline PIF_PLUGIN_inner_tcp_T *pif_plugin_hdr_readonly_get_inner_tcp(EXTR
 __forceinline int pif_plugin_hdr_inner_tcp_add(EXTRACTED_HEADERS_T *extracted_headers)
 {
     __lmem struct pif_parrep_ctldata *_ctl = (__lmem struct pif_parrep_ctldata *)extracted_headers;
-    if (PIF_PARREP_T7_VALID(_ctl))
+    if (PIF_PARREP_T5_VALID(_ctl))
         return -1; /* either already present or incompatible header combination */
     PIF_PARREP_SET_inner_tcp_VALID(_ctl);
     return 0;

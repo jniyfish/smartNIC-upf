@@ -1,33 +1,40 @@
 {
     "generic": {
         "tables_info": {
+            "ingress::pdr_ingress_table_ul": {
+                "max_entries": 1025, 
+                "allowed_actions": [
+                    "ingress::set_rules"
+                ], 
+                "name": "ingress::pdr_ingress_table_ul"
+            }, 
+            "ingress::route": {
+                "max_entries": 1025, 
+                "allowed_actions": [
+                    "ingress::update_mac"
+                ], 
+                "name": "ingress::route"
+            }, 
+            "ingress::pdr_ingress_table_dl": {
+                "max_entries": 1025, 
+                "allowed_actions": [
+                    "ingress::set_rules"
+                ], 
+                "name": "ingress::pdr_ingress_table_dl"
+            }, 
+            "ingress::far_egress_table": {
+                "max_entries": 1025, 
+                "allowed_actions": [
+                    "ingress::gtp_encap"
+                ], 
+                "name": "ingress::far_egress_table"
+            }, 
             "ingress::src_intf_table": {
                 "max_entries": 33, 
                 "allowed_actions": [
                     "ingress::set_src_intf"
                 ], 
                 "name": "ingress::src_intf_table"
-            }, 
-            "ingress::route": {
-                "max_entries": 5, 
-                "allowed_actions": [
-                    "ingress::update_mac"
-                ], 
-                "name": "ingress::route"
-            }, 
-            "ingress::pdr_ingress_table": {
-                "max_entries": 24501, 
-                "allowed_actions": [
-                    "ingress::set_rules"
-                ], 
-                "name": "ingress::pdr_ingress_table"
-            }, 
-            "ingress::far_egress_table": {
-                "max_entries": 16385, 
-                "allowed_actions": [
-                    "ingress::gtp_encap"
-                ], 
-                "name": "ingress::far_egress_table"
             }
         }, 
         "action_info": {
@@ -129,13 +136,13 @@
     "vendor": {
         "register_info": {}, 
         "backend_source_info": {
-            "date": "2022/08/25 06:52:19", 
+            "date": "2022/08/26 16:36:20", 
             "source_files": "output/main.yml"
         }, 
         "counters_info": {}, 
         "meter_info": {}, 
         "frontend_source_info": {
-            "date": "2022/08/25 06:52:18", 
+            "date": "2022/08/26 16:36:19", 
             "source_files": [
                 "main.p4", 
                 "", 
@@ -143,32 +150,58 @@
             ]
         }, 
         "tables_info": {
-            "ingress::src_intf_table": {
-                "name": "ingress::src_intf_table", 
+            "ingress::pdr_ingress_table_ul": {
+                "name": "ingress::pdr_ingress_table_ul", 
                 "constant_default": false, 
                 "matches": [
                     {
-                        "field": "standard_metadata.ingress_port", 
+                        "field": "inner_ipv4.src_addr", 
+                        "type": "exact", 
+                        "class": "field", 
+                        "header_valid": {
+                            "header": "inner_ipv4", 
+                            "type": "header_valid", 
+                            "class": "header_valid", 
+                            "lm_layout": [
+                                {
+                                    "width": 1, 
+                                    "name": "inner_ipv4_valid", 
+                                    "value": 1, 
+                                    "lmbitoff": 18
+                                }
+                            ]
+                        }, 
+                        "lm_layout": [
+                            {
+                                "width": 32, 
+                                "fldbitoff": 0, 
+                                "name": "src_addr", 
+                                "lmbitoff": 544
+                            }
+                        ]
+                    }, 
+                    {
+                        "field": "scalars.metadata_t@intf", 
                         "type": "exact", 
                         "class": "field", 
                         "lm_layout": [
                             {
-                                "width": 16, 
+                                "width": 8, 
                                 "fldbitoff": 0, 
-                                "name": "ingress_port", 
-                                "lmbitoff": 912
+                                "name": "metadata_t__intf", 
+                                "lmbitoff": 1040
                             }
                         ]
                     }
                 ], 
                 "allowed_actions": [
-                    "ingress::set_src_intf"
+                    "ingress::set_rules"
                 ], 
                 "id": 3, 
-                "max_entries": 33, 
-                "data_shift": 4, 
-                "rtsym": "_pif_actiondata_table_3_ingress__src_intf_table", 
-                "data_size": 16
+                "max_entries": 1025, 
+                "data_shift": 5, 
+                "rtsym": "_pif_actiondata_table_3_ingress__pdr_ingress_table_ul", 
+                "data_size": 32
             }, 
             "ingress::route": {
                 "name": "ingress::route", 
@@ -213,7 +246,7 @@
                                     "width": 1, 
                                     "name": "inner_ipv4_valid", 
                                     "value": 1, 
-                                    "lmbitoff": 12
+                                    "lmbitoff": 18
                                 }
                             ]
                         }, 
@@ -222,7 +255,7 @@
                                 "width": 32, 
                                 "fldbitoff": 0, 
                                 "name": "dst_addr", 
-                                "lmbitoff": 640
+                                "lmbitoff": 576
                             }
                         ]
                     }
@@ -231,17 +264,17 @@
                     "ingress::update_mac"
                 ], 
                 "id": 0, 
-                "max_entries": 5, 
+                "max_entries": 1025, 
                 "data_shift": 5, 
                 "rtsym": "_pif_actiondata_table_0_ingress__route", 
                 "data_size": 32
             }, 
-            "ingress::pdr_ingress_table": {
-                "name": "ingress::pdr_ingress_table", 
+            "ingress::pdr_ingress_table_dl": {
+                "name": "ingress::pdr_ingress_table_dl", 
                 "constant_default": false, 
                 "matches": [
                     {
-                        "field": "ipv4.src_addr", 
+                        "field": "ipv4.dst_addr", 
                         "type": "exact", 
                         "class": "field", 
                         "header_valid": {
@@ -261,8 +294,8 @@
                             {
                                 "width": 32, 
                                 "fldbitoff": 0, 
-                                "name": "src_addr", 
-                                "lmbitoff": 256
+                                "name": "dst_addr", 
+                                "lmbitoff": 288
                             }
                         ]
                     }, 
@@ -275,7 +308,7 @@
                                 "width": 8, 
                                 "fldbitoff": 0, 
                                 "name": "metadata_t__intf", 
-                                "lmbitoff": 1072
+                                "lmbitoff": 1040
                             }
                         ]
                     }
@@ -284,9 +317,9 @@
                     "ingress::set_rules"
                 ], 
                 "id": 1, 
-                "max_entries": 24501, 
+                "max_entries": 1025, 
                 "data_shift": 5, 
-                "rtsym": "_pif_actiondata_table_1_ingress__pdr_ingress_table", 
+                "rtsym": "_pif_actiondata_table_1_ingress__pdr_ingress_table_dl", 
                 "data_size": 32
             }, 
             "ingress::far_egress_table": {
@@ -302,7 +335,7 @@
                                 "width": 32, 
                                 "fldbitoff": 0, 
                                 "name": "metadata_t__far_id", 
-                                "lmbitoff": 960
+                                "lmbitoff": 896
                             }
                         ]
                     }
@@ -310,11 +343,38 @@
                 "allowed_actions": [
                     "ingress::gtp_encap"
                 ], 
-                "id": 2, 
-                "max_entries": 16385, 
+                "id": 4, 
+                "max_entries": 1025, 
                 "data_shift": 5, 
-                "rtsym": "_pif_actiondata_table_2_ingress__far_egress_table", 
+                "rtsym": "_pif_actiondata_table_4_ingress__far_egress_table", 
                 "data_size": 32
+            }, 
+            "ingress::src_intf_table": {
+                "name": "ingress::src_intf_table", 
+                "constant_default": false, 
+                "matches": [
+                    {
+                        "field": "standard_metadata.ingress_port", 
+                        "type": "exact", 
+                        "class": "field", 
+                        "lm_layout": [
+                            {
+                                "width": 16, 
+                                "fldbitoff": 0, 
+                                "name": "ingress_port", 
+                                "lmbitoff": 848
+                            }
+                        ]
+                    }
+                ], 
+                "allowed_actions": [
+                    "ingress::set_src_intf"
+                ], 
+                "id": 2, 
+                "max_entries": 33, 
+                "data_shift": 4, 
+                "rtsym": "_pif_actiondata_table_2_ingress__src_intf_table", 
+                "data_size": 16
             }
         }, 
         "action_info": {
@@ -723,9 +783,9 @@
         }, 
         "build_uuid": [
             2541216041, 
-            2892552388, 
-            608309741, 
-            1986265960
+            2273106116, 
+            626856429, 
+            921395271
         ], 
         "digests_info": {}, 
         "parser_value_set_info": {}
@@ -777,7 +837,7 @@
                         "matchType": "EXACT", 
                         "bitwidth": 32, 
                         "id": 1, 
-                        "name": "hdr.ipv4.src_addr"
+                        "name": "hdr.inner_ipv4.src_addr"
                     }, 
                     {
                         "matchType": "EXACT", 
@@ -787,12 +847,46 @@
                     }
                 ], 
                 "preamble": {
-                    "alias": "pdr_ingress_table", 
-                    "id": 33597227, 
-                    "name": "pdr_ingress_table"
+                    "alias": "pdr_ingress_table_ul", 
+                    "id": 33580338, 
+                    "name": "pdr_ingress_table_ul"
                 }, 
                 "constDefaultActionId": 16800567, 
-                "size": "24500"
+                "size": "1024"
+            }, 
+            {
+                "actionRefs": [
+                    {
+                        "id": 16822869
+                    }, 
+                    {
+                        "id": 16800567, 
+                        "annotations": [
+                            "@defaultonly()"
+                        ]
+                    }
+                ], 
+                "matchFields": [
+                    {
+                        "matchType": "EXACT", 
+                        "bitwidth": 32, 
+                        "id": 1, 
+                        "name": "hdr.ipv4.dst_addr"
+                    }, 
+                    {
+                        "matchType": "EXACT", 
+                        "bitwidth": 8, 
+                        "id": 2, 
+                        "name": "meta.intf"
+                    }
+                ], 
+                "preamble": {
+                    "alias": "pdr_ingress_table_dl", 
+                    "id": 33567753, 
+                    "name": "pdr_ingress_table_dl"
+                }, 
+                "constDefaultActionId": 16800567, 
+                "size": "1024"
             }, 
             {
                 "actionRefs": [
@@ -820,7 +914,7 @@
                     "name": "far_egress_table"
                 }, 
                 "constDefaultActionId": 16800567, 
-                "size": "16384"
+                "size": "1024"
             }, 
             {
                 "actionRefs": [
@@ -854,7 +948,7 @@
                     "name": "route"
                 }, 
                 "constDefaultActionId": 16800567, 
-                "size": "4"
+                "size": "1024"
             }
         ], 
         "actions": [

@@ -6,7 +6,7 @@
                     "debug_state_value": 50331648, 
                     "label": "pif_action_state_ingress::gtp_encap", 
                     "live_ranges": null, 
-                    "lineno": 344, 
+                    "lineno": 315, 
                     "filename": "main.p4"
                 }, 
                 "ingress::act": {
@@ -20,28 +20,28 @@
                     "debug_state_value": 50331650, 
                     "label": "pif_action_state_ingress::set_src_intf", 
                     "live_ranges": null, 
-                    "lineno": 294, 
+                    "lineno": 252, 
                     "filename": "main.p4"
                 }, 
                 "ingress::gtp_decap": {
                     "debug_state_value": 50331651, 
                     "label": "pif_action_state_ingress::gtp_decap", 
                     "live_ranges": null, 
-                    "lineno": 288, 
+                    "lineno": 246, 
                     "filename": "main.p4"
                 }, 
                 "ingress::set_rules": {
                     "debug_state_value": 50331652, 
                     "label": "pif_action_state_ingress::set_rules", 
                     "live_ranges": null, 
-                    "lineno": 299, 
+                    "lineno": 257, 
                     "filename": "main.p4"
                 }, 
                 "ingress::update_mac": {
                     "debug_state_value": 50331653, 
                     "label": "pif_action_state_ingress::update_mac", 
                     "live_ranges": null, 
-                    "lineno": 411, 
+                    "lineno": 382, 
                     "filename": "main.p4"
                 }
             }
@@ -53,28 +53,28 @@
                         "debug_state_value": 33554435, 
                         "label": "pif_ctlflow_state_ingress_flow__condition_2", 
                         "live_ranges": null, 
-                        "lineno": 445, 
+                        "lineno": 417, 
                         "filename": "main.p4"
                     }, 
                     "_condition_1": {
-                        "debug_state_value": 33554438, 
+                        "debug_state_value": 33554440, 
                         "label": "pif_ctlflow_state_ingress_flow__condition_1", 
                         "live_ranges": null, 
-                        "lineno": 432, 
+                        "lineno": 403, 
                         "filename": "main.p4"
                     }, 
                     "_condition_0": {
                         "debug_state_value": 33554436, 
                         "label": "pif_ctlflow_state_ingress_flow__condition_0", 
                         "live_ranges": null, 
-                        "lineno": 431, 
+                        "lineno": 402, 
                         "filename": "main.p4"
                     }, 
                     "ingress::route": {
                         "debug_state_value": 33554434, 
                         "label": "pif_ctlflow_state_ingress_flow_ingress::route", 
                         "live_ranges": null, 
-                        "lineno": 416, 
+                        "lineno": 387, 
                         "filename": "main.p4"
                     }, 
                     "ingress::tbl_act": {
@@ -84,11 +84,25 @@
                         "lineno": 1, 
                         "filename": ""
                     }, 
-                    "ingress::pdr_ingress_table": {
+                    "ingress::pdr_ingress_table_dl": {
                         "debug_state_value": 33554439, 
-                        "label": "pif_ctlflow_state_ingress_flow_ingress::pdr_ingress_table", 
+                        "label": "pif_ctlflow_state_ingress_flow_ingress::pdr_ingress_table_dl", 
                         "live_ranges": null, 
-                        "lineno": 319, 
+                        "lineno": 290, 
+                        "filename": "main.p4"
+                    }, 
+                    "ingress::src_intf_table": {
+                        "debug_state_value": 33554433, 
+                        "label": "pif_ctlflow_state_ingress_flow_ingress::src_intf_table", 
+                        "live_ranges": null, 
+                        "lineno": 264, 
+                        "filename": "main.p4"
+                    }, 
+                    "ingress::pdr_ingress_table_ul": {
+                        "debug_state_value": 33554438, 
+                        "label": "pif_ctlflow_state_ingress_flow_ingress::pdr_ingress_table_ul", 
+                        "live_ranges": null, 
+                        "lineno": 277, 
                         "filename": "main.p4"
                     }, 
                     "ingress::tbl_gtp_decap": {
@@ -99,17 +113,10 @@
                         "filename": ""
                     }, 
                     "ingress::far_egress_table": {
-                        "debug_state_value": 33554440, 
+                        "debug_state_value": 33554441, 
                         "label": "pif_ctlflow_state_ingress_flow_ingress::far_egress_table", 
                         "live_ranges": null, 
-                        "lineno": 397, 
-                        "filename": "main.p4"
-                    }, 
-                    "ingress::src_intf_table": {
-                        "debug_state_value": 33554433, 
-                        "label": "pif_ctlflow_state_ingress_flow_ingress::src_intf_table", 
-                        "live_ranges": null, 
-                        "lineno": 306, 
+                        "lineno": 368, 
                         "filename": "main.p4"
                     }
                 }
@@ -151,58 +158,37 @@
         }, 
         "parrep": {
             "node_source_map": {
-                "parse_inner_ipv4": {
-                    "debug_state_value": 16777225, 
-                    "label": "pif_parrep_state_parse_inner_ipv4", 
-                    "live_ranges": null, 
-                    "lineno": 239, 
-                    "filename": "main.p4"
-                }, 
                 "parse_ipv4": {
                     "debug_state_value": 16777217, 
                     "label": "pif_parrep_state_parse_ipv4", 
                     "live_ranges": null, 
-                    "lineno": 185, 
+                    "lineno": 163, 
                     "filename": "main.p4"
                 }, 
                 "parse_tcp": {
-                    "debug_state_value": 16777220, 
+                    "debug_state_value": 16777218, 
                     "label": "pif_parrep_state_parse_tcp", 
                     "live_ranges": null, 
-                    "lineno": 195, 
+                    "lineno": 173, 
                     "filename": "main.p4"
                 }, 
                 "parse_gtpu": {
-                    "debug_state_value": 16777221, 
+                    "debug_state_value": 16777220, 
                     "label": "pif_parrep_state_parse_gtpu", 
                     "live_ranges": null, 
-                    "lineno": 212, 
+                    "lineno": 190, 
                     "filename": "main.p4"
                 }, 
                 "parse_inner_tcp": {
-                    "debug_state_value": 16777226, 
+                    "debug_state_value": 16777222, 
                     "label": "pif_parrep_state_parse_inner_tcp", 
                     "live_ranges": null, 
-                    "lineno": 257, 
+                    "lineno": 215, 
                     "filename": "main.p4"
                 }, 
                 "parse_udp": {
                     "debug_state_value": 16777219, 
                     "label": "pif_parrep_state_parse_udp", 
-                    "live_ranges": null, 
-                    "lineno": 202, 
-                    "filename": "main.p4"
-                }, 
-                "parse_gtpu_ex": {
-                    "debug_state_value": 16777222, 
-                    "label": "pif_parrep_state_parse_gtpu_ex", 
-                    "live_ranges": null, 
-                    "lineno": 226, 
-                    "filename": "main.p4"
-                }, 
-                "parse_arp": {
-                    "debug_state_value": 16777218, 
-                    "label": "pif_parrep_state_parse_arp", 
                     "live_ranges": null, 
                     "lineno": 180, 
                     "filename": "main.p4"
@@ -211,28 +197,14 @@
                     "debug_state_value": 16777216, 
                     "label": "pif_parrep_state_start", 
                     "live_ranges": null, 
-                    "lineno": 167, 
-                    "filename": "main.p4"
-                }, 
-                "parse_gtpu_seq": {
-                    "debug_state_value": 16777223, 
-                    "label": "pif_parrep_state_parse_gtpu_seq", 
-                    "live_ranges": null, 
-                    "lineno": 221, 
-                    "filename": "main.p4"
-                }, 
-                "parse_pdu_ses_container": {
-                    "debug_state_value": 16777224, 
-                    "label": "pif_parrep_state_parse_pdu_ses_container", 
-                    "live_ranges": null, 
-                    "lineno": 234, 
+                    "lineno": 151, 
                     "filename": "main.p4"
                 }, 
                 "parse_inner_udp": {
-                    "debug_state_value": 16777227, 
+                    "debug_state_value": 16777221, 
                     "label": "pif_parrep_state_parse_inner_udp", 
                     "live_ranges": null, 
-                    "lineno": 250, 
+                    "lineno": 208, 
                     "filename": "main.p4"
                 }
             }
@@ -271,37 +243,20 @@
             "4": {
                 "header_type_map": {
                     "0": [
-                        "gtpu_option"
+                        "inner_ipv4"
                     ]
                 }
             }, 
             "5": {
                 "header_type_map": {
                     "0": [
-                        "gtpu_ex"
-                    ]
-                }
-            }, 
-            "6": {
-                "header_type_map": {
-                    "0": [
-                        "inner_ipv4"
-                    ]
-                }
-            }, 
-            "7": {
-                "header_type_map": {
-                    "0": [
-                        "arp"
+                        "inner_tcp"
                     ], 
                     "1": [
-                        "inner_tcp"
+                        "inner_udp"
                     ], 
                     "2": [
                         "tcp"
-                    ], 
-                    "3": [
-                        "inner_udp"
                     ]
                 }
             }
@@ -310,98 +265,13 @@
         "node_map": {
             "0": "start", 
             "1": "parse_ipv4", 
-            "2": "parse_arp", 
+            "2": "parse_tcp", 
             "3": "parse_udp", 
-            "4": "parse_tcp", 
-            "5": "parse_gtpu", 
-            "6": "parse_gtpu_ex", 
-            "7": "parse_gtpu_seq", 
-            "8": "parse_pdu_ses_container", 
-            "9": "parse_inner_ipv4", 
-            "10": "parse_inner_tcp", 
-            "11": "parse_inner_udp"
+            "4": "parse_gtpu", 
+            "5": "parse_inner_udp", 
+            "6": "parse_inner_tcp"
         }, 
         "headers": {
-            "arp": {
-                "layout": [
-                    {
-                        "layout": [
-                            {
-                                "width": 16, 
-                                "lmbitoff": 0, 
-                                "name": "hw_type", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "hw_type", 
-                        "lmoff": 0, 
-                        "width": 16, 
-                        "cname": "hw_type", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 16, 
-                                "lmbitoff": 16, 
-                                "name": "proto_type", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "proto_type", 
-                        "lmoff": 16, 
-                        "width": 16, 
-                        "cname": "proto_type", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 8, 
-                                "lmbitoff": 32, 
-                                "name": "hw_addr_len", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "hw_addr_len", 
-                        "lmoff": 32, 
-                        "width": 8, 
-                        "cname": "hw_addr_len", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 8, 
-                                "lmbitoff": 40, 
-                                "name": "proto_addr_len", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "proto_addr_len", 
-                        "lmoff": 40, 
-                        "width": 8, 
-                        "cname": "proto_addr_len", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 16, 
-                                "lmbitoff": 48, 
-                                "name": "opcode", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "opcode", 
-                        "lmoff": 48, 
-                        "width": 16, 
-                        "cname": "opcode", 
-                        "attributes": {}
-                    }
-                ], 
-                "off_lw": 21
-            }, 
             "inner_tcp": {
                 "layout": [
                     {
@@ -570,7 +440,7 @@
                         "attributes": {}
                     }
                 ], 
-                "off_lw": 21
+                "off_lw": 19
             }, 
             "udp": {
                 "layout": [
@@ -636,86 +506,6 @@
                     }
                 ], 
                 "off_lw": 10
-            }, 
-            "gtpu_ex": {
-                "layout": [
-                    {
-                        "layout": [
-                            {
-                                "width": 8, 
-                                "lmbitoff": 0, 
-                                "name": "len", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "len", 
-                        "lmoff": 0, 
-                        "width": 8, 
-                        "cname": "len", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 4, 
-                                "lmbitoff": 8, 
-                                "name": "pdu_type", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "pdu_type", 
-                        "lmoff": 8, 
-                        "width": 4, 
-                        "cname": "pdu_type", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 6, 
-                                "lmbitoff": 12, 
-                                "name": "spare", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "spare", 
-                        "lmoff": 12, 
-                        "width": 6, 
-                        "cname": "spare", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 6, 
-                                "lmbitoff": 18, 
-                                "name": "qfi", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "qfi", 
-                        "lmoff": 18, 
-                        "width": 6, 
-                        "cname": "qfi", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 8, 
-                                "lmbitoff": 24, 
-                                "name": "next_type", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "next_type", 
-                        "lmoff": 24, 
-                        "width": 8, 
-                        "cname": "next_type", 
-                        "attributes": {}
-                    }
-                ], 
-                "off_lw": 15
             }, 
             "gtpu": {
                 "layout": [
@@ -1025,7 +815,7 @@
                         "attributes": {}
                     }
                 ], 
-                "off_lw": 21
+                "off_lw": 19
             }, 
             "ipv4": {
                 "layout": [
@@ -1425,7 +1215,7 @@
                         "attributes": {}
                     }
                 ], 
-                "off_lw": 16
+                "off_lw": 14
             }, 
             "ethernet": {
                 "layout": [
@@ -1488,56 +1278,6 @@
                     }
                 ], 
                 "off_lw": 1
-            }, 
-            "gtpu_option": {
-                "layout": [
-                    {
-                        "layout": [
-                            {
-                                "width": 16, 
-                                "lmbitoff": 0, 
-                                "name": "seq_num", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "seq_num", 
-                        "lmoff": 0, 
-                        "width": 16, 
-                        "cname": "seq_num", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 8, 
-                                "lmbitoff": 16, 
-                                "name": "n_pdu_num", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "n_pdu_num", 
-                        "lmoff": 16, 
-                        "width": 8, 
-                        "cname": "n_pdu_num", 
-                        "attributes": {}
-                    }, 
-                    {
-                        "layout": [
-                            {
-                                "width": 8, 
-                                "lmbitoff": 24, 
-                                "name": "type", 
-                                "fldbitoff": 0
-                            }
-                        ], 
-                        "name": "type", 
-                        "lmoff": 24, 
-                        "width": 8, 
-                        "cname": "type", 
-                        "attributes": {}
-                    }
-                ], 
-                "off_lw": 14
             }, 
             "inner_udp": {
                 "layout": [
@@ -1602,7 +1342,7 @@
                         "attributes": {}
                     }
                 ], 
-                "off_lw": 21
+                "off_lw": 19
             }
         }, 
         "rt_symbols": {
@@ -1720,57 +1460,21 @@
             }, 
             {
                 "tier": 5, 
-                "width": 1, 
+                "width": 2, 
                 "off": 17, 
-                "field": "t5_dirty"
+                "field": "t5_type"
             }, 
             {
                 "tier": 5, 
                 "width": 1, 
-                "off": 18, 
-                "field": "t5_orig_len"
-            }, 
-            {
-                "tier": 6, 
-                "width": 1, 
                 "off": 19, 
-                "field": "t6_valid"
+                "field": "t5_dirty"
             }, 
             {
-                "tier": 6, 
-                "width": 1, 
-                "off": 20, 
-                "field": "t6_dirty"
-            }, 
-            {
-                "tier": 6, 
-                "width": 1, 
-                "off": 21, 
-                "field": "t6_orig_len"
-            }, 
-            {
-                "tier": 7, 
-                "width": 1, 
-                "off": 22, 
-                "field": "t7_valid"
-            }, 
-            {
-                "tier": 7, 
-                "width": 2, 
-                "off": 23, 
-                "field": "t7_type"
-            }, 
-            {
-                "tier": 7, 
-                "width": 1, 
-                "off": 25, 
-                "field": "t7_dirty"
-            }, 
-            {
-                "tier": 7, 
+                "tier": 5, 
                 "width": 5, 
-                "off": 26, 
-                "field": "t7_orig_len"
+                "off": 20, 
+                "field": "t5_orig_len"
             }
         ], 
         "stacked_headers": [], 
@@ -1962,7 +1666,7 @@
                         }
                     }
                 ], 
-                "off_lw": 26
+                "off_lw": 24
             }, 
             "scalars": {
                 "layout": [
@@ -1984,14 +1688,29 @@
                     {
                         "layout": [
                             {
-                                "width": 16, 
+                                "width": 32, 
                                 "lmbitoff": 32, 
+                                "name": "metadata_t__ue_ip", 
+                                "fldbitoff": 0
+                            }
+                        ], 
+                        "name": "metadata_t@ue_ip", 
+                        "lmoff": 32, 
+                        "width": 32, 
+                        "cname": "metadata_t__ue_ip", 
+                        "attributes": {}
+                    }, 
+                    {
+                        "layout": [
+                            {
+                                "width": 16, 
+                                "lmbitoff": 64, 
                                 "name": "metadata_t__l4_inner_src_port", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@l4_inner_src_port", 
-                        "lmoff": 32, 
+                        "lmoff": 64, 
                         "width": 16, 
                         "cname": "metadata_t__l4_inner_src_port", 
                         "attributes": {}
@@ -2000,13 +1719,13 @@
                         "layout": [
                             {
                                 "width": 16, 
-                                "lmbitoff": 48, 
+                                "lmbitoff": 80, 
                                 "name": "metadata_t__l4_inner_dst_port", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@l4_inner_dst_port", 
-                        "lmoff": 48, 
+                        "lmoff": 80, 
                         "width": 16, 
                         "cname": "metadata_t__l4_inner_dst_port", 
                         "attributes": {}
@@ -2015,13 +1734,13 @@
                         "layout": [
                             {
                                 "width": 16, 
-                                "lmbitoff": 64, 
+                                "lmbitoff": 96, 
                                 "name": "metadata_t__l4_src_port", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@l4_src_port", 
-                        "lmoff": 64, 
+                        "lmoff": 96, 
                         "width": 16, 
                         "cname": "metadata_t__l4_src_port", 
                         "attributes": {}
@@ -2030,13 +1749,13 @@
                         "layout": [
                             {
                                 "width": 16, 
-                                "lmbitoff": 80, 
+                                "lmbitoff": 112, 
                                 "name": "metadata_t__l4_dst_port", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@l4_dst_port", 
-                        "lmoff": 80, 
+                        "lmoff": 112, 
                         "width": 16, 
                         "cname": "metadata_t__l4_dst_port", 
                         "attributes": {}
@@ -2045,13 +1764,13 @@
                         "layout": [
                             {
                                 "width": 8, 
-                                "lmbitoff": 96, 
+                                "lmbitoff": 128, 
                                 "name": "metadata_t__decap_flag", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@decap_flag", 
-                        "lmoff": 96, 
+                        "lmoff": 128, 
                         "width": 8, 
                         "cname": "metadata_t__decap_flag", 
                         "attributes": {}
@@ -2060,13 +1779,13 @@
                         "layout": [
                             {
                                 "width": 8, 
-                                "lmbitoff": 104, 
+                                "lmbitoff": 136, 
                                 "name": "metadata_t__intf", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@intf", 
-                        "lmoff": 104, 
+                        "lmoff": 136, 
                         "width": 8, 
                         "cname": "metadata_t__intf", 
                         "attributes": {}
@@ -2075,13 +1794,13 @@
                         "layout": [
                             {
                                 "width": 6, 
-                                "lmbitoff": 112, 
+                                "lmbitoff": 144, 
                                 "name": "metadata_t__qfi", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@qfi", 
-                        "lmoff": 112, 
+                        "lmoff": 144, 
                         "width": 6, 
                         "cname": "metadata_t__qfi", 
                         "attributes": {}
@@ -2090,13 +1809,13 @@
                         "layout": [
                             {
                                 "width": 1, 
-                                "lmbitoff": 118, 
+                                "lmbitoff": 150, 
                                 "name": "metadata_t__bypass_modify_mac", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@bypass_modify_mac", 
-                        "lmoff": 118, 
+                        "lmoff": 150, 
                         "width": 1, 
                         "cname": "metadata_t__bypass_modify_mac", 
                         "attributes": {}
@@ -2105,13 +1824,13 @@
                         "layout": [
                             {
                                 "width": 1, 
-                                "lmbitoff": 119, 
+                                "lmbitoff": 151, 
                                 "name": "metadata_t__encap_flag", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "metadata_t@encap_flag", 
-                        "lmoff": 119, 
+                        "lmoff": 151, 
                         "width": 1, 
                         "cname": "metadata_t__encap_flag", 
                         "attributes": {}
@@ -2120,13 +1839,13 @@
                         "layout": [
                             {
                                 "width": 8, 
-                                "lmbitoff": 120, 
+                                "lmbitoff": 152, 
                                 "name": "_padding_0", 
                                 "fldbitoff": 0
                             }
                         ], 
                         "name": "_padding_0", 
-                        "lmoff": 120, 
+                        "lmoff": 152, 
                         "width": 8, 
                         "cname": "_padding_0", 
                         "attributes": {
@@ -2134,7 +1853,7 @@
                         }
                     }
                 ], 
-                "off_lw": 30
+                "off_lw": 28
             }
         }
     }, 

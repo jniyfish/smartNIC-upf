@@ -30,14 +30,14 @@
   },
   {
    "preamble": {
-    "id": 33597227,
-    "name": "pdr_ingress_table",
-    "alias": "pdr_ingress_table"
+    "id": 33580338,
+    "name": "pdr_ingress_table_ul",
+    "alias": "pdr_ingress_table_ul"
    },
    "matchFields": [
     {
      "id": 1,
-     "name": "hdr.ipv4.src_addr",
+     "name": "hdr.inner_ipv4.src_addr",
      "bitwidth": 32,
      "matchType": "EXACT"
     },
@@ -60,7 +60,41 @@
     }
    ],
    "constDefaultActionId": 16800567,
-   "size": "24500"
+   "size": "1024"
+  },
+  {
+   "preamble": {
+    "id": 33567753,
+    "name": "pdr_ingress_table_dl",
+    "alias": "pdr_ingress_table_dl"
+   },
+   "matchFields": [
+    {
+     "id": 1,
+     "name": "hdr.ipv4.dst_addr",
+     "bitwidth": 32,
+     "matchType": "EXACT"
+    },
+    {
+     "id": 2,
+     "name": "meta.intf",
+     "bitwidth": 8,
+     "matchType": "EXACT"
+    }
+   ],
+   "actionRefs": [
+    {
+     "id": 16822869
+    },
+    {
+     "id": 16800567,
+     "annotations": [
+      "@defaultonly()"
+     ]
+    }
+   ],
+   "constDefaultActionId": 16800567,
+   "size": "1024"
   },
   {
    "preamble": {
@@ -88,7 +122,7 @@
     }
    ],
    "constDefaultActionId": 16800567,
-   "size": "16384"
+   "size": "1024"
   },
   {
    "preamble": {
@@ -122,7 +156,7 @@
     }
    ],
    "constDefaultActionId": 16800567,
-   "size": "4"
+   "size": "1024"
   }
  ],
  "actions": [

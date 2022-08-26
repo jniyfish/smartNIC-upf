@@ -110,20 +110,6 @@ header gtpu_h {
     teid_t teid;
 }
 
-header gtpu_option_h {
-    bit<16> seq_num;
-    bit<8> n_pdu_num;
-    bit<8> type;
-}
-
-header gtpu_ex_h {
-    bit<8> len;
-    bit<4> pdu_type;
-    bit<6> spare;
-    bit<6> qfi;
-    bit<8> next_type;
-}
-
 struct metadata_t {
     bit<16>     l4_src_port;
     bit<16>     l4_dst_port;
@@ -136,17 +122,15 @@ struct metadata_t {
     //PortId_t    ingress_port;
     bit<1>      bypass_modify_mac;
     bit<6> qfi;
+    ipv4_addr_t ue_ip;
 }
 
 struct headers_t {
     ethernet_h ethernet;
-    arp_h arp;
     ipv4_h  ipv4;
     tcp_h tcp;
     udp_h   udp; 
     gtpu_h  gtpu;
-    gtpu_option_h gtpu_option;
-    gtpu_ex_h gtpu_ex;
     ipv4_h  inner_ipv4;
     udp_h   inner_udp;
     tcp_h   inner_tcp;
@@ -171,15 +155,9 @@ parser MyParser(
     state parse_ethernet {
         packet.extract(hdr.ethernet);
         transition select(hdr.ethernet.ether_type) {
-            ETH_TYPE_ARP: parse_arp;
             ETH_TYPE_IPV4: parse_ipv4;
             default: accept;
         }
-    }
-
-    state parse_arp {
-        packet.extract(hdr.arp);
-        transition accept;
     }
 
     state parse_ipv4 {
@@ -212,28 +190,8 @@ parser MyParser(
     state parse_gtpu {
         packet.extract(hdr.gtpu);
         transition select(hdr.gtpu.ex_flag, hdr.gtpu.seq_flag, hdr.gtpu.npdu_flag) {
-            (1, _, _): parse_gtpu_ex;
-            (_, 1, _): parse_gtpu_seq;
             default: parse_inner_ipv4;
         }
-    }
-
-    state parse_gtpu_seq {
-        packet.extract(hdr.gtpu_option);
-        transition parse_inner_ipv4;
-    }
-
-    state parse_gtpu_ex {
-        packet.extract(hdr.gtpu_option);
-        transition select(hdr.gtpu_option.type) {
-            GTP_PDU_SES_CONT_TYPE: parse_pdu_ses_container;
-            default: parse_inner_ipv4;
-        }
-    }
-
-    state parse_pdu_ses_container {
-        packet.extract(hdr.gtpu_ex);
-        transition parse_inner_ipv4;
     }
 
     state parse_inner_ipv4 {
@@ -316,16 +274,29 @@ control MyIngress(
     }
 
     // At least one of the match field must be ternary to have priority
-    table pdr_ingress_table {
+    table pdr_ingress_table_ul {
         key = {
-            hdr.ipv4.src_addr:          exact;
+            hdr.inner_ipv4.src_addr:     exact;
             meta.intf:                 exact;
         }
         actions = {
             set_rules;
             @defaultonly NoAction;
         }
-        size = 24500;
+        size = 1024;
+        const default_action = NoAction;
+    }
+
+    table pdr_ingress_table_dl {
+        key = {
+            hdr.ipv4.dst_addr:          exact;
+            meta.intf:                 exact;
+        }
+        actions = {
+            set_rules;
+            @defaultonly NoAction;
+        }
+        size = 1024;
         const default_action = NoAction;
     }
     /******************* FAR   ******************/
@@ -404,7 +375,7 @@ control MyIngress(
             @defaultonly NoAction;
         }
         // size = 32768;
-        size = 16384;
+        size = 1024;
         const default_action = NoAction;
     }
 
@@ -422,7 +393,7 @@ control MyIngress(
             update_mac;
             @defaultonly NoAction;
         }
-        size = 4;
+        size = 1024;
         const default_action = NoAction;
     }
 
@@ -439,7 +410,8 @@ control MyIngress(
             }
         }
         src_intf_table.apply();
-        pdr_ingress_table.apply();
+        pdr_ingress_table_ul.apply();
+        pdr_ingress_table_dl.apply();
         far_egress_table.apply();
         route.apply();
         if (meta.decap_flag == 1) {
@@ -520,13 +492,10 @@ control MyDeparser(
 {
     apply {
         packet.emit(hdr.ethernet);
-        packet.emit(hdr.arp);
         packet.emit(hdr.ipv4);
         packet.emit(hdr.udp);
         packet.emit(hdr.tcp);
         packet.emit(hdr.gtpu);
-        packet.emit(hdr.gtpu_option);
-        packet.emit(hdr.gtpu_ex);
         packet.emit(hdr.inner_ipv4);
         packet.emit(hdr.inner_udp);
         packet.emit(hdr.inner_tcp);

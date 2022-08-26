@@ -10,52 +10,6 @@
  * Packet headers
  */
 
-/* arp (8B) */
-struct pif_header_arp {
-    unsigned int hw_type:16;
-    unsigned int proto_type:16;
-    unsigned int hw_addr_len:8;
-    unsigned int proto_addr_len:8;
-    unsigned int opcode:16;
-};
-
-/* arp field accessor macros */
-#define PIF_HEADER_GET_arp___hw_type(_hdr_p) (((_hdr_p)->hw_type)) /* arp.hw_type [16;0] */
-
-#define PIF_HEADER_SET_arp___hw_type(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->hw_type = (unsigned)(((_val))); \
-    } while (0) /* arp.hw_type[16;0] */
-
-#define PIF_HEADER_GET_arp___proto_type(_hdr_p) (((_hdr_p)->proto_type)) /* arp.proto_type [16;0] */
-
-#define PIF_HEADER_SET_arp___proto_type(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->proto_type = (unsigned)(((_val))); \
-    } while (0) /* arp.proto_type[16;0] */
-
-#define PIF_HEADER_GET_arp___hw_addr_len(_hdr_p) (((_hdr_p)->hw_addr_len)) /* arp.hw_addr_len [8;0] */
-
-#define PIF_HEADER_SET_arp___hw_addr_len(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->hw_addr_len = (unsigned)(((_val))); \
-    } while (0) /* arp.hw_addr_len[8;0] */
-
-#define PIF_HEADER_GET_arp___proto_addr_len(_hdr_p) (((_hdr_p)->proto_addr_len)) /* arp.proto_addr_len [8;0] */
-
-#define PIF_HEADER_SET_arp___proto_addr_len(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->proto_addr_len = (unsigned)(((_val))); \
-    } while (0) /* arp.proto_addr_len[8;0] */
-
-#define PIF_HEADER_GET_arp___opcode(_hdr_p) (((_hdr_p)->opcode)) /* arp.opcode [16;0] */
-
-#define PIF_HEADER_SET_arp___opcode(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->opcode = (unsigned)(((_val))); \
-    } while (0) /* arp.opcode[16;0] */
-
-
 /* inner_tcp (20B) */
 struct pif_header_inner_tcp {
     unsigned int src_port:16;
@@ -186,52 +140,6 @@ struct pif_header_udp {
     do { \
         (_hdr_p)->checksum = (unsigned)(((_val))); \
     } while (0) /* udp.checksum[16;0] */
-
-
-/* gtpu_ex (4B) */
-struct pif_header_gtpu_ex {
-    unsigned int len:8;
-    unsigned int pdu_type:4;
-    unsigned int spare:6;
-    unsigned int qfi:6;
-    unsigned int next_type:8;
-};
-
-/* gtpu_ex field accessor macros */
-#define PIF_HEADER_GET_gtpu_ex___len(_hdr_p) (((_hdr_p)->len)) /* gtpu_ex.len [8;0] */
-
-#define PIF_HEADER_SET_gtpu_ex___len(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->len = (unsigned)(((_val))); \
-    } while (0) /* gtpu_ex.len[8;0] */
-
-#define PIF_HEADER_GET_gtpu_ex___pdu_type(_hdr_p) (((_hdr_p)->pdu_type)) /* gtpu_ex.pdu_type [4;0] */
-
-#define PIF_HEADER_SET_gtpu_ex___pdu_type(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->pdu_type = (unsigned)(((_val))); \
-    } while (0) /* gtpu_ex.pdu_type[4;0] */
-
-#define PIF_HEADER_GET_gtpu_ex___spare(_hdr_p) (((_hdr_p)->spare)) /* gtpu_ex.spare [6;0] */
-
-#define PIF_HEADER_SET_gtpu_ex___spare(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->spare = (unsigned)(((_val))); \
-    } while (0) /* gtpu_ex.spare[6;0] */
-
-#define PIF_HEADER_GET_gtpu_ex___qfi(_hdr_p) (((_hdr_p)->qfi)) /* gtpu_ex.qfi [6;0] */
-
-#define PIF_HEADER_SET_gtpu_ex___qfi(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->qfi = (unsigned)(((_val))); \
-    } while (0) /* gtpu_ex.qfi[6;0] */
-
-#define PIF_HEADER_GET_gtpu_ex___next_type(_hdr_p) (((_hdr_p)->next_type)) /* gtpu_ex.next_type [8;0] */
-
-#define PIF_HEADER_SET_gtpu_ex___next_type(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->next_type = (unsigned)(((_val))); \
-    } while (0) /* gtpu_ex.next_type[8;0] */
 
 
 /* gtpu (8B) */
@@ -679,36 +587,6 @@ struct pif_header_ethernet {
     } while (0) /* ethernet.ether_type[16;0] */
 
 
-/* gtpu_option (4B) */
-struct pif_header_gtpu_option {
-    unsigned int seq_num:16;
-    unsigned int n_pdu_num:8;
-    unsigned int type:8;
-};
-
-/* gtpu_option field accessor macros */
-#define PIF_HEADER_GET_gtpu_option___seq_num(_hdr_p) (((_hdr_p)->seq_num)) /* gtpu_option.seq_num [16;0] */
-
-#define PIF_HEADER_SET_gtpu_option___seq_num(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->seq_num = (unsigned)(((_val))); \
-    } while (0) /* gtpu_option.seq_num[16;0] */
-
-#define PIF_HEADER_GET_gtpu_option___n_pdu_num(_hdr_p) (((_hdr_p)->n_pdu_num)) /* gtpu_option.n_pdu_num [8;0] */
-
-#define PIF_HEADER_SET_gtpu_option___n_pdu_num(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->n_pdu_num = (unsigned)(((_val))); \
-    } while (0) /* gtpu_option.n_pdu_num[8;0] */
-
-#define PIF_HEADER_GET_gtpu_option___type(_hdr_p) (((_hdr_p)->type)) /* gtpu_option.type [8;0] */
-
-#define PIF_HEADER_SET_gtpu_option___type(_hdr_p, _val) \
-    do { \
-        (_hdr_p)->type = (unsigned)(((_val))); \
-    } while (0) /* gtpu_option.type[8;0] */
-
-
 /* inner_udp (8B) */
 struct pif_header_inner_udp {
     unsigned int src_port:16;
@@ -853,9 +731,10 @@ struct pif_header_standard_metadata {
     } while (0) /* standard_metadata._padding_1[7;0] */
 
 
-/* scalars (16B) */
+/* scalars (20B) */
 struct pif_header_scalars {
     unsigned int metadata_t__far_id:32;
+    unsigned int metadata_t__ue_ip:32;
     unsigned int metadata_t__l4_inner_src_port:16;
     unsigned int metadata_t__l4_inner_dst_port:16;
     unsigned int metadata_t__l4_src_port:16;
@@ -875,6 +754,13 @@ struct pif_header_scalars {
     do { \
         (_hdr_p)->metadata_t__far_id = (unsigned)(((_val))); \
     } while (0) /* scalars.metadata_t__far_id[32;0] */
+
+#define PIF_HEADER_GET_scalars___metadata_t__ue_ip(_hdr_p) (((_hdr_p)->metadata_t__ue_ip)) /* scalars.metadata_t__ue_ip [32;0] */
+
+#define PIF_HEADER_SET_scalars___metadata_t__ue_ip(_hdr_p, _val) \
+    do { \
+        (_hdr_p)->metadata_t__ue_ip = (unsigned)(((_val))); \
+    } while (0) /* scalars.metadata_t__ue_ip[32;0] */
 
 #define PIF_HEADER_GET_scalars___metadata_t__l4_inner_src_port(_hdr_p) (((_hdr_p)->metadata_t__l4_inner_src_port)) /* scalars.metadata_t__l4_inner_src_port [16;0] */
 

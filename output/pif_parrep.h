@@ -27,15 +27,9 @@ struct pif_parrep_ctldata {
     unsigned int t4_dirty:1;
     unsigned int t4_orig_len:1;
     unsigned int t5_valid:1;
+    unsigned int t5_type:2;
     unsigned int t5_dirty:1;
-    unsigned int t5_orig_len:1;
-    unsigned int t6_valid:1;
-    unsigned int t6_dirty:1;
-    unsigned int t6_orig_len:1;
-    unsigned int t7_valid:1;
-    unsigned int t7_type:2;
-    unsigned int t7_dirty:1;
-    unsigned int t7_orig_len:5;
+    unsigned int t5_orig_len:5;
 };
 
 #define PIF_PARREP_CTLDATA_OFF_LW 0
@@ -46,27 +40,21 @@ struct pif_parrep_ctldata {
  */
 
 /* Parsed represention tier types */
-/* tier 7 */
-#define PIF_PARREP_TYPE_arp 0
-#define PIF_PARREP_TYPE_inner_tcp 1
+/* tier 5 */
+#define PIF_PARREP_TYPE_inner_tcp 0
+#define PIF_PARREP_TYPE_inner_udp 1
 #define PIF_PARREP_TYPE_tcp 2
-#define PIF_PARREP_TYPE_inner_udp 3
 
 /* Parse state values */
 #define PIF_PARREP_STATE_exit -1
-#define PIF_PARREP_STATE_parse_inner_ipv4 9
 #define PIF_PARREP_STATE_parse_ipv4 1
-#define PIF_PARREP_STATE_parse_tcp 4
-#define PIF_PARREP_STATE_parse_gtpu 5
-#define PIF_PARREP_STATE_parse_inner_tcp 10
+#define PIF_PARREP_STATE_parse_tcp 2
+#define PIF_PARREP_STATE_parse_gtpu 4
+#define PIF_PARREP_STATE_parse_inner_tcp 6
 #define PIF_PARREP_STATE_parse_udp 3
-#define PIF_PARREP_STATE_parse_gtpu_ex 6
-#define PIF_PARREP_STATE_parse_arp 2
 #define PIF_PARREP_STATE_start 0
-#define PIF_PARREP_STATE_parse_gtpu_seq 7
-#define PIF_PARREP_STATE_parse_pdu_ses_container 8
-#define PIF_PARREP_STATE_parse_inner_udp 11
-#define PIF_PARREP_MAX_STATE 11
+#define PIF_PARREP_STATE_parse_inner_udp 5
+#define PIF_PARREP_MAX_STATE 6
 
 /* Tier 0 */
 #define PIF_PARREP_T0_OFF_LW 1
@@ -98,52 +86,35 @@ struct pif_parrep_ctldata {
 
 /* Tier 4 */
 #define PIF_PARREP_T4_OFF_LW 14
-#define PIF_PARREP_T4_LEN_LW 1
-#define PIF_PARREP_gtpu_option_OFF_LW (PIF_PARREP_T4_OFF_LW)
-#define PIF_PARREP_gtpu_option_LEN_LW 1
-#define PIF_PARREP_gtpu_option_LEN_B 4
-
-/* Tier 5 */
-#define PIF_PARREP_T5_OFF_LW 15
-#define PIF_PARREP_T5_LEN_LW 1
-#define PIF_PARREP_gtpu_ex_OFF_LW (PIF_PARREP_T5_OFF_LW)
-#define PIF_PARREP_gtpu_ex_LEN_LW 1
-#define PIF_PARREP_gtpu_ex_LEN_B 4
-
-/* Tier 6 */
-#define PIF_PARREP_T6_OFF_LW 16
-#define PIF_PARREP_T6_LEN_LW 5
-#define PIF_PARREP_inner_ipv4_OFF_LW (PIF_PARREP_T6_OFF_LW)
+#define PIF_PARREP_T4_LEN_LW 5
+#define PIF_PARREP_inner_ipv4_OFF_LW (PIF_PARREP_T4_OFF_LW)
 #define PIF_PARREP_inner_ipv4_LEN_LW 5
 #define PIF_PARREP_inner_ipv4_LEN_B 20
 
-/* Tier 7 */
-#define PIF_PARREP_T7_OFF_LW 21
-#define PIF_PARREP_T7_LEN_LW 5
-#define PIF_PARREP_arp_OFF_LW (PIF_PARREP_T7_OFF_LW)
-#define PIF_PARREP_arp_LEN_LW 2
-#define PIF_PARREP_arp_LEN_B 8
-#define PIF_PARREP_inner_tcp_OFF_LW (PIF_PARREP_T7_OFF_LW)
+/* Tier 5 */
+#define PIF_PARREP_T5_OFF_LW 19
+#define PIF_PARREP_T5_LEN_LW 5
+#define PIF_PARREP_inner_tcp_OFF_LW (PIF_PARREP_T5_OFF_LW)
 #define PIF_PARREP_inner_tcp_LEN_LW 5
 #define PIF_PARREP_inner_tcp_LEN_B 20
-#define PIF_PARREP_tcp_OFF_LW (PIF_PARREP_T7_OFF_LW)
-#define PIF_PARREP_tcp_LEN_LW 5
-#define PIF_PARREP_tcp_LEN_B 20
-#define PIF_PARREP_inner_udp_OFF_LW (PIF_PARREP_T7_OFF_LW)
+#define PIF_PARREP_inner_udp_OFF_LW (PIF_PARREP_T5_OFF_LW)
 #define PIF_PARREP_inner_udp_LEN_LW 2
 #define PIF_PARREP_inner_udp_LEN_B 8
+#define PIF_PARREP_tcp_OFF_LW (PIF_PARREP_T5_OFF_LW)
+#define PIF_PARREP_tcp_LEN_LW 5
+#define PIF_PARREP_tcp_LEN_B 20
 
 /*
  * Metadata
  */
 
-#define PIF_PARREP_standard_metadata_OFF_LW 26
+#define PIF_PARREP_standard_metadata_OFF_LW 24
 #define PIF_PARREP_standard_metadata_LEN_LW 4
 
-#define PIF_PARREP_scalars_OFF_LW 30
-#define PIF_PARREP_scalars_LEN_LW 4
+#define PIF_PARREP_scalars_OFF_LW 28
+#define PIF_PARREP_scalars_LEN_LW 5
 
-#define PIF_PARREP_LEN_LW 34
+#define PIF_PARREP_LEN_LW 33
 
 /* Parsing branches to a constant control entry point */
 #define PIF_PARREP_NO_VARIABLE_EXIT
@@ -320,17 +291,17 @@ struct pif_parrep_ctldata {
 /* Tier 4 */
 #define PIF_PARREP_T4_TYPE(ctl) ( ((ctl)->t4_type))
 #define PIF_PARREP_T4_VALID(ctl) ( ((ctl)->t4_valid))
-#define PIF_PARREP_gtpu_option_VALID(ctl) ( ((ctl)->t4_valid) )
-#define PIF_PARREP_SET_gtpu_option_VALID(ctl) \
+#define PIF_PARREP_inner_ipv4_VALID(ctl) ( ((ctl)->t4_valid) )
+#define PIF_PARREP_SET_inner_ipv4_VALID(ctl) \
     do { \
         (ctl)->t4_valid = 1; \
     } while(0);
-#define PIF_PARREP_CLEAR_gtpu_option_VALID(ctl) \
+#define PIF_PARREP_CLEAR_inner_ipv4_VALID(ctl) \
     do { \
         (ctl)->t4_valid = 0; \
     } while(0);
 
-#define PIF_PARREP_gtpu_option_DIRTY(_ctl) ((_ctl)->t4_dirty)
+#define PIF_PARREP_inner_ipv4_DIRTY(_ctl) ((_ctl)->t4_dirty)
 #define PIF_PARREP_T4_DIRTY(_ctl) ((_ctl)->t4_dirty)
 #define PIF_PARREP_CLEAR_T4_DIRTY(_ctl)     do { \
         (_ctl)->t4_dirty = 0; \
@@ -338,40 +309,63 @@ struct pif_parrep_ctldata {
 #define PIF_PARREP_SET_T4_DIRTY(_ctl)     do { \
         (_ctl)->t4_dirty = 0; \
     } while(0);
-#define PIF_PARREP_SET_gtpu_option_DIRTY(_ctl) \
+#define PIF_PARREP_SET_inner_ipv4_DIRTY(_ctl) \
     do { \
         (_ctl)->t4_dirty = 1; \
     } while(0);
 
-#define PIF_PARREP_T4_ORIG_LEN(ctl) (((ctl)->t4_orig_len) ? PIF_PARREP_gtpu_option_LEN_B : 0)
+#define PIF_PARREP_T4_ORIG_LEN(ctl) (((ctl)->t4_orig_len) ? PIF_PARREP_inner_ipv4_LEN_B : 0)
 #define PIF_PARREP_SET_T4_ORIG_LEN(ctl, len) \
     do { \
         (ctl)->t4_orig_len = (len == 0 ? 0 : 1); \
     } while(0);
-#define PIF_PARREP_gtpu_option_ORIG_LEN(ctl) (((ctl)->t4_orig_len) ? PIF_PARREP_gtpu_option_LEN_B : 0)
-#define PIF_PARREP_CLEAR_gtpu_option_ORIG_LEN(ctl) \
+#define PIF_PARREP_inner_ipv4_ORIG_LEN(ctl) (((ctl)->t4_orig_len) ? PIF_PARREP_inner_ipv4_LEN_B : 0)
+#define PIF_PARREP_CLEAR_inner_ipv4_ORIG_LEN(ctl) \
     do { \
         (ctl)->t4_orig_len = 0; \
     } while(0);
-#define PIF_PARREP_SET_gtpu_option_ORIG_LEN(ctl, len) \
+#define PIF_PARREP_SET_inner_ipv4_ORIG_LEN(ctl, len) \
     do { \
         (ctl)->t4_orig_len = 1; \
     } while(0);
 
 /* Tier 5 */
 #define PIF_PARREP_T5_TYPE(ctl) ( ((ctl)->t5_type))
-#define PIF_PARREP_T5_VALID(ctl) ( ((ctl)->t5_valid))
-#define PIF_PARREP_gtpu_ex_VALID(ctl) ( ((ctl)->t5_valid) )
-#define PIF_PARREP_SET_gtpu_ex_VALID(ctl) \
+#define PIF_PARREP_T5_VALID(ctl) ( ((ctl)->t5_valid & 0x1) )
+#define PIF_PARREP_inner_tcp_VALID(ctl) ( ((ctl)->t5_valid & 0x1) && ((ctl)->t5_type == PIF_PARREP_TYPE_inner_tcp) )
+#define PIF_PARREP_SET_inner_tcp_VALID(ctl) \
     do { \
         (ctl)->t5_valid = 1; \
+        (ctl)->t5_type = PIF_PARREP_TYPE_inner_tcp; \
     } while(0);
-#define PIF_PARREP_CLEAR_gtpu_ex_VALID(ctl) \
+#define PIF_PARREP_CLEAR_inner_tcp_VALID(ctl) \
+    do { \
+        (ctl)->t5_valid = 0; \
+    } while(0);
+#define PIF_PARREP_inner_udp_VALID(ctl) ( ((ctl)->t5_valid & 0x1) && ((ctl)->t5_type == PIF_PARREP_TYPE_inner_udp) )
+#define PIF_PARREP_SET_inner_udp_VALID(ctl) \
+    do { \
+        (ctl)->t5_valid = 1; \
+        (ctl)->t5_type = PIF_PARREP_TYPE_inner_udp; \
+    } while(0);
+#define PIF_PARREP_CLEAR_inner_udp_VALID(ctl) \
+    do { \
+        (ctl)->t5_valid = 0; \
+    } while(0);
+#define PIF_PARREP_tcp_VALID(ctl) ( ((ctl)->t5_valid & 0x1) && ((ctl)->t5_type == PIF_PARREP_TYPE_tcp) )
+#define PIF_PARREP_SET_tcp_VALID(ctl) \
+    do { \
+        (ctl)->t5_valid = 1; \
+        (ctl)->t5_type = PIF_PARREP_TYPE_tcp; \
+    } while(0);
+#define PIF_PARREP_CLEAR_tcp_VALID(ctl) \
     do { \
         (ctl)->t5_valid = 0; \
     } while(0);
 
-#define PIF_PARREP_gtpu_ex_DIRTY(_ctl) ((_ctl)->t5_dirty)
+#define PIF_PARREP_inner_tcp_DIRTY(_ctl) ((_ctl)->t5_dirty)
+#define PIF_PARREP_inner_udp_DIRTY(_ctl) ((_ctl)->t5_dirty)
+#define PIF_PARREP_tcp_DIRTY(_ctl) ((_ctl)->t5_dirty)
 #define PIF_PARREP_T5_DIRTY(_ctl) ((_ctl)->t5_dirty)
 #define PIF_PARREP_CLEAR_T5_DIRTY(_ctl)     do { \
         (_ctl)->t5_dirty = 0; \
@@ -379,199 +373,66 @@ struct pif_parrep_ctldata {
 #define PIF_PARREP_SET_T5_DIRTY(_ctl)     do { \
         (_ctl)->t5_dirty = 0; \
     } while(0);
-#define PIF_PARREP_SET_gtpu_ex_DIRTY(_ctl) \
+#define PIF_PARREP_SET_inner_tcp_DIRTY(_ctl) \
+    do { \
+        (_ctl)->t5_dirty = 1; \
+    } while(0);
+#define PIF_PARREP_SET_inner_udp_DIRTY(_ctl) \
+    do { \
+        (_ctl)->t5_dirty = 1; \
+    } while(0);
+#define PIF_PARREP_SET_tcp_DIRTY(_ctl) \
     do { \
         (_ctl)->t5_dirty = 1; \
     } while(0);
 
-#define PIF_PARREP_T5_ORIG_LEN(ctl) (((ctl)->t5_orig_len) ? PIF_PARREP_gtpu_ex_LEN_B : 0)
+#define PIF_PARREP_T5_ORIG_LEN(ctl) ((ctl)->t5_orig_len)
 #define PIF_PARREP_SET_T5_ORIG_LEN(ctl, len) \
     do { \
-        (ctl)->t5_orig_len = (len == 0 ? 0 : 1); \
+        (ctl)->t5_orig_len = len; \
     } while(0);
-#define PIF_PARREP_gtpu_ex_ORIG_LEN(ctl) (((ctl)->t5_orig_len) ? PIF_PARREP_gtpu_ex_LEN_B : 0)
-#define PIF_PARREP_CLEAR_gtpu_ex_ORIG_LEN(ctl) \
+#define PIF_PARREP_INC_T5_ORIG_LEN(ctl, len) \
+    do { \
+        (ctl)->t5_orig_len += len; \
+    } while(0);
+#define PIF_PARREP_inner_tcp_ORIG_LEN(ctl) ((ctl)->t5_orig_len)
+#define PIF_PARREP_CLEAR_inner_tcp_ORIG_LEN(ctl) \
     do { \
         (ctl)->t5_orig_len = 0; \
     } while(0);
-#define PIF_PARREP_SET_gtpu_ex_ORIG_LEN(ctl, len) \
-    do { \
-        (ctl)->t5_orig_len = 1; \
-    } while(0);
-
-/* Tier 6 */
-#define PIF_PARREP_T6_TYPE(ctl) ( ((ctl)->t6_type))
-#define PIF_PARREP_T6_VALID(ctl) ( ((ctl)->t6_valid))
-#define PIF_PARREP_inner_ipv4_VALID(ctl) ( ((ctl)->t6_valid) )
-#define PIF_PARREP_SET_inner_ipv4_VALID(ctl) \
-    do { \
-        (ctl)->t6_valid = 1; \
-    } while(0);
-#define PIF_PARREP_CLEAR_inner_ipv4_VALID(ctl) \
-    do { \
-        (ctl)->t6_valid = 0; \
-    } while(0);
-
-#define PIF_PARREP_inner_ipv4_DIRTY(_ctl) ((_ctl)->t6_dirty)
-#define PIF_PARREP_T6_DIRTY(_ctl) ((_ctl)->t6_dirty)
-#define PIF_PARREP_CLEAR_T6_DIRTY(_ctl)     do { \
-        (_ctl)->t6_dirty = 0; \
-    } while(0);
-#define PIF_PARREP_SET_T6_DIRTY(_ctl)     do { \
-        (_ctl)->t6_dirty = 0; \
-    } while(0);
-#define PIF_PARREP_SET_inner_ipv4_DIRTY(_ctl) \
-    do { \
-        (_ctl)->t6_dirty = 1; \
-    } while(0);
-
-#define PIF_PARREP_T6_ORIG_LEN(ctl) (((ctl)->t6_orig_len) ? PIF_PARREP_inner_ipv4_LEN_B : 0)
-#define PIF_PARREP_SET_T6_ORIG_LEN(ctl, len) \
-    do { \
-        (ctl)->t6_orig_len = (len == 0 ? 0 : 1); \
-    } while(0);
-#define PIF_PARREP_inner_ipv4_ORIG_LEN(ctl) (((ctl)->t6_orig_len) ? PIF_PARREP_inner_ipv4_LEN_B : 0)
-#define PIF_PARREP_CLEAR_inner_ipv4_ORIG_LEN(ctl) \
-    do { \
-        (ctl)->t6_orig_len = 0; \
-    } while(0);
-#define PIF_PARREP_SET_inner_ipv4_ORIG_LEN(ctl, len) \
-    do { \
-        (ctl)->t6_orig_len = 1; \
-    } while(0);
-
-/* Tier 7 */
-#define PIF_PARREP_T7_TYPE(ctl) ( ((ctl)->t7_type))
-#define PIF_PARREP_T7_VALID(ctl) ( ((ctl)->t7_valid & 0x1) )
-#define PIF_PARREP_arp_VALID(ctl) ( ((ctl)->t7_valid & 0x1) && ((ctl)->t7_type == PIF_PARREP_TYPE_arp) )
-#define PIF_PARREP_SET_arp_VALID(ctl) \
-    do { \
-        (ctl)->t7_valid = 1; \
-        (ctl)->t7_type = PIF_PARREP_TYPE_arp; \
-    } while(0);
-#define PIF_PARREP_CLEAR_arp_VALID(ctl) \
-    do { \
-        (ctl)->t7_valid = 0; \
-    } while(0);
-#define PIF_PARREP_inner_tcp_VALID(ctl) ( ((ctl)->t7_valid & 0x1) && ((ctl)->t7_type == PIF_PARREP_TYPE_inner_tcp) )
-#define PIF_PARREP_SET_inner_tcp_VALID(ctl) \
-    do { \
-        (ctl)->t7_valid = 1; \
-        (ctl)->t7_type = PIF_PARREP_TYPE_inner_tcp; \
-    } while(0);
-#define PIF_PARREP_CLEAR_inner_tcp_VALID(ctl) \
-    do { \
-        (ctl)->t7_valid = 0; \
-    } while(0);
-#define PIF_PARREP_tcp_VALID(ctl) ( ((ctl)->t7_valid & 0x1) && ((ctl)->t7_type == PIF_PARREP_TYPE_tcp) )
-#define PIF_PARREP_SET_tcp_VALID(ctl) \
-    do { \
-        (ctl)->t7_valid = 1; \
-        (ctl)->t7_type = PIF_PARREP_TYPE_tcp; \
-    } while(0);
-#define PIF_PARREP_CLEAR_tcp_VALID(ctl) \
-    do { \
-        (ctl)->t7_valid = 0; \
-    } while(0);
-#define PIF_PARREP_inner_udp_VALID(ctl) ( ((ctl)->t7_valid & 0x1) && ((ctl)->t7_type == PIF_PARREP_TYPE_inner_udp) )
-#define PIF_PARREP_SET_inner_udp_VALID(ctl) \
-    do { \
-        (ctl)->t7_valid = 1; \
-        (ctl)->t7_type = PIF_PARREP_TYPE_inner_udp; \
-    } while(0);
-#define PIF_PARREP_CLEAR_inner_udp_VALID(ctl) \
-    do { \
-        (ctl)->t7_valid = 0; \
-    } while(0);
-
-#define PIF_PARREP_arp_DIRTY(_ctl) ((_ctl)->t7_dirty)
-#define PIF_PARREP_inner_tcp_DIRTY(_ctl) ((_ctl)->t7_dirty)
-#define PIF_PARREP_tcp_DIRTY(_ctl) ((_ctl)->t7_dirty)
-#define PIF_PARREP_inner_udp_DIRTY(_ctl) ((_ctl)->t7_dirty)
-#define PIF_PARREP_T7_DIRTY(_ctl) ((_ctl)->t7_dirty)
-#define PIF_PARREP_CLEAR_T7_DIRTY(_ctl)     do { \
-        (_ctl)->t7_dirty = 0; \
-    } while(0);
-#define PIF_PARREP_SET_T7_DIRTY(_ctl)     do { \
-        (_ctl)->t7_dirty = 0; \
-    } while(0);
-#define PIF_PARREP_SET_arp_DIRTY(_ctl) \
-    do { \
-        (_ctl)->t7_dirty = 1; \
-    } while(0);
-#define PIF_PARREP_SET_inner_tcp_DIRTY(_ctl) \
-    do { \
-        (_ctl)->t7_dirty = 1; \
-    } while(0);
-#define PIF_PARREP_SET_tcp_DIRTY(_ctl) \
-    do { \
-        (_ctl)->t7_dirty = 1; \
-    } while(0);
-#define PIF_PARREP_SET_inner_udp_DIRTY(_ctl) \
-    do { \
-        (_ctl)->t7_dirty = 1; \
-    } while(0);
-
-#define PIF_PARREP_T7_ORIG_LEN(ctl) ((ctl)->t7_orig_len)
-#define PIF_PARREP_SET_T7_ORIG_LEN(ctl, len) \
-    do { \
-        (ctl)->t7_orig_len = len; \
-    } while(0);
-#define PIF_PARREP_INC_T7_ORIG_LEN(ctl, len) \
-    do { \
-        (ctl)->t7_orig_len += len; \
-    } while(0);
-#define PIF_PARREP_arp_ORIG_LEN(ctl) ((ctl)->t7_orig_len)
-#define PIF_PARREP_CLEAR_arp_ORIG_LEN(ctl) \
-    do { \
-        (ctl)->t7_orig_len = 0; \
-    } while(0);
-#define PIF_PARREP_SET_arp_ORIG_LEN(ctl, len) \
-    do { \
-        (ctl)->t7_orig_len = len; \
-    } while(0);
-#define PIF_PARREP_INC_arp_ORIG_LEN(ctl, len) \
-    do { \
-        (ctl)->t7_orig_len += len; \
-    } while(0);
-#define PIF_PARREP_inner_tcp_ORIG_LEN(ctl) ((ctl)->t7_orig_len)
-#define PIF_PARREP_CLEAR_inner_tcp_ORIG_LEN(ctl) \
-    do { \
-        (ctl)->t7_orig_len = 0; \
-    } while(0);
 #define PIF_PARREP_SET_inner_tcp_ORIG_LEN(ctl, len) \
     do { \
-        (ctl)->t7_orig_len = len; \
+        (ctl)->t5_orig_len = len; \
     } while(0);
 #define PIF_PARREP_INC_inner_tcp_ORIG_LEN(ctl, len) \
     do { \
-        (ctl)->t7_orig_len += len; \
+        (ctl)->t5_orig_len += len; \
     } while(0);
-#define PIF_PARREP_tcp_ORIG_LEN(ctl) ((ctl)->t7_orig_len)
-#define PIF_PARREP_CLEAR_tcp_ORIG_LEN(ctl) \
-    do { \
-        (ctl)->t7_orig_len = 0; \
-    } while(0);
-#define PIF_PARREP_SET_tcp_ORIG_LEN(ctl, len) \
-    do { \
-        (ctl)->t7_orig_len = len; \
-    } while(0);
-#define PIF_PARREP_INC_tcp_ORIG_LEN(ctl, len) \
-    do { \
-        (ctl)->t7_orig_len += len; \
-    } while(0);
-#define PIF_PARREP_inner_udp_ORIG_LEN(ctl) ((ctl)->t7_orig_len)
+#define PIF_PARREP_inner_udp_ORIG_LEN(ctl) ((ctl)->t5_orig_len)
 #define PIF_PARREP_CLEAR_inner_udp_ORIG_LEN(ctl) \
     do { \
-        (ctl)->t7_orig_len = 0; \
+        (ctl)->t5_orig_len = 0; \
     } while(0);
 #define PIF_PARREP_SET_inner_udp_ORIG_LEN(ctl, len) \
     do { \
-        (ctl)->t7_orig_len = len; \
+        (ctl)->t5_orig_len = len; \
     } while(0);
 #define PIF_PARREP_INC_inner_udp_ORIG_LEN(ctl, len) \
     do { \
-        (ctl)->t7_orig_len += len; \
+        (ctl)->t5_orig_len += len; \
+    } while(0);
+#define PIF_PARREP_tcp_ORIG_LEN(ctl) ((ctl)->t5_orig_len)
+#define PIF_PARREP_CLEAR_tcp_ORIG_LEN(ctl) \
+    do { \
+        (ctl)->t5_orig_len = 0; \
+    } while(0);
+#define PIF_PARREP_SET_tcp_ORIG_LEN(ctl, len) \
+    do { \
+        (ctl)->t5_orig_len = len; \
+    } while(0);
+#define PIF_PARREP_INC_tcp_ORIG_LEN(ctl, len) \
+    do { \
+        (ctl)->t5_orig_len += len; \
     } while(0);
 
 

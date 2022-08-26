@@ -169,7 +169,7 @@ __forceinline PIF_PLUGIN_inner_ipv4_T *pif_plugin_hdr_readonly_get_inner_ipv4(EX
 __forceinline int pif_plugin_hdr_inner_ipv4_add(EXTRACTED_HEADERS_T *extracted_headers)
 {
     __lmem struct pif_parrep_ctldata *_ctl = (__lmem struct pif_parrep_ctldata *)extracted_headers;
-    if (PIF_PARREP_T6_VALID(_ctl))
+    if (PIF_PARREP_T4_VALID(_ctl))
         return -1; /* either already present or incompatible header combination */
     PIF_PARREP_SET_inner_ipv4_VALID(_ctl);
     return 0;

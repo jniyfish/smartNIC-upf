@@ -22,16 +22,13 @@
 void pif_plugin_init(); /* called once per worker thread */
 void pif_plugin_init_master(); /* called once system wide */
 #endif /* PIF_PLUGIN_INIT */
-#include "pif_plugin_arp.h"
 #include "pif_plugin_inner_tcp.h"
 #include "pif_plugin_udp.h"
-#include "pif_plugin_gtpu_ex.h"
 #include "pif_plugin_gtpu.h"
 #include "pif_plugin_tcp.h"
 #include "pif_plugin_ipv4.h"
 #include "pif_plugin_inner_ipv4.h"
 #include "pif_plugin_ethernet.h"
-#include "pif_plugin_gtpu_option.h"
 #include "pif_plugin_inner_udp.h"
 
 #endif /* __PIF_PLUGIN_H__ */

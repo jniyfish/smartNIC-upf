@@ -302,7 +302,7 @@ __forceinline static int handle_tier_4(__lmem uint32_t *parrep, PIF_PKT_INFO_TYP
     }
 
     if (PIF_PARREP_T4_VALID(ctldata)) {
-        curr_len = PIF_PARREP_gtpu_option_LEN_B;
+        curr_len = PIF_PARREP_inner_ipv4_LEN_B;
     }
 
     if (curr_len < orig_len) {
@@ -371,7 +371,20 @@ __forceinline static int handle_tier_5(__lmem uint32_t *parrep, PIF_PKT_INFO_TYP
     }
 
     if (PIF_PARREP_T5_VALID(ctldata)) {
-        curr_len = PIF_PARREP_gtpu_ex_LEN_B;
+        switch (PIF_PARREP_T5_TYPE(ctldata)) {
+            case PIF_PARREP_TYPE_inner_tcp: {
+                curr_len = PIF_PARREP_inner_tcp_LEN_B;
+                break;
+            }
+            case PIF_PARREP_TYPE_inner_udp: {
+                curr_len = PIF_PARREP_inner_udp_LEN_B;
+                break;
+            }
+            case PIF_PARREP_TYPE_tcp: {
+                curr_len = PIF_PARREP_tcp_LEN_B;
+                break;
+            }
+        }
     }
 
     if (curr_len < orig_len) {
@@ -425,161 +438,6 @@ __forceinline static int handle_tier_5(__lmem uint32_t *parrep, PIF_PKT_INFO_TYP
     return 0;
 }
 
-__forceinline static int handle_tier_6(__lmem uint32_t *parrep, PIF_PKT_INFO_TYPE struct pif_pkt_info *pktinfo, int *pkt_byteoff, uint32_t pkt_min_off)
-{
-    __lmem struct pif_parrep_ctldata *ctldata = (__lmem struct pif_parrep_ctldata *)(parrep + PIF_PARREP_CTLDATA_OFF_LW);
-    uint32_t orig_len = PIF_PARREP_T6_ORIG_LEN(ctldata);
-    uint32_t curr_len = 0;
-
-    if (!PIF_PARREP_T6_DIRTY(ctldata)) {
-        *pkt_byteoff -= orig_len;
-        if (*pkt_byteoff < 0)
-            return -PIF_DEPARSE_ERROR_BUFFER_OVERRUN;
-
-        return 0;
-    }
-
-    if (PIF_PARREP_T6_VALID(ctldata)) {
-        curr_len = PIF_PARREP_inner_ipv4_LEN_B;
-    }
-
-    if (curr_len < orig_len) {
-        unsigned int delta = orig_len - curr_len;
-
-        /*
-         * Remove header space ending at *pkt_byteoff of length 'delta'.
-         * Adjust pkt_byteoff to make provision for change in pkt_buf (buffer pointer)
-         * because pkt_byteoff is relative to start of pkt_buf
-         */
-        *pkt_byteoff -= delta;
-        if (*pkt_byteoff < 0)
-            return -PIF_DEPARSE_ERROR_BUFFER_OVERRUN;
-
-        pif_pkt_remove_header(*pkt_byteoff, delta);
-
-        pif_pkt_info_spec.pkt_pl_off -= delta;
-    } else if (curr_len > orig_len) {
-        unsigned int delta = curr_len - orig_len;
-        unsigned int num_bytes;
-        int space_needed;
-
-        num_bytes = pktinfo->p_offset;
-        space_needed = pkt_min_off + delta;
-        /*
-         * Insert header space of length 'delta' up to current *pkt_byteoff.
-         * Then increase *pkt_byteoff to make provision for change in pkt_buf (buffer pointer)
-         * because pkt_byteoff is relative to start of pkt_buf
-         */
-        if (num_bytes >= space_needed) {
-            pif_pkt_insert_header(*pkt_byteoff, delta);
-        } else {
-            pif_pkt_make_space(*pkt_byteoff, delta);
-        }
-
-        *pkt_byteoff += delta;
-        pif_pkt_info_spec.pkt_pl_off += delta;
-    }
-
-    if (curr_len) {
-        *pkt_byteoff -= curr_len;
-        if (*pkt_byteoff < 0)
-            return -PIF_DEPARSE_ERROR_BUFFER_OVERRUN;
-
-        pif_pkt_write_header(*pkt_byteoff,
-                             parrep,
-                             PIF_PARREP_T6_OFF_LW,
-                             curr_len);
-    }
-
-    return 0;
-}
-
-__forceinline static int handle_tier_7(__lmem uint32_t *parrep, PIF_PKT_INFO_TYPE struct pif_pkt_info *pktinfo, int *pkt_byteoff, uint32_t pkt_min_off)
-{
-    __lmem struct pif_parrep_ctldata *ctldata = (__lmem struct pif_parrep_ctldata *)(parrep + PIF_PARREP_CTLDATA_OFF_LW);
-    uint32_t orig_len = PIF_PARREP_T7_ORIG_LEN(ctldata);
-    uint32_t curr_len = 0;
-
-    if (!PIF_PARREP_T7_DIRTY(ctldata)) {
-        *pkt_byteoff -= orig_len;
-        if (*pkt_byteoff < 0)
-            return -PIF_DEPARSE_ERROR_BUFFER_OVERRUN;
-
-        return 0;
-    }
-
-    if (PIF_PARREP_T7_VALID(ctldata)) {
-        switch (PIF_PARREP_T7_TYPE(ctldata)) {
-            case PIF_PARREP_TYPE_arp: {
-                curr_len = PIF_PARREP_arp_LEN_B;
-                break;
-            }
-            case PIF_PARREP_TYPE_inner_tcp: {
-                curr_len = PIF_PARREP_inner_tcp_LEN_B;
-                break;
-            }
-            case PIF_PARREP_TYPE_tcp: {
-                curr_len = PIF_PARREP_tcp_LEN_B;
-                break;
-            }
-            case PIF_PARREP_TYPE_inner_udp: {
-                curr_len = PIF_PARREP_inner_udp_LEN_B;
-                break;
-            }
-        }
-    }
-
-    if (curr_len < orig_len) {
-        unsigned int delta = orig_len - curr_len;
-
-        /*
-         * Remove header space ending at *pkt_byteoff of length 'delta'.
-         * Adjust pkt_byteoff to make provision for change in pkt_buf (buffer pointer)
-         * because pkt_byteoff is relative to start of pkt_buf
-         */
-        *pkt_byteoff -= delta;
-        if (*pkt_byteoff < 0)
-            return -PIF_DEPARSE_ERROR_BUFFER_OVERRUN;
-
-        pif_pkt_remove_header(*pkt_byteoff, delta);
-
-        pif_pkt_info_spec.pkt_pl_off -= delta;
-    } else if (curr_len > orig_len) {
-        unsigned int delta = curr_len - orig_len;
-        unsigned int num_bytes;
-        int space_needed;
-
-        num_bytes = pktinfo->p_offset;
-        space_needed = pkt_min_off + delta;
-        /*
-         * Insert header space of length 'delta' up to current *pkt_byteoff.
-         * Then increase *pkt_byteoff to make provision for change in pkt_buf (buffer pointer)
-         * because pkt_byteoff is relative to start of pkt_buf
-         */
-        if (num_bytes >= space_needed) {
-            pif_pkt_insert_header(*pkt_byteoff, delta);
-        } else {
-            pif_pkt_make_space(*pkt_byteoff, delta);
-        }
-
-        *pkt_byteoff += delta;
-        pif_pkt_info_spec.pkt_pl_off += delta;
-    }
-
-    if (curr_len) {
-        *pkt_byteoff -= curr_len;
-        if (*pkt_byteoff < 0)
-            return -PIF_DEPARSE_ERROR_BUFFER_OVERRUN;
-
-        pif_pkt_write_header(*pkt_byteoff,
-                             parrep,
-                             PIF_PARREP_T7_OFF_LW,
-                             curr_len);
-    }
-
-    return 0;
-}
-
 __forceinline extern int pif_deparse(__lmem uint32_t *parrep, PIF_PKT_INFO_TYPE struct pif_pkt_info *pktinfo)
 {
     __gpr uint32_t pkt_byteoff = pif_pkt_info_spec.pkt_pl_off;
@@ -588,12 +446,6 @@ __forceinline extern int pif_deparse(__lmem uint32_t *parrep, PIF_PKT_INFO_TYPE 
 
     /* Packet minimum offset depends on packet destination - NBI/PCIe */
     pkt_min_off = PKTIO_MIN_NBI_TX_OFFSET; /* apply the nbi min to nfd too */
-    ret = handle_tier_7(parrep, pktinfo, (uint32_t *)&pkt_byteoff, pkt_min_off);
-    if (ret < 0)
-        return ret;
-    ret = handle_tier_6(parrep, pktinfo, (uint32_t *)&pkt_byteoff, pkt_min_off);
-    if (ret < 0)
-        return ret;
     ret = handle_tier_5(parrep, pktinfo, (uint32_t *)&pkt_byteoff, pkt_min_off);
     if (ret < 0)
         return ret;

@@ -14,7 +14,7 @@
                         }, 
                         "type": "ingress::set_src_intf"
                     }, 
-                    "name": "one", 
+                    "name": "f", 
                     "match": {
                         "standard_metadata.ingress_port": {
                             "value": "p1"
@@ -33,106 +33,10 @@
                         }, 
                         "type": "ingress::set_src_intf"
                     }, 
-                    "name": "two", 
+                    "name": "u", 
                     "match": {
                         "standard_metadata.ingress_port": {
                             "value": "p0"
-                        }
-                    }
-                }
-            ]
-        },
-        "ingress::pdr_ingress_table": {
-            "rules": [
-                {
-                    "action": {
-                        "data": {
-                            "far_id": {
-                                "value": "1"
-                            },
-                            "must_decap": {
-                                "value": "0"
-                            }
-                        }, 
-                        "type": "ingress::set_rules"
-                    }, 
-                    "name": "one", 
-                    "match": {
-                        "ipv4.src_addr": {
-                            "value": "10.0.100.1"
-                        },
-                        "scalars.metadata_t@intf": {
-                            "value": "1"
-                        }
-                    }
-                },
-                {
-                    "action": {
-                        "data": {
-                            "far_id": {
-                                "value": "3"
-                            },
-                            "must_decap": {
-                                "value": "1"
-                            }
-                        }, 
-                        "type": "ingress::set_rules"
-                    }, 
-                    "name": "two", 
-                    "match": {
-                        "ipv4.src_addr": {
-                            "value": "10.100.100.1"
-                        },
-                        "scalars.metadata_t@intf": {
-                            "value": "2"
-                        }
-                    }
-                },
-                {
-                    "action": {
-                        "data": {
-                            "far_id": {
-                                "value": "2"
-                            },
-                            "must_decap": {
-                                "value": "0"
-                            }
-                        }, 
-                        "type": "ingress::set_rules"
-                    }, 
-                    "name": "three", 
-                    "match": {
-                        "ipv4.src_addr": {
-                            "value": "10.0.100.2"
-                        },
-                        "scalars.metadata_t@intf": {
-                            "value": "1"
-                        }
-                    }
-                }
-            ]
-        },
-        "ingress::far_egress_table": {
-            "rules": [
-                {
-                    "action": {
-                        "data": {
-                            "teid": {
-                                "value": "1"
-                            },
-                            "ran_ip": {
-                                "value": "10.100.100.1"
-                            },
-                            "upf_ip": {
-                                "value": "10.100.100.10"
-                            }
-                        }, 
-                        "type": "ingress::gtp_encap"
-                    }, 
-                    "name": "one", 
-                    "match": {
-                        "scalars.metadata_t@far_id": {
-                            "value": "1"
                         }
                     }
                 }
@@ -152,7 +56,7 @@
                         }, 
                         "type": "ingress::update_mac"
                     }, 
-                    "name": "one", 
+                    "name": "c", 
                     "match": {
                         "ipv4.dst_addr": {
                             "value": "10.100.100.1"
@@ -171,7 +75,7 @@
                         }, 
                         "type": "ingress::update_mac"
                     }, 
-                    "name": "two", 
+                    "name": "k", 
                     "match": {
                         "ipv4.dst_addr": {
                             "value": "10.100.100.2"
@@ -190,7 +94,7 @@
                         }, 
                         "type": "ingress::update_mac"
                     }, 
-                    "name": "three", 
+                    "name": "", 
                     "match": {
                         "ipv4.dst_addr": {
                             "value": "10.100.100.10"

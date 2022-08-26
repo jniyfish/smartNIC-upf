@@ -72,6 +72,12 @@ uint32_t pif_plugin_meta_get__scalars__metadata_t__far_id(EXTRACTED_HEADERS_T *e
 /* set scalars.metadata_t@far_id */
 void pif_plugin_meta_set__scalars__metadata_t__far_id(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
 
+/* get scalars.metadata_t@ue_ip */
+uint32_t pif_plugin_meta_get__scalars__metadata_t__ue_ip(EXTRACTED_HEADERS_T *extracted_headers);
+
+/* set scalars.metadata_t@ue_ip */
+void pif_plugin_meta_set__scalars__metadata_t__ue_ip(EXTRACTED_HEADERS_T *extracted_headers, uint32_t val);
+
 /* get scalars.metadata_t@l4_inner_src_port */
 uint32_t pif_plugin_meta_get__scalars__metadata_t__l4_inner_src_port(EXTRACTED_HEADERS_T *extracted_headers);
 
@@ -268,6 +274,18 @@ __forceinline void pif_plugin_meta_set__scalars__metadata_t__far_id(EXTRACTED_HE
 {
     __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
     PIF_HEADER_SET_scalars___metadata_t__far_id(md, val);
+}
+
+__forceinline uint32_t pif_plugin_meta_get__scalars__metadata_t__ue_ip(EXTRACTED_HEADERS_T *extracted_headers)
+{
+    __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
+    return PIF_HEADER_GET_scalars___metadata_t__ue_ip(md);
+}
+
+__forceinline void pif_plugin_meta_set__scalars__metadata_t__ue_ip(EXTRACTED_HEADERS_T *extracted_headers,uint32_t val)
+{
+    __lmem struct pif_header_scalars *md = (__lmem struct pif_header_scalars *)(((__lmem uint32_t *)extracted_headers) + PIF_PARREP_scalars_OFF_LW);
+    PIF_HEADER_SET_scalars___metadata_t__ue_ip(md, val);
 }
 
 __forceinline uint32_t pif_plugin_meta_get__scalars__metadata_t__l4_inner_src_port(EXTRACTED_HEADERS_T *extracted_headers)

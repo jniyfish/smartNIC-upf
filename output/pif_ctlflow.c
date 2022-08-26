@@ -69,7 +69,7 @@ static int handle_ingress_flow_ingress__src_intf_table(__lmem uint32_t *_pif_par
         *actlen = result.action_len;
     }
 
-    next_state = PIF_CTLFLOW_STATE_ingress_flow_ingress__pdr_ingress_table; /* always */
+    next_state = PIF_CTLFLOW_STATE_ingress_flow_ingress__pdr_ingress_table_ul; /* always */
 
     if (*actlen > 0) {
         __critical_path();
@@ -217,6 +217,72 @@ static int handle_ingress_flow_ingress__tbl_gtp_decap(__lmem uint32_t *_pif_parr
     return 0;
 }
 
+static int handle_ingress_flow_ingress__pdr_ingress_table_ul(__lmem uint32_t *_pif_parrep, __mem __addr40 uint32_t *actbuf, unsigned int actbuf_off, int *actlen, int *state)
+{
+    __gpr int action_id, ret;
+    int next_state = PIF_CTLFLOW_STATE_ingress_flow_DONE;
+
+#ifdef PIF_DEBUG
+    __debug_label("pif_ctlflow_state_ingress_flow_ingress__pdr_ingress_table_ul");
+#endif
+
+    {
+        struct pif_lookup_result result;
+        result = pif_lookup(PIF_TABLE_ID_ingress__pdr_ingress_table_ul, _pif_parrep, actbuf, actbuf_off);
+        action_id = result.action_id;
+        *actlen = result.action_len;
+    }
+
+    next_state = PIF_CTLFLOW_STATE_ingress_flow_ingress__pdr_ingress_table_dl; /* always */
+
+    if (*actlen > 0) {
+        __critical_path();
+        ret = pif_action_execute(_pif_parrep, actbuf, actbuf_off, *actlen);
+        if (ret < 0)
+            return ret;
+        __critical_path();
+        if (ret > 0)
+            next_state = PIF_CTLFLOW_STATE_ingress_flow_DONE;
+        __critical_path();
+    }
+
+    *state = next_state;
+    return 0;
+}
+
+static int handle_ingress_flow_ingress__pdr_ingress_table_dl(__lmem uint32_t *_pif_parrep, __mem __addr40 uint32_t *actbuf, unsigned int actbuf_off, int *actlen, int *state)
+{
+    __gpr int action_id, ret;
+    int next_state = PIF_CTLFLOW_STATE_ingress_flow_DONE;
+
+#ifdef PIF_DEBUG
+    __debug_label("pif_ctlflow_state_ingress_flow_ingress__pdr_ingress_table_dl");
+#endif
+
+    {
+        struct pif_lookup_result result;
+        result = pif_lookup(PIF_TABLE_ID_ingress__pdr_ingress_table_dl, _pif_parrep, actbuf, actbuf_off);
+        action_id = result.action_id;
+        *actlen = result.action_len;
+    }
+
+    next_state = PIF_CTLFLOW_STATE_ingress_flow_ingress__far_egress_table; /* always */
+
+    if (*actlen > 0) {
+        __critical_path();
+        ret = pif_action_execute(_pif_parrep, actbuf, actbuf_off, *actlen);
+        if (ret < 0)
+            return ret;
+        __critical_path();
+        if (ret > 0)
+            next_state = PIF_CTLFLOW_STATE_ingress_flow_DONE;
+        __critical_path();
+    }
+
+    *state = next_state;
+    return 0;
+}
+
 static int handle_ingress_flow__condition_1(__lmem uint32_t *_pif_parrep)
 {
     unsigned int pif_expression__condition_1_register_0;
@@ -248,39 +314,6 @@ static int handle_ingress_flow__condition_1(__lmem uint32_t *_pif_parrep)
         return PIF_CTLFLOW_STATE_ingress_flow_ingress__tbl_act;
     else
         return PIF_CTLFLOW_STATE_ingress_flow_ingress__src_intf_table;
-}
-
-static int handle_ingress_flow_ingress__pdr_ingress_table(__lmem uint32_t *_pif_parrep, __mem __addr40 uint32_t *actbuf, unsigned int actbuf_off, int *actlen, int *state)
-{
-    __gpr int action_id, ret;
-    int next_state = PIF_CTLFLOW_STATE_ingress_flow_DONE;
-
-#ifdef PIF_DEBUG
-    __debug_label("pif_ctlflow_state_ingress_flow_ingress__pdr_ingress_table");
-#endif
-
-    {
-        struct pif_lookup_result result;
-        result = pif_lookup(PIF_TABLE_ID_ingress__pdr_ingress_table, _pif_parrep, actbuf, actbuf_off);
-        action_id = result.action_id;
-        *actlen = result.action_len;
-    }
-
-    next_state = PIF_CTLFLOW_STATE_ingress_flow_ingress__far_egress_table; /* always */
-
-    if (*actlen > 0) {
-        __critical_path();
-        ret = pif_action_execute(_pif_parrep, actbuf, actbuf_off, *actlen);
-        if (ret < 0)
-            return ret;
-        __critical_path();
-        if (ret > 0)
-            next_state = PIF_CTLFLOW_STATE_ingress_flow_DONE;
-        __critical_path();
-    }
-
-    *state = next_state;
-    return 0;
 }
 
 static int handle_ingress_flow_ingress__far_egress_table(__lmem uint32_t *_pif_parrep, __mem __addr40 uint32_t *actbuf, unsigned int actbuf_off, int *actlen, int *state)
@@ -348,12 +381,15 @@ int pif_ctlflow_ingress_flow(int *start_state, __lmem uint32_t *_pif_parrep, __m
         case PIF_CTLFLOW_STATE_ingress_flow_ingress__tbl_gtp_decap:
             ret = handle_ingress_flow_ingress__tbl_gtp_decap(_pif_parrep, actbuf, actbuf_off + totlen, (int *)&actlen, (int *)&pif_ctlflow_state_ingress_flow);
             break;
+        case PIF_CTLFLOW_STATE_ingress_flow_ingress__pdr_ingress_table_ul:
+            ret = handle_ingress_flow_ingress__pdr_ingress_table_ul(_pif_parrep, actbuf, actbuf_off + totlen, (int *)&actlen, (int *)&pif_ctlflow_state_ingress_flow);
+            break;
+        case PIF_CTLFLOW_STATE_ingress_flow_ingress__pdr_ingress_table_dl:
+            ret = handle_ingress_flow_ingress__pdr_ingress_table_dl(_pif_parrep, actbuf, actbuf_off + totlen, (int *)&actlen, (int *)&pif_ctlflow_state_ingress_flow);
+            break;
         case PIF_CTLFLOW_STATE_ingress_flow__condition_1:
             pif_ctlflow_state_ingress_flow = handle_ingress_flow__condition_1(_pif_parrep);
             continue;
-        case PIF_CTLFLOW_STATE_ingress_flow_ingress__pdr_ingress_table:
-            ret = handle_ingress_flow_ingress__pdr_ingress_table(_pif_parrep, actbuf, actbuf_off + totlen, (int *)&actlen, (int *)&pif_ctlflow_state_ingress_flow);
-            break;
         case PIF_CTLFLOW_STATE_ingress_flow_ingress__far_egress_table:
             ret = handle_ingress_flow_ingress__far_egress_table(_pif_parrep, actbuf, actbuf_off + totlen, (int *)&actlen, (int *)&pif_ctlflow_state_ingress_flow);
             break;
